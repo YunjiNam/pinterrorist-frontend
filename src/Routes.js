@@ -4,6 +4,7 @@ import Main from "./pages/Main/Main";
 import MainDetail from "./pages/MainDetail/MainDetail";
 import Signin from "./pages/Signin/Signin";
 import Signup from "./pages/Signup/Signup";
+import MyPage from "./pages/MyPage/MyPage";
 
 const Routes = () => {
   return (
@@ -13,6 +14,7 @@ const Routes = () => {
         <Route exact path="/detail" component={MainDetail} />
         <Route exact path="/signin" component={Signin} />
         <Route exact path="/signup" component={Signup} />
+        <Route exact path="/mypage" component={MyPage} />
       </Switch>
     </Router>
   );
