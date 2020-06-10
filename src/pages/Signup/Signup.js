@@ -16,10 +16,10 @@ const Signup = () => {
 
   useEffect(() => {
     // console.log("OK");
-    fetch("http://localhost:3000/data/data.json")
+    fetch("http://10.58.0.207:8000/introtopic")
       .then((res) => res.json())
-      // .then((res) => console.log(res));
-      .then((res) => setThemeList(res.data));
+      // .then((res) => console.log(res.topic_list));
+      .then((res) => setThemeList(res.topic_list));
   }, []);
 
   const onClickGo = () => {

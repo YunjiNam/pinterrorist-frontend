@@ -13,7 +13,7 @@ const CheckTheme = ({ ThemeList }) => {
       setCheck(check);
     }
 
-    check ? setCount(count - 1) : setCount(count + 1);
+    // check ? setCount(check.length) : setCount(check.length);
   };
 
   return (
@@ -30,19 +30,21 @@ const CheckTheme = ({ ThemeList }) => {
             ThemeList.map((list, idx) => (
               <BoxWrapper key={idx} onClick={() => checkBox(idx)}>
                 <ThemeTitleWrape>
-                  <ThemeTitle>{list.title}</ThemeTitle>
+                  <ThemeTitle>{list.name}</ThemeTitle>
                 </ThemeTitleWrape>
-                <SelectWrapper Check={check}>
+                <SelectWrapper Check={check.includes(idx)}>
                   <SelectedOverlay></SelectedOverlay>
                 </SelectWrapper>
-                <Theme url={list.url}></Theme>
+                <Theme styles={list.style}></Theme>
               </BoxWrapper>
             ))}
         </ThemeWrap>
       </ThemeBox>
       <ButtonWrap>
         <div></div>
-        <Button>{count}개 더 선택</Button>
+        <Button>
+          {check.length === 5 ? `완료` : `${5 - check.length}개 더 선택`}
+        </Button>
       </ButtonWrap>
     </CheckThemeWrap>
   );
@@ -130,13 +132,14 @@ const SelectWrapper = styled.div`
 
 const SelectedOverlay = styled.div`
   background-color: #000;
-  border-radius: 6px;
+  border-radius: 16px;
   height: 100%;
   position: absolute;
   top: 0;
   width: 100%;
   opacity: 0.7;
   z-index: 1;
+  cursor: pointer;
 `;
 const ThemeTitle = styled.div`
   text-align: left;
@@ -156,6 +159,7 @@ const Theme = styled.button`
   background-image: url(${(props) => props.url || null});
   background-repeat: no-repeat;
   background-size: cover;
+  background: ${(props) => props.styles};
 `;
 
 const ButtonWrap = styled.div`
