@@ -3,11 +3,48 @@ import { withRouter, Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import detailMock from "../../images/detailMock.jpg";
 import iconShare from "../../images/iconShare.png";
-import iconArrow from "../../images/iconArrow.png";
 import profileMock from "../../images/profileMock.jpg";
 
 const MainDetail = () => {
   const [like, setLike] = useState(false);
+  const [clickInput, setClickInput] = useState(false);
+  const [clickCancel, setClickCancel] = useState(false);
+  const [clickDone, setClickDone] = useState(false);
+  const [changeColor, setChangeColor] = useState(false);
+  const [clickDropdown, setClickDropdown] = useState(false);
+  const [enterBoard, setEnterBoard] = useState(false);
+
+  const handleInput = () => {
+    if (clickInput === false) {
+      setClickInput(true);
+    }
+    console.log(clickInput);
+  };
+
+  const handleCancel = () => {
+    setClickCancel(!clickCancel);
+    setClickInput(false);
+  };
+
+  const handleColor = (e) => {
+    if (e.target.value.length > 0) {
+      setChangeColor(true);
+    } else {
+      setChangeColor(false);
+    }
+  };
+
+  const handleDropdown = () => {
+    setClickDropdown(!clickDropdown);
+  };
+
+  const boardEnter = () => {
+    setEnterBoard(true);
+  };
+
+  const boardLeave = () => {
+    setEnterBoard(false);
+  };
 
   return (
     <MainDetailPage>
@@ -37,27 +74,130 @@ const MainDetail = () => {
                     </IconShareWrap>
                   </IconWrap>
                   <ButtonWrap>
-                    <DropdownContainer>
+                    <DropdownNav
+                      onClick={handleDropdown}
+                      clickDropdown={clickDropdown}
+                    >
                       <DropdownLeft>
                         <DropdownText>포즈 참조</DropdownText>
                         <IconArrowWrap>
                           <IconArrow>keyboard_arrow_down</IconArrow>
                         </IconArrowWrap>
                       </DropdownLeft>
-                    </DropdownContainer>
-                    <ButtonSave>
+                    </DropdownNav>
+                    <ButtonSave clickDropdown={clickDropdown}>
                       <ButtonSaveText>저장</ButtonSaveText>
                     </ButtonSave>
+                    <DropdownWrap clickDropdown={clickDropdown}>
+                      <DropdownTop>
+                        <input type="text" placeholder="검색" />
+                        <i class="fas fa-search"></i>
+                      </DropdownTop>
+                      <DropdownBody>
+                        <BoardAllTitle>모든 보드</BoardAllTitle>
+
+                        <BoardContentContainer
+                          onMouseEnter={boardEnter}
+                          onMouseLeave={boardLeave}
+                        >
+                          <BoardContentWrap>
+                            <BoardContent>
+                              <BoardImage></BoardImage>
+                              <BoardTitle>남성 캐주얼 스타일</BoardTitle>
+                            </BoardContent>
+                            <BoardSave enterBoard={enterBoard}>저장</BoardSave>
+                          </BoardContentWrap>
+                        </BoardContentContainer>
+
+                        <BoardContentContainer>
+                          <BoardContentWrap>
+                            <BoardContent>
+                              <BoardImage></BoardImage>
+                              <BoardTitle>남성 캐주얼 스타일</BoardTitle>
+                            </BoardContent>
+                            <BoardSave>저장</BoardSave>
+                          </BoardContentWrap>
+                        </BoardContentContainer>
+
+                        <BoardRecommendTitle>
+                          추천 보드 이름
+                        </BoardRecommendTitle>
+
+                        <BoardContentContainer>
+                          <BoardContentWrap>
+                            <BoardContent>
+                              <BoardImage></BoardImage>
+                              <BoardTitle>남성 캐주얼 스타일</BoardTitle>
+                            </BoardContent>
+                            <BoardSave>저장</BoardSave>
+                          </BoardContentWrap>
+                        </BoardContentContainer>
+
+                        <BoardContentContainer>
+                          <BoardContentWrap>
+                            <BoardContent>
+                              <BoardImage></BoardImage>
+                              <BoardTitle>남성 캐주얼 스타일</BoardTitle>
+                            </BoardContent>
+                            <BoardSave>저장</BoardSave>
+                          </BoardContentWrap>
+                        </BoardContentContainer>
+
+                        <BoardContentContainer>
+                          <BoardContentWrap>
+                            <BoardContent>
+                              <BoardImage></BoardImage>
+                              <BoardTitle>남성 캐주얼 스타일</BoardTitle>
+                            </BoardContent>
+                            <BoardSave>저장</BoardSave>
+                          </BoardContentWrap>
+                        </BoardContentContainer>
+
+                        <BoardContentContainer>
+                          <BoardContentWrap>
+                            <BoardContent>
+                              <BoardImage></BoardImage>
+                              <BoardTitle>남성 캐주얼 스타일</BoardTitle>
+                            </BoardContent>
+                            <BoardSave>저장</BoardSave>
+                          </BoardContentWrap>
+                        </BoardContentContainer>
+
+                        <BoardContentContainer>
+                          <BoardContentWrap>
+                            <BoardContent>
+                              <BoardImage></BoardImage>
+                              <BoardTitle>남성 캐주얼 스타일</BoardTitle>
+                            </BoardContent>
+                            <BoardSave>저장</BoardSave>
+                          </BoardContentWrap>
+                        </BoardContentContainer>
+
+                        <BoardContentContainer>
+                          <BoardContentWrap>
+                            <BoardContent>
+                              <BoardImage></BoardImage>
+                              <BoardTitle>남성 캐주얼 스타일</BoardTitle>
+                            </BoardContent>
+                            <BoardSave>저장</BoardSave>
+                          </BoardContentWrap>
+                        </BoardContentContainer>
+                      </DropdownBody>
+                      <DropdownBottom>
+                        <BottomIcon>
+                          <i class="fas fa-plus-circle"></i>
+                        </BottomIcon>
+                        <BottomTitle>보드 만들기</BottomTitle>
+                      </DropdownBottom>
+                    </DropdownWrap>
                   </ButtonWrap>
                 </RightNavWrap>
               </RightNavContainer>
               <RightTopContainer>
-                <div className="rightTopWrap">
+                <RightTopWrap>
                   <div>blog.naver.com</div>
-                  <div>
-                    <h1>Blah Blah</h1>
-                  </div>
-                </div>
+                  <h1>Blah Blah</h1>
+                </RightTopWrap>
               </RightTopContainer>
               <RightBodyContainer>
                 <div className="rightBodyWrap">
@@ -81,8 +221,8 @@ const MainDetail = () => {
                         </CommentContentWrap>
                       </CommentTextWrap>
                       <CommentIconWrap>
-                        <CommentIconHeart>
-                          <Heart></Heart>
+                        <CommentIconHeart onClick={() => setLike(!like)}>
+                          <Heart like={like}></Heart>
                         </CommentIconHeart>
                         <CommentIconComment>
                           <Comment></Comment>
@@ -103,12 +243,27 @@ const MainDetail = () => {
                       <AddCommentInput
                         type="text"
                         placeholder="댓글 추가"
+                        onClick={handleInput}
+                        onChange={handleColor}
+                        clickInput={clickInput}
                       ></AddCommentInput>
                     </AddCommentWrap>
-                    <AddCommentButton>
-                      <ButtonCancel>취소</ButtonCancel>
-                      <ButtonComplete>완료</ButtonComplete>
-                    </AddCommentButton>
+                    <AddCommentButtonWrap clickInput={clickInput}>
+                      <AddCommentButton>
+                        <ButtonCancel
+                          onClick={handleCancel}
+                          clickCancel={clickCancel}
+                        >
+                          취소
+                        </ButtonCancel>
+                        <ButtonComplete
+                          onClick={() => setClickDone(!clickDone)}
+                          changeColor={changeColor}
+                        >
+                          완료
+                        </ButtonComplete>
+                      </AddCommentButton>
+                    </AddCommentButtonWrap>
                   </AddCommentContainer>
                 </div>
               </RightBodyContainer>
@@ -202,8 +357,8 @@ const BackButtonTextWrap = styled.div`
 
 const BackButtonText = styled.h3`
   font-size: 20px;
+  font-weight: 700;
   padding: 8px;
-  margin: 2px 0 0 0;
 `;
 
 const FeedLeft = styled.div`
@@ -276,9 +431,11 @@ const IconShare = styled.img.attrs({ src: iconShare })`
 
 const ButtonWrap = styled.div`
   display: flex;
+  position: relative;
+  width: 235px;
 `;
 
-const DropdownContainer = styled.button`
+const DropdownNav = styled.button`
   border-top-left-radius: 12px;
   border-bottom-left-radius: 12px;
   background-color: #efefef;
@@ -288,19 +445,27 @@ const DropdownContainer = styled.button`
   padding: 0;
   height: 44px;
   outline: none;
+  width: ${(props) => (props.clickDropdown ? "100%" : "180px")};
+  border-top-right-radius: ${(props) =>
+    props.clickDropdown ? "12px" : "none"};
+  border-bottom-right-radius: ${(props) =>
+    props.clickDropdown ? "12px" : "none"};
+  &:hover {
+    background-color: #dfe4ea;
+  }
 `;
 
 const DropdownLeft = styled.div`
-  padding: 0 16px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  width: 150px;
+  align-items: center;
+  padding: 0 16px;
+  width: 100%;
 `;
 
 const DropdownText = styled.div`
   font-size: 12px;
-  font-weight: 400;
+  font-weight: 600;
   color: #111;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -310,7 +475,7 @@ const DropdownText = styled.div`
 
 const IconArrowWrap = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
 `;
 
@@ -320,6 +485,7 @@ const IconArrow = styled.span`
 `;
 
 const ButtonSave = styled.button`
+  width: 55px;
   border-top-right-radius: 12px;
   border-bottom-right-radius: 12px;
   padding: 0 16px;
@@ -327,6 +493,7 @@ const ButtonSave = styled.button`
   border: none;
   cursor: pointer;
   outline: none;
+  display: ${(props) => (props.clickDropdown ? "none" : "display")};
 `;
 
 const ButtonSaveText = styled.div`
@@ -338,6 +505,18 @@ const ButtonSaveText = styled.div`
 
 const RightTopContainer = styled.div`
   padding: 0 40px;
+`;
+
+const RightTopWrap = styled.div`
+  div {
+    font-size: 16px;
+    font-weight: 400;
+  }
+  h1 {
+    font-size: 36px;
+    font-weight: 500;
+    padding-top: 25px;
+  }
 `;
 
 const RightBodyContainer = styled.div`
@@ -352,6 +531,7 @@ const RightBottomContainer = styled.div`
 
 const CommentTopContainer = styled.div`
   height: 52px;
+  margin-top: 50px;
 `;
 
 const CommentTopText = styled.span`
@@ -408,6 +588,7 @@ const CommentInfo = styled.div`
 `;
 
 const CommentId = styled.div`
+  padding-left: 2px;
   padding-right: 4px;
   font-size: 14px;
   font-weight: 700;
@@ -423,6 +604,7 @@ const CommentDate = styled.div`
 
 const CommentContentWrap = styled.div`
   white-space: pre-wrap;
+  padding: 2px;
 `;
 
 const CommentContent = styled.span`
@@ -451,6 +633,7 @@ const CommentIconHeart = styled.div`
 
 const Heart = styled.i.attrs({ className: "fas fa-heart" })`
   font-size: 16px;
+  color: ${(props) => (props.like ? "#e60023" : "black")};
   &:focus {
     color: #e60023;
   }
@@ -476,31 +659,38 @@ const AddCommentWrap = styled.div`
 
 const AddCommentInput = styled.textarea`
   width: 100%;
-  height: 16px;
+  height: 45px;
   margin-left: 8px;
   flex: 1;
   resize: none;
   border-radius: 26px;
   border: 1px solid #ddd;
-  padding: 16px;
+  padding: 12px 12px 12px 16px;
   outline: none;
   font-size: 16px;
   color: #211922;
   overflow: hidden;
-  &:focus {
-    height: 87px;
+  height: ${(props) => (props.clickInput ? "87px" : "45px")};
+  &::placeholder {
+    color: ${(props) => props.clickInput && "transparent"};
   }
-  &:focus::placeholder {
+  /* &:focus {
+    height: 87px;
+  } */
+  /* &:focus::placeholder {
     color: transparent;
     text-align: center;
-  }
+  } */
+`;
+
+const AddCommentButtonWrap = styled.div`
+  display: ${(props) => (props.clickInput ? "block" : "none")};
 `;
 
 const AddCommentButton = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: 16px;
-  display: none;
 `;
 
 const ButtonCancel = styled.button`
@@ -520,7 +710,136 @@ const ButtonCancel = styled.button`
 const ButtonComplete = styled(ButtonCancel)`
   color: #767676;
   margin-left: 10px;
+  color: ${(props) => (props.changeColor ? "#FFFFFF" : "#767676")};
+  background-color: ${(props) => (props.changeColor ? "#e60023" : "#efefef")};
   }
+`;
+
+const DropdownWrap = styled.div`
+  width: 320px;
+  position: absolute;
+  left: -30px;
+  top: 50px;
+  border-radius: 16px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  display: ${(props) => (props.clickDropdown ? "block" : "none")};
+`;
+const DropdownTop = styled.div`
+  padding: 12px;
+  width: 100%;
+  position: relative;
+  input {
+    width: 100%;
+    height: 48px;
+    border: 2px solid #ddd;
+    border-radius: 999px;
+    padding: 8px 40px;
+    font-size: 16px;
+  }
+  i {
+    position: absolute;
+    left: 29px;
+    top: 29px;
+  }
+`;
+
+const DropdownBody = styled.div`
+  height: 322px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+`;
+
+const BoardAllTitle = styled.div`
+  padding: 4px 12px;
+  margin-top: 4px;
+  font-size: 14px;
+  font-weight: 400;
+`;
+
+const BoardContentContainer = styled.div`
+  width: 100%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const BoardContentWrap = styled.div`
+  width: 100%;
+  height: 52px;
+  margin: 4px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 12px;
+  &:hover {
+    background-color: #dfe4ea;
+  }
+`;
+
+const BoardContent = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const BoardImage = styled.div`
+  width: 36px;
+  height: 36px;
+  margin: 4px 12px 4px 8px;
+  background-color: #efefef;
+  border-radius: 4px;
+`;
+
+const BoardTitle = styled.div`
+  margin-left: 4px;
+  padding: 4px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 16px;
+  font-weight: 700;
+`;
+
+const BoardSave = styled.div`
+  margin-right: 10px;
+  padding: 11px 15px;
+  border-radius: 20px;
+  color: white;
+  background-color: #e60023;
+  font-size: 16px;
+  display: ${(props) => (props.enterBoard ? "block" : "none")};
+`;
+
+const BoardRecommendTitle = styled(BoardAllTitle)``;
+
+const DropdownBottom = styled.div`
+  height: 52px;
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border-top: 1px solid #dfe4ea;
+  &:hover {
+    background-color: #dfe4ea;
+  }
+`;
+
+const BottomIcon = styled.div`
+  margin: 0 20px 0 16px;
+  i {
+    font-size: 28px;
+    color: #e60023;
+  }
+`;
+
+const BottomTitle = styled.div`
+  font-size: 16px;
+  text-align: center;
+  font-weight: 700;
 `;
 
 /* display: flex;
