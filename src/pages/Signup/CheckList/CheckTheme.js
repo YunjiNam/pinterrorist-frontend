@@ -4,22 +4,21 @@ import styled, { css } from "styled-components";
 const CheckTheme = ({ ThemeList }) => {
   const [check, setCheck] = useState([]);
   const [count, setCount] = useState(5);
+
   const checkBox = (id) => {
     if (!check.includes(id)) {
       setCheck(check.concat(id));
     } else {
-      const n = check.indexOf(id);
-      check.splice(n, 1);
-      setCheck(check);
-    }
+      const filtered = check.filter((el) => el !== id);
 
-    // check ? setCount(check.length) : setCount(check.length);
+      setCheck(filtered);
+    }
   };
 
   return (
     <CheckThemeWrap>
       <TitleWrap>
-        <Title>회원님의 관심사를 알려주세요!</Title>
+        <h2>회원님의 관심사를 알려주세요!</h2>
         <SubTitle>
           꿀팁: 여기에서 회원님이 선택한 주제로 홈피드가 구성됩니다.
         </SubTitle>
@@ -35,15 +34,15 @@ const CheckTheme = ({ ThemeList }) => {
                 <SelectWrapper Check={check.includes(idx)}>
                   <SelectedOverlay></SelectedOverlay>
                 </SelectWrapper>
-                <Theme styles={list.style}></Theme>
+                <button styles={list.style}></button>
               </BoxWrapper>
             ))}
         </ThemeWrap>
       </ThemeBox>
       <ButtonWrap>
         <div></div>
-        <Button>
-          {check.length === 5 ? `완료` : `${5 - check.length}개 더 선택`}
+        <Button active={check.length}>
+          {check.length >= 5 ? `완료` : `${5 - check.length}개 더 선택`}
         </Button>
       </ButtonWrap>
     </CheckThemeWrap>
@@ -65,12 +64,12 @@ const TitleWrap = styled.div`
   margin-bottom: 32px;
   margin-top: 16px;
   overflow: hidden;
-`;
 
-const Title = styled.h2`
-  text-align: center;
-  font-weight: 700;
-  font-size: 32px;
+  h2 {
+    text-align: center;
+    font-weight: 700;
+    font-size: 32px;
+  }
 `;
 
 const SubTitle = styled.div`
@@ -89,10 +88,11 @@ const ThemeBox = styled.div`
 
 const ThemeWrap = styled.div`
   margin: 4px;
+  padding-left: 14px;
   padding-bottom: 10px;
   height: 360px;
   border-color: none;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
   border-radius: 16px;
   background-color: #fff;
@@ -115,6 +115,19 @@ const BoxWrapper = styled.div`
     transform: scale(0.97);
     transition: all 0.3s ease-in-out;
   }
+
+  button {
+    border: none;
+    height: 144px;
+    padding: 0;
+    width: 144px;
+    cursor: pointer;
+    border-radius: 16px;
+    background-image: url(${(props) => props.url || null});
+    background-repeat: no-repeat;
+    background-size: cover;
+    background: ${(props) => props.styles};
+  }
 `;
 
 const ThemeTitleWrape = styled.div`
@@ -123,6 +136,13 @@ const ThemeTitleWrape = styled.div`
   /* margin-left: 14px; */
   bottom: 0;
   left: 0;
+  z-index: 10;
+`;
+const ThemeTitle = styled.div`
+  text-align: left;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
   z-index: 10;
 `;
 
@@ -140,26 +160,6 @@ const SelectedOverlay = styled.div`
   opacity: 0.7;
   z-index: 1;
   cursor: pointer;
-`;
-const ThemeTitle = styled.div`
-  text-align: left;
-  font-size: 16px;
-  font-weight: 700;
-  color: #fff;
-  z-index: 10;
-`;
-
-const Theme = styled.button`
-  border: none;
-  height: 144px;
-  padding: 0;
-  width: 144px;
-  cursor: pointer;
-  border-radius: 16px;
-  background-image: url(${(props) => props.url || null});
-  background-repeat: no-repeat;
-  background-size: cover;
-  background: ${(props) => props.styles};
 `;
 
 const ButtonWrap = styled.div`
@@ -192,4 +192,10 @@ const Button = styled.button`
   margin-bottom: 10px;
   font-weight: 700;
   font-size: 16px;
+  ${(props) =>
+    props.active >= 5 &&
+    css`
+      background-color: #e60023;
+      color: #fff;
+    `}
 `;
