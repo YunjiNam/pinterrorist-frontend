@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import { withRouter, Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 
-const CheckTheme = ({ ThemeList }) => {
+const CheckTheme = ({ ThemeList, is }) => {
   const [check, setCheck] = useState([]);
   const [count, setCount] = useState(5);
 
@@ -34,16 +35,18 @@ const CheckTheme = ({ ThemeList }) => {
                 <SelectWrapper Check={check.includes(idx)}>
                   <SelectedOverlay></SelectedOverlay>
                 </SelectWrapper>
-                <button styles={list.style}></button>
+                <Theme styles={list.style}></Theme>
               </BoxWrapper>
             ))}
         </ThemeWrap>
       </ThemeBox>
       <ButtonWrap>
         <div></div>
-        <Button active={check.length}>
+        {/* <Link style={{ textDecoration: "none" }} to="/"> */}
+        <Button active={check.length} onClick={is}>
           {check.length >= 5 ? `완료` : `${5 - check.length}개 더 선택`}
         </Button>
+        {/* </Link> */}
       </ButtonWrap>
     </CheckThemeWrap>
   );
@@ -115,19 +118,19 @@ const BoxWrapper = styled.div`
     transform: scale(0.97);
     transition: all 0.3s ease-in-out;
   }
+`;
 
-  button {
-    border: none;
-    height: 144px;
-    padding: 0;
-    width: 144px;
-    cursor: pointer;
-    border-radius: 16px;
-    background-image: url(${(props) => props.url || null});
-    background-repeat: no-repeat;
-    background-size: cover;
-    background: ${(props) => props.styles};
-  }
+const Theme = styled.button`
+  border: none;
+  height: 144px;
+  padding: 0;
+  width: 144px;
+  cursor: pointer;
+  border-radius: 16px;
+  background-image: url(${(props) => props.url || null});
+  background-repeat: no-repeat;
+  background-size: cover;
+  background: ${(props) => props.styles};
 `;
 
 const ThemeTitleWrape = styled.div`

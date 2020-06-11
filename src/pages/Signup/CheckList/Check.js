@@ -2,7 +2,7 @@ import React from "react";
 import styled, { css } from "styled-components";
 import GoogleLogin from "react-google-login";
 
-const Check = ({ onClick, onLoginGoogle }) => {
+const Check = ({ onClick, goNext }) => {
   return (
     <SignupWrap>
       <LogoWrap>
@@ -19,7 +19,7 @@ const Check = ({ onClick, onLoginGoogle }) => {
       </TitleWrap>
       <ButtonWrap>
         <button onClick={onClick}>Google로 계속하기</button>
-        {/* <GoogleLogin
+        <GoogleLogin
           clientId="578598922898-c7jnnn5j6r4phjad623ovcipptruuqnd.apps.googleusercontent.com"
           render={(renderProps) => (
             <button
@@ -29,10 +29,14 @@ const Check = ({ onClick, onLoginGoogle }) => {
               Google로 계속하기
             </button>
           )}
-          onSuccess={(result) => onLoginGoogle(result)}
+          onSuccess={
+            ((result) => localStorage.setItem("token", result.accessToken),
+            goNext)
+            //   (result) => onLoginGoogle(result)
+          }
           onFailure={(result) => console.log(result)}
           cookiePolicy={"single_host_origin"}
-        /> */}
+        />
         <PolicyWrap>
           <span>
             계속하면 Pinterest 서비스 약관 및 개인정보 보호정책에 동의하는
