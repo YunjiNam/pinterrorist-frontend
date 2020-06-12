@@ -13,6 +13,7 @@ const Signup = () => {
   const [listNum, setListNum] = useState(0);
   const [checkT, setCheckT] = useState(false);
   const [themeList, setThemeList] = useState([]);
+  const [isOpen, setIsOpen] = useState(true);
 
   useEffect(() => {
     // console.log("OK");
@@ -26,17 +27,24 @@ const Signup = () => {
     setListNum(1);
     setCheckT(true);
   };
+  const isOpenHandler = () => {
+    setIsOpen(false);
+  };
   console.log(listNum);
   return (
     <>
-      <SignupOverlay />
-      <SignupBox check={checkT}>
-        {listNum === 0 ? (
-          <Check onClick={onClickGo} />
-        ) : (
-          <CheckTheme ThemeList={themeList} />
-        )}
-      </SignupBox>
+      {isOpen ? (
+        <>
+          <SignupOverlay />
+          <SignupBox check={checkT}>
+            {listNum === 0 ? (
+              <Check onClick={onClickGo} goNext={onClickGo} />
+            ) : (
+              <CheckTheme is={isOpenHandler} ThemeList={themeList} />
+            )}
+          </SignupBox>
+        </>
+      ) : null}
     </>
   );
 };
@@ -49,6 +57,7 @@ const SignupOverlay = styled.div`
   left: 0;
   bottom: 0;
   right: 0;
+  z-index: 700;
   background-color: rgba(0, 0, 0, 0.3);
 `;
 
@@ -64,6 +73,7 @@ const SignupBox = styled.div`
   text-align: center;
   width: 484px;
   margin: auto;
+  z-index: 800;
   /* min-height: 450px; */
   box-shadow: rgba(0, 0, 0, 0.45) 0px 2px 10px;
 
