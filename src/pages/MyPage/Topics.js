@@ -8,9 +8,9 @@ const Topics = () => {
   const [followingList, setFollowingList] = useState([]);
 
   useEffect(() => {
-    fetch("http://10.58.0.207:8000/introtopic")
+    fetch("http://10.58.6.219:8000/introtopic")
       .then((res) => res.json())
-      .then((res) => setDatas(res.topic_list));
+      .then((res) => setDatas(res.topics));
   });
 
   // useEffect(() => {
@@ -40,7 +40,10 @@ const Topics = () => {
                   <ImageWrap styles={data.style} />
                 </ImageBox>
                 <Title>{data.name}</Title>
-                <Follow onClick={() => handleClick(data.id)}>
+                <Follow
+                  onClick={() => handleClick(data.id)}
+                  followingList={followingList}
+                >
                   <div>
                     {followingList.includes(data.id) ? "팔로우" : "팔로잉"}
                   </div>
