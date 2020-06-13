@@ -4,6 +4,7 @@ import styled, { ThemeProvider } from "styled-components";
 import Boards from "./Boards";
 import Pins from "./Pins";
 import Topics from "./Topics";
+import MakingBoard from "./MakingBoard";
 
 const Select = {
   0: <Boards />,
@@ -12,11 +13,10 @@ const Select = {
 };
 
 const MyPage = () => {
-  // const [state, setState] = useState("");
-  const [tab, setTab] = useState(2);
+  const [tab, setTab] = useState(0);
   const [dropdown, setDropdown] = useState(false);
-  const [subjectTab, setSubjectTab] = useState(false);
-  //const [data, setData] = useState([]);
+  const [modal, setModal] = useState(false);
+  //const [subjectTab, setSubjectTab] = useState(false);
 
   //최초에 렌더링이 되고 받아온 response 객체 안의 data배열을 참조하여 setData 에 넣어주는데,  이때 useEffect 내부에서 state 값을 변경시킨 결과로 컴포넌트의 재렌더링이 일어날 수 있으므로 이를 막기 위해 두번째 인자로 빈 배열을 전달한다.(배열 내에서 변화가 감지될때만 useEffect를실행한다)
   // useEffect(() => {
@@ -24,9 +24,20 @@ const MyPage = () => {
   // }, []);
 
   const closeDropdown = () => {
+    closeModal();
     if (dropdown) {
       setDropdown(false);
     }
+  };
+
+  const closeModal = () => {
+    if (modal) {
+      setModal(false);
+    }
+  };
+
+  const openModal = () => {
+    setModal(true);
   };
 
   // useEffect(() => {
@@ -35,6 +46,8 @@ const MyPage = () => {
 
   return (
     <AppContent onClick={closeDropdown}>
+      {modal ? <MakingBoard /> : null}
+      {/* <MakingBoard /> */}
       <div className="MainContainer">
         <IconBar>
           <IconBarInside>
@@ -48,8 +61,8 @@ const MyPage = () => {
                   </Icon>
                 </MypageButtonAdd>
                 <DropdownContent isActive={dropdown}>
-                  <Making>보드 만들기</Making>
-                  <Making>핀 만들기</Making>
+                  <Making onClick={openModal}>보드 만들기</Making>
+                  <Making2 to="/pin-builder">핀 만들기</Making2>
                 </DropdownContent>
               </div>
               <div className="profile-edditor ">
@@ -192,8 +205,9 @@ const DropdownContent = styled.div`
   border: 32x solid rgb(195, 195, 195);
   background: #ffff;
 `;
-const Making = styled(Link)`
+const Making = styled.button`
   text-decoration: none;
+  border: none;
   display: block;
   width: 200px;
   text-align: left;
@@ -207,6 +221,8 @@ const Making = styled(Link)`
     background: rgb(195, 195, 195);
   }
 `;
+
+const Making2 = Making.withComponent(Link);
 
 const MypageButtonSetting = styled(Link)`
   cursor: pointer;
@@ -243,7 +259,7 @@ const SubjectTab = styled.button`
   min-width: 60px;
   font-size: 16px;
   font-weight: 700;
-  color : ${(subjectTab) => (SubjectTab === true ? "white" : "black")}
+  color : ${(subjectTab) => (SubjectTab ? "white" : "black")}
   cursor: pointer;
   justify-content: center;
   align-items: center;
@@ -276,8 +292,8 @@ const TextInfo = styled.div`
   padding-left: 8px;
   padding-right: 8px;
   h1 {
-    text-align: left;
     margin-bottom: 5px;
+    text-align: left;
     font-size: 30px;
     font-weight: 600;
   }

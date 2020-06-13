@@ -4,9 +4,8 @@ import styled from "styled-components";
 
 const Topics = () => {
   const [datas, setDatas] = useState([]);
-  const [followStatus, setFollowStatus] = useState("팔로잉");
+  // const [followStatus, setFollowStatus] = useState("팔로잉");
   const [followingList, setFollowingList] = useState([]);
-  const [selectedTopic, setSelectedTopic] = useState(false);
 
   useEffect(() => {
     fetch("http://10.58.0.207:8000/introtopic")
@@ -25,33 +24,45 @@ const Topics = () => {
       let index = followingList.indexOf(id);
       followingList.splice(index, 1);
       setFollowingList(followingList);
-      setFollowStatus("팔로우");
+      // setFollowStatus("팔로우");
     } else {
       setFollowingList(followingList.concat(id));
-      setFollowStatus("팔로잉");
+      // setFollowStatus("팔로잉");
     }
   };
 
   return (
     <div>
-      {datas.map((data) => (
-        <SelectedContent key={data.id}>
-          <ImageBoxWrap>
-            <ImageBox>
-              <ImageWrap styles={data.style} />
-            </ImageBox>
-            <Title>{data.name}</Title>
-            <Follow onClick={() => handleClick(data.id)}>
-              <div>{followingList.includes(data.id) ? "팔로우" : "팔로잉"}</div>
-            </Follow>
-          </ImageBoxWrap>
-        </SelectedContent>
-      ))}
+      <TopicBoxes>
+        {datas &&
+          datas.map((data) => (
+            <SelectedContent key={data.id}>
+              <ImageBoxWrap>
+                <ImageBox>
+                  <ImageWrap styles={data.style} />
+                </ImageBox>
+                <Title>{data.name}</Title>
+                <Follow onClick={() => handleClick(data.id)}>
+                  <div>
+                    {followingList.includes(data.id) ? "팔로우" : "팔로잉"}
+                  </div>
+                </Follow>
+              </ImageBoxWrap>
+            </SelectedContent>
+          ))}
+      </TopicBoxes>
     </div>
   );
 };
 
 export default Topics;
+
+const TopicBoxes = styled.div`
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+`;
 
 const SelectedContent = styled(Link)`
   text-decoration: none;
@@ -97,7 +108,7 @@ const Title = styled.div`
   font-weight: 700;
   color: #fff;
   position: absolute;
-  z-index: 99;
+  z-index: 9;
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);

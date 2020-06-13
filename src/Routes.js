@@ -5,6 +5,7 @@ import MainDetail from "./pages/MainDetail/MainDetail";
 import Signup from "./pages/Signup/Signup";
 import MyPage from "./pages/MyPage/MyPage";
 import Header from "./components/Header";
+import PinBuilder from "./pages/MyPage/PinBuilder";
 
 const Routes = () => {
   return (
@@ -15,6 +16,7 @@ const Routes = () => {
         <Route exact path="/header" component={Header} />
         <Route exact path="/signup" component={Signup} />
         <Route exact path="/mypage" component={MyPage} />
+        <Route exact path="/pin-builder" component={PinBuilder} />
       </Switch>
     </Router>
   );
