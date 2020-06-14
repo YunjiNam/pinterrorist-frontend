@@ -1,8 +1,65 @@
 import React, { useState, useEffect } from "react";
 import { withRouter, Link } from "react-router-dom";
+import axios from "axios";
 import styled from "styled-components";
 
 const PinBuilder = () => {
+  const [imgBase64, setImgBase64] = useState(""); // 파일 base64
+  const [imgFile, setImgFile] = useState(null); //파일
+  const [uploadedfile, setUploadedfile] = useState(null);
+
+  const fileChangeHandler = (e) => {
+    const files = e.target.files;
+    console.log(files);
+    setUploadedfile(files);
+  };
+
+  // //핀만들기(사진올리기)
+  // const savePins = (e) => {
+  //   const formData = new FormData();
+  //   formData.append("UploadImages", setUploadedfile);
+  //   const config = {
+  //     headers: {
+  //       "content-type": "multipart/form-data",
+  //     },
+  //   };
+  //   axios.post("#APIURL", formData, config);
+  // };
+
+  //핀만들기(사진올리기)-테스트용
+  const savePins = (e) => {
+    const formData = new FormData(document.getElementById("ImageUploader"));
+    formData.append("UploadImages", setUploadedfile);
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    };
+    axios.post("#APIURL", formData, config);
+  };
+
+  //업로드한 사진 미리 보여주는 함수
+  const handleChangeFile = (event) => {
+    event.preventDefault();
+    let reader = new FileReader();
+    reader.onloadend = () => {
+      // 2. 읽기가 완료되면 아래코드가 실행
+      const base64 = reader.result;
+      if (base64) {
+        setImgBase64(base64.toString()); // 파일 base64 상태 업데이트
+      }
+    };
+    if (event.target.files[0]) {
+      reader.readAsDataURL(event.target.files[0]); // 1. 파일을 읽어 버퍼에 저장
+      setImgFile(event.target.files[0]); // 파일 상태 업데이트
+    }
+  };
+  //TextArea 글자 수에 따라 입력창이 늘어나는 함수
+  const Resizing = (e) => {
+    e.style.height = "auto";
+    e.style.height = e.scrollHeight + "px";
+  };
+
   return (
     <>
       <Background>
@@ -11,9 +68,21 @@ const PinBuilder = () => {
           <Bottom>
             <LeftSide>
               <UploaderWrapper
+                onChange={handleChangeFile}
+                name="uploadedImg"
+                id="uploadedImg"
                 type="file"
                 accept="image/bmp,image/gif,image/jpeg,image/png,image/tiff,image/webp"
               >
+                {imgBase64 ? (
+                  <Preview>
+                    <img
+                      src={imgBase64}
+                      alt="imagepreview"
+                      // onClick={setImgBase64(null)}
+                    />
+                  </Preview>
+                ) : null}
                 <InsideUploader>
                   <IconWrap>
                     <svg>
@@ -23,6 +92,8 @@ const PinBuilder = () => {
                   <Advice>드래그하거나 클릭하여 업로드</Advice>
                   <Suggestion>권장사항 : 32MB 이하 고화질 .jpg파일</Suggestion>
                   <Uploader
+                    id="ImageUploader"
+                    onChange={fileChangeHandler}
                     type="file"
                     accept="image/bmp,image/gif,image/jpeg,image/png,image/tiff,image/webp"
                   ></Uploader>
@@ -31,12 +102,14 @@ const PinBuilder = () => {
               <ByOtherSite>사이트에서 저장</ByOtherSite>
             </LeftSide>
             <RightSide>
+              <TempBt onClick={savePins}>저장</TempBt>
               <Editor>
                 <MakeTitle
                   type="text"
                   placeholder="제목 추가"
                   maxlength="100"
                   rows="1"
+                  onKeyDown={(e) => Resizing(e.target)}
                 />
                 <div>
                   <UserinfoWrap>
@@ -52,6 +125,7 @@ const PinBuilder = () => {
                   placeholder="사람들에게 회원님의 핀에 대해 설명해보세요"
                   maxlength="500"
                   rows="1"
+                  onKeyDown={(e) => Resizing(e.target)}
                 />
               </Editor>
               <AddLink
@@ -92,7 +166,7 @@ const Bottom = styled.div`
 `;
 
 const LeftSide = styled.div`
-  margin: 10px 20px 20px;
+  margin: 10px 30px 20px;
   width: 100%;
 `;
 
@@ -107,6 +181,23 @@ const Uploader = styled.input`
   height: 100%;
 `;
 
+const Preview = styled.div`
+  top: 0;
+  left: 0;
+  z-index: 700;
+  position: absolute;
+  border-radius: 8px;
+  width: 100%;
+  height: 100%;
+  /* background-image: ${(props) =>
+    `url(${props.imgBase64}) no-repeat center cover`}; */
+  img {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+  }
+`;
+
 const UploaderWrapper = styled.div`
   background-color: rgb(239, 239, 239);
   box-shadow: none;
@@ -115,6 +206,7 @@ const UploaderWrapper = styled.div`
   padding: 15px;
   height: 510px;
   cursor: pointer;
+  position: relative;
 `;
 
 const InsideUploader = styled.div`
@@ -185,7 +277,7 @@ const RightSide = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin: 0 40px 0 20px;
+  margin: 0 30px 0 10px;
   position: relative;
 `;
 const Editor = styled.div`
@@ -259,3 +351,5 @@ const AddLink = styled(Description.withComponent("textarea"))`
   position: absolute;
   bottom: 7%;
 `;
+
+const TempBt = styled.button``;

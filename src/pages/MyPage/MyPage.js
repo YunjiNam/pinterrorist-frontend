@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { withRouter, Link } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
+import Header from "./../../components/Header";
 import Boards from "./Boards";
 import Pins from "./Pins";
 import Topics from "./Topics";
@@ -46,6 +47,7 @@ const MyPage = () => {
 
   return (
     <AppContent onClick={closeDropdown}>
+      <Header />
       {modal ? <MakingBoard /> : null}
       {/* <MakingBoard /> */}
       <div className="MainContainer">
@@ -119,6 +121,7 @@ export default MyPage;
 const AppContent = styled.div`
   width: 100%;
   box-sizing: border-box;
+  margin-top: 80px;
 `;
 
 const ProfileWrapper = styled.div`
@@ -135,7 +138,7 @@ const IconBar = styled.div`
   width: 100%;
   background: hsla(0, 0%, 100%, 0.97);
   position: fixed;
-  z-index: 400;
+  z-index: 9;
   top: 80px;
 `;
 
