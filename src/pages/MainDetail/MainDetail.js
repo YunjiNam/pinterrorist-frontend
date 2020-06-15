@@ -7,6 +7,7 @@ import profileMock from "../../images/profileMock.jpg";
 import Header from "../../components/Header";
 import Dropdown from "../../components/Dropdown/Dropdown";
 import CommentBox from "../../components/CommentBox/CommentBox";
+import url from "../../config";
 
 const MainDetail = () => {
   const [clickInput, setClickInput] = useState(false);
@@ -22,7 +23,7 @@ const MainDetail = () => {
   useEffect(() => {
     // const token = localStorage.getItem("token")
     console.log("Get 실행");
-    fetch("http://10.58.5.64:8000/pin/2", {
+    fetch(url + "/pin/2", {
       method: "GET",
       headers: {
         Authorization:
@@ -54,7 +55,7 @@ const MainDetail = () => {
       console.log("Post 실행");
 
       // const token = localStorage,getItem("token")
-      fetch("http://10.58.5.64:8000/pin/2/comment", {
+      fetch(url + "/pin/2/comment", {
         method: "POST",
         headers: {
           // "Content-Type": "application/json",
@@ -66,22 +67,17 @@ const MainDetail = () => {
         }),
       })
         .then((res) => res.json())
-        .then((res) => setCommentArr(res.comment));
+        .then((res) => {
+          setCommentArr(res.comment);
+          setNumber(res.comment_total);
+        });
     }
   };
+  //
 
   const handleChange = (e) => {
     setCommentText(e.target.value);
     setChangeColor(e.target.value.length > 0 ? true : false);
-  };
-
-  const handleText = () => {
-    console.log({ text1 });
-    if (text1 === "no text") {
-      setText1(true);
-    } else {
-      return text1;
-    }
   };
 
   return (
@@ -117,8 +113,8 @@ const MainDetail = () => {
               </RightNavContainer>
               <RightTopContainer>
                 <RightTopWrap>
-                  <h1>{handleText}</h1>
-                  <h3>{text2}</h3>
+                  <h1>{text1 === "no text" ? "" : text1}</h1>
+                  <h3>{text2 === "no text" ? "" : text2}</h3>
                 </RightTopWrap>
               </RightTopContainer>
               <RightBodyContainer>
@@ -135,6 +131,9 @@ const MainDetail = () => {
                         id={list.comment.id}
                         commentArr={commentArr}
                         setCommentArr={setCommentArr}
+                        number={number}
+                        setNumber={setNumber}
+                        comment_total={list.comment_total}
                       />
                     ))}
                   <AddCommentContainer>
@@ -370,6 +369,7 @@ const CommentTopText = styled.span`
 
 const AddCommentContainer = styled.div`
   margin-top: 10px;
+  margin-bottom: 30px;
 `;
 
 const AddCommentWrap = styled.div`
@@ -431,7 +431,6 @@ const ButtonComplete = styled(ButtonCancel)`
   margin-left: 10px;
   color: ${(props) => (props.changeColor ? "#FFFFFF" : "#767676")};
   background-color: ${(props) => (props.changeColor ? "#e60023" : "#efefef")};
-  }
 `;
 
 // const RightBottomContainer = styled.div`
@@ -463,10 +462,6 @@ const MyProfileSvg = styled.svg.attrs({ viewBox: "-3 -7 30 30" })`
   background-color: #efefef;
   width: 48px;
   height: 48px;
-`;
-
-const Comment = styled.i.attrs({ className: "fas fa-comment" })`
-  font-size: 16px;
 `;
 
 /* display: flex;

@@ -1,13 +1,23 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import url from "../../config";
 
-const CommentBox = ({ user_name, content, id, commentArr, setCommentArr }) => {
+const CommentBox = ({
+  user_name,
+  content,
+  id,
+  commentArr,
+  setCommentArr,
+  number,
+  setNumber,
+  comment_total,
+}) => {
   const [like, setLike] = useState(false);
 
   const handleComment = () => {
     console.log("Delete 실행");
     // const token = localStorage.getItem("token");
-    fetch("http://10.58.5.64:8000/pin/2/comment", {
+    fetch(url + "/pin/2/comment", {
       method: "DELETE",
       headers: {
         Authorization:
@@ -18,7 +28,10 @@ const CommentBox = ({ user_name, content, id, commentArr, setCommentArr }) => {
       }),
     })
       .then((res) => res.json())
-      .then((res) => setCommentArr(res.comment));
+      .then((res) => {
+        setCommentArr(res.comment);
+        setNumber(res.comment_total);
+      });
   };
 
   return (
