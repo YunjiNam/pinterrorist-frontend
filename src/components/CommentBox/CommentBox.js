@@ -17,7 +17,7 @@ const CommentBox = ({
   const handleComment = () => {
     console.log("Delete 실행");
     // const token = localStorage.getItem("token");
-    fetch(url + "/pin/2/comment", {
+    fetch(`${url}/pin/2/comment`, {
       method: "DELETE",
       headers: {
         Authorization:
