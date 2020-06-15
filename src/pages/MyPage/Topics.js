@@ -6,11 +6,13 @@ const Topics = () => {
   const [datas, setDatas] = useState([]);
   // const [followStatus, setFollowStatus] = useState("팔로잉");
   const [followingList, setFollowingList] = useState([]);
+  const [key, setKey] = useState("");
+  //const [follow, setFollow] = useState(false);
 
   useEffect(() => {
-    fetch("http://10.58.0.207:8000/introtopic")
+    fetch("http://10.58.6.219:8000/introtopic")
       .then((res) => res.json())
-      .then((res) => setDatas(res.topic_list));
+      .then((res) => setDatas(res.topics));
   });
 
   // useEffect(() => {
@@ -24,9 +26,14 @@ const Topics = () => {
       let index = followingList.indexOf(id);
       followingList.splice(index, 1);
       setFollowingList(followingList);
+      // setFollow(false);
     } else {
       setFollowingList(followingList.concat(id));
+
+      // setFollow(true);
     }
+    setKey(id);
+    console.log(key);
   };
 
   return (
@@ -40,8 +47,15 @@ const Topics = () => {
                   <ImageWrap styles={data.style} />
                 </ImageBox>
                 <Title>{data.name}</Title>
-                <Follow onClick={() => handleClick(data.id)}>
+                <Follow
+                  onClick={() => handleClick(data.id)}
+                  followingList={followingList}
+                  key={data.id}
+                  color={followingList.includes(data.id) ? true : false}
+                >
                   <div>
+                    {/* style={{followingList.includes(data.id)?  (backgroundColor:black color:white) :(backgroundColor:white color:black)}}> */}
+                    {/* {followingList.includes(data.id)? style={{...backgroundColor:'black" color:"white"}} : style={{...backgroundColor:"white" color:"black"}}}> */}
                     {followingList.includes(data.id) ? "팔로우" : "팔로잉"}
                   </div>
                 </Follow>
@@ -117,7 +131,9 @@ const Follow = styled.button`
   min-width: 60px;
   min-height: 40px;
   width: 100%;
-  background-color: #efefef;
+  color: ${(props) => (props.color ? "#efefef" : "#000")};
+  background-color: ${(props) => (props.color ? "white" : "#efefef")};
+
   padding: 10px 12px;
   border: none;
   border-radius: 24px;
@@ -129,3 +145,7 @@ const Follow = styled.button`
     font-weight: 600;
   }
 `;
+
+// const Div = styled.div`
+//   color: ${(props) => (props.color ? "red" : "white")};
+// `;
