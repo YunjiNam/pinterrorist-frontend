@@ -4,33 +4,71 @@ import styled, { css } from "styled-components";
 import Check from "./CheckList/Check";
 import CheckTheme from "./CheckList/CheckTheme";
 
-// const list = {
-//   0: <Check />,
-//   1: <CheckTheme />,
-// };
-
 const Signup = () => {
   const [listNum, setListNum] = useState(0);
   const [checkT, setCheckT] = useState(false);
   const [themeList, setThemeList] = useState([]);
   const [isOpen, setIsOpen] = useState(true);
+  const token = localStorage.getItem("Authorization");
 
+  // topic list 받아오기
+  // useEffect(() => {
+  //   // console.log("OK");
+  //   fetch("http://10.58.0.207:8000/introtopic")
+  //     .then((res) => res.json())
+  //     // .then((res) => console.log(res.topic_list));
+  //     .then((res) => setThemeList(res.topic_list));
+  // }, []);
+
+  // 뒷부분 스크롤 막음
   useEffect(() => {
-    // console.log("OK");
-    fetch("http://10.58.0.207:8000/introtopic")
-      .then((res) => res.json())
-      // .then((res) => console.log(res.topic_list));
-      .then((res) => setThemeList(res.topic_list));
+    document.body.style.cssText = `position: fixed; top: -${window.scrollY}px`;
+    return () => {
+      const scrollY = document.body.style.top;
+      document.body.style.cssText = `position: ""; top: "";`;
+      window.scrollTo(0, parseInt(scrollY || "0") * -1);
+    };
   }, []);
 
+  // topic list 받아오기
   const onClickGo = () => {
+    fetch("http://10.58.6.219:8000/introtopic", {
+      method: "GET",
+      headers: {
+        Authorization: token,
+      },
+    })
+      .then((res) => res.json())
+      // .then((res) => console.log(res.topics));
+      .then((res) => setThemeList(res.topics));
     setListNum(1);
     setCheckT(true);
   };
-  const isOpenHandler = () => {
-    setIsOpen(false);
+
+  // 사용자가 고른 topic list 보내주고 main 으로 이동
+  const isOpenHandler = (checked) => {
+    // console.log("checked", checked);
+    const token = localStorage.getItem("Authorization");
+    fetch("http://10.58.6.219:8000/introtopic", {
+      method: "POST",
+      headers: {
+        Authorization: token,
+      },
+      body: JSON.stringify({
+        chosen_topics: checked,
+      }),
+    }).then((res) => {
+      if (res.status === 200) {
+        setIsOpen(false);
+        window.location.reload();
+      } else {
+        alert("try again");
+      }
+    });
   };
-  console.log(listNum);
+
+  // console.log(listNum);
+
   return (
     <>
       {isOpen ? (
@@ -38,9 +76,12 @@ const Signup = () => {
           <SignupOverlay />
           <SignupBox check={checkT}>
             {listNum === 0 ? (
-              <Check onClick={onClickGo} goNext={onClickGo} />
+              <Check goNext={onClickGo} />
             ) : (
-              <CheckTheme is={isOpenHandler} ThemeList={themeList} />
+              <CheckTheme
+                is={(checked) => isOpenHandler(checked)}
+                ThemeList={themeList}
+              />
             )}
           </SignupBox>
         </>
@@ -59,6 +100,7 @@ const SignupOverlay = styled.div`
   right: 0;
   z-index: 700;
   background-color: rgba(0, 0, 0, 0.3);
+  overscroll-behavior: none;
 `;
 
 const SignupBox = styled.div`
@@ -75,6 +117,7 @@ const SignupBox = styled.div`
   margin: auto;
   z-index: 800;
   /* min-height: 450px; */
+  overscroll-behavior: none;
   box-shadow: rgba(0, 0, 0, 0.45) 0px 2px 10px;
 
   ${(props) =>

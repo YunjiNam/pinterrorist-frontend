@@ -9,40 +9,21 @@ import {
 } from "react-lazy-load-image-component";
 // import Signup from "../Signup/Signup";
 
-const Main = ({ scrollPosition, history }) => {
+const Following = ({ scrollPosition, history }) => {
   const [page, setPage] = useState(0);
   const [ContentsList, setContentsList] = useState([]);
 
   useEffect(() => {
-    fetch("http://10.58.6.219:8000", {
-      headers: {
-        Authorization: localStorage.getItem("Authorization"),
-      },
-    })
+    // fetch("http://10.58.0.207:8000/")
+    fetch("http://localhost:3000/data/main.json")
       .then((res) => res.json())
-      .then((res) => setContentsList(res.pins));
+      // .then((res) => console.log(res.data))
+      // .then((res) => setContentsList(res.pins));
+      .then((res) => setContentsList(res.data));
   }, []);
-
-  // const load = () => {
-  //   fetch("http://10.58.6.219:8000", {
-  //     headers: {
-  //       Authorization: localStorage.getItem("Authorization"),
-  //     },
-  //   })
-  //     // fetch("http://localhost:3000/data/main.json")
-  //     //   .then((res) => res.json())
-  //     //   .then((res) => console.log(res.data))
-  //     //   .then((res) => setContentsList(res.pins));
-  //     .then((res) => setContentsList(res.pins));
-  // };
   return (
     <>
       <Header />
-      {localStorage.getItem("Authorization") ? (
-        window.location.reload
-      ) : (
-        <Signup />
-      )}
       <MainContainer>
         <ContentsWrap>
           {ContentsList &&
@@ -61,7 +42,7 @@ const Main = ({ scrollPosition, history }) => {
                 }}
               >
                 <ImgWrap>
-                  <img src={list.image} alt={list.id} />
+                  <img src={list.image_url} alt={list.id} />
                 </ImgWrap>
                 <TextWrap></TextWrap>
               </Contents>
@@ -72,7 +53,7 @@ const Main = ({ scrollPosition, history }) => {
   );
 };
 
-export default withRouter(Main);
+export default withRouter(Following);
 
 const MainContainer = styled.div`
   margin-top: 20px;

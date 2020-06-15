@@ -3,10 +3,33 @@ import styled, { css } from "styled-components";
 import GoogleLogin from "react-google-login";
 
 const Check = ({ onClick, goNext }) => {
-  const onLogin = (res) => {
-    localStorage.setItem("token", res.accessToken);
-    goNext();
+  // 구글 로그인 성공했을 때 백으로 access token 보내고 authorization token 받아오고 다음 단계로 이동
+  const onLogin = (result) => {
+    fetch("http://10.58.6.219:8000/account/google", {
+      method: "POST",
+      headers: {
+        Authorization: result.accessToken,
+      },
+    })
+      .then((res) => res.json())
+      //.then((res) => console.log(res));
+      //   .then((res) => localStorage.setItem("Authorization", res.access_token))
+      //   // localStorage.setItem("token", res.accessToken);
+      //   .then((res) => localStorage.setItem("M", res.message))
+      .then((res) => {
+        // console.log("res", res);
+        localStorage.setItem("Authorization", res.access_token);
+        if (res.message === "ALREADY SIGNED-UP") {
+          window.location.reload();
+        } else {
+          goNext();
+        }
+      });
+    // goNext();
+    // localStorage.setItem("accessToken", result.accessToken);
+    // checkToken();
   };
+
   return (
     <SignupWrap>
       <LogoWrap>
@@ -22,7 +45,7 @@ const Check = ({ onClick, goNext }) => {
         </h3>
       </TitleWrap>
       <ButtonWrap>
-        <button onClick={onClick}>Google로 계속하기</button>
+        {/* <button onClick={onClick}>Google로 계속하기</button> */}
         <GoogleLogin
           clientId="578598922898-c7jnnn5j6r4phjad623ovcipptruuqnd.apps.googleusercontent.com"
           render={(renderProps) => (
@@ -59,6 +82,7 @@ export default Check;
 
 const SignupWrap = styled.div`
   display: block;
+  overscroll-behavior: none;
 `;
 
 const LogoWrap = styled.div`
@@ -66,6 +90,7 @@ const LogoWrap = styled.div`
   height: 45px;
   margin: 0 auto;
   width: 45px;
+  overscroll-behavior: none;
 
   svg {
     width: 48;

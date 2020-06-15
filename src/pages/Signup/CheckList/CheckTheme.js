@@ -11,7 +11,6 @@ const CheckTheme = ({ ThemeList, is }) => {
       setCheck(check.concat(id));
     } else {
       const filtered = check.filter((el) => el !== id);
-
       setCheck(filtered);
     }
   };
@@ -28,11 +27,11 @@ const CheckTheme = ({ ThemeList, is }) => {
         <ThemeWrap>
           {ThemeList &&
             ThemeList.map((list, idx) => (
-              <BoxWrapper key={idx} onClick={() => checkBox(idx)}>
+              <BoxWrapper key={idx} onClick={() => checkBox(list.id)}>
                 <ThemeTitleWrape>
                   <ThemeTitle>{list.name}</ThemeTitle>
                 </ThemeTitleWrape>
-                <SelectWrapper Check={check.includes(idx)}>
+                <SelectWrapper Check={check.includes(list.id)}>
                   <SelectedOverlay></SelectedOverlay>
                 </SelectWrapper>
                 <Theme styles={list.style}></Theme>
@@ -43,7 +42,7 @@ const CheckTheme = ({ ThemeList, is }) => {
       <ButtonWrap>
         <div></div>
         {/* <Link style={{ textDecoration: "none" }} to="/"> */}
-        <Button active={check.length} onClick={is}>
+        <Button active={check.length} onClick={() => is(check)}>
           {check.length >= 5 ? `완료` : `${5 - check.length}개 더 선택`}
         </Button>
         {/* </Link> */}
