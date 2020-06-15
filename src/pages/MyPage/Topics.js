@@ -24,10 +24,8 @@ const Topics = () => {
       let index = followingList.indexOf(id);
       followingList.splice(index, 1);
       setFollowingList(followingList);
-      // setFollowStatus("팔로우");
     } else {
       setFollowingList(followingList.concat(id));
-      // setFollowStatus("팔로잉");
     }
   };
 
