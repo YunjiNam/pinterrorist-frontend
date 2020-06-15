@@ -3,6 +3,10 @@ import styled, { css } from "styled-components";
 import GoogleLogin from "react-google-login";
 
 const Check = ({ onClick, goNext }) => {
+  const onLogin = (res) => {
+    localStorage.setItem("token", res.accessToken);
+    goNext();
+  };
   return (
     <SignupWrap>
       <LogoWrap>
@@ -30,9 +34,8 @@ const Check = ({ onClick, goNext }) => {
             </button>
           )}
           onSuccess={
-            ((result) => localStorage.setItem("token", result.accessToken),
-            goNext)
-            //   (result) => onLoginGoogle(result)
+            (result) => onLogin(result)
+            // (result) => console.log(result.accessToken)
           }
           onFailure={(result) => console.log(result)}
           cookiePolicy={"single_host_origin"}

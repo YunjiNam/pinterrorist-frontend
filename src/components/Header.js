@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import { withRouter, Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 
-const Header = () => {
+const Header = ({ history }) => {
   const [active, setActive] = useState(false);
+  const [page, setPage] = useState(0);
+  const [noti, setNoti] = useState(false);
   const searchActive = () => {
     setActive(!active);
   };
+
   return (
     <Headers>
       <HeaderContent>
@@ -19,12 +22,12 @@ const Header = () => {
               </svg>
             </Link>
           </Logo>
-          <Home>
+          <Home pg={page} onClick={() => setPage(0)}>
             <Link to="/" style={{ textDecoration: "none" }}>
               <span>홈</span>
             </Link>
           </Home>
-          <Following>
+          <Following pg={page} onClick={() => setPage(1)}>
             <Link to="/" style={{ textDecoration: "none" }}>
               <span>팔로잉</span>
             </Link>
@@ -42,13 +45,194 @@ const Header = () => {
             </SearchWrap>
           </Search>
           <Tab>
-            <NoticeWrap>
+            <NoticeWrap view={noti} onClick={() => setNoti(!noti)}>
               <button>
                 <svg viewBox="0 0 24 24">
                   <path />
                 </svg>
               </button>
             </NoticeWrap>
+            <NoticeBox view={noti}>
+              <div>
+                <NoticeTitle>
+                  <div>업데이트</div>
+                </NoticeTitle>
+                <NoticeContents>
+                  <div>
+                    <NoticeListWrap>
+                      <li>
+                        <ListWrapper>
+                          <ListTitle>
+                            <div>
+                              <span>
+                                Yj 님이 좋아할 만한 앱 디자인 관련 보드 50개
+                              </span>
+                            </div>
+                          </ListTitle>
+                          <ListContent>
+                            <ContentsWrapF>
+                              <div>
+                                <img src="https://i.pinimg.com/290x/5e/d9/1a/5ed91a41f14d062cbe6594ee1c355dfe.jpg" />
+                              </div>
+                            </ContentsWrapF>
+                            <ContentsWrapS>
+                              <div>
+                                <img src="https://i.pinimg.com/290x/71/90/81/719081037b37773a4ef1e406e0e1ab7f.jpg" />
+                              </div>
+                            </ContentsWrapS>
+                            <ContentsWrapT>
+                              <div>
+                                <img src="https://i.pinimg.com/290x/90/c2/5e/90c25e21efe1227da485ed2880127565.jpg" />
+                              </div>
+                            </ContentsWrapT>
+                          </ListContent>
+                        </ListWrapper>
+                      </li>
+                      <li>
+                        <ListWrapper>
+                          <ListTitle>
+                            <div>
+                              <span>
+                                Yj 님이 좋아할 만한 앱 디자인 관련 보드 50개
+                              </span>
+                            </div>
+                          </ListTitle>
+                          <ListContent>
+                            <ContentsWrapF>
+                              <div>
+                                <img src="https://i.pinimg.com/290x/5e/d9/1a/5ed91a41f14d062cbe6594ee1c355dfe.jpg" />
+                              </div>
+                            </ContentsWrapF>
+                            <ContentsWrapS>
+                              <div>
+                                <img src="https://i.pinimg.com/290x/71/90/81/719081037b37773a4ef1e406e0e1ab7f.jpg" />
+                              </div>
+                            </ContentsWrapS>
+                            <ContentsWrapT>
+                              <div>
+                                <img src="https://i.pinimg.com/290x/90/c2/5e/90c25e21efe1227da485ed2880127565.jpg" />
+                              </div>
+                            </ContentsWrapT>
+                          </ListContent>
+                        </ListWrapper>
+                      </li>
+                      <li>
+                        <ListWrapper>
+                          <ListTitle>
+                            <div>
+                              <span>
+                                Yj 님이 좋아할 만한 앱 디자인 관련 보드 50개
+                              </span>
+                            </div>
+                          </ListTitle>
+                          <ListContent>
+                            <ContentsWrapF>
+                              <div>
+                                <img src="https://i.pinimg.com/290x/5e/d9/1a/5ed91a41f14d062cbe6594ee1c355dfe.jpg" />
+                              </div>
+                            </ContentsWrapF>
+                            <ContentsWrapS>
+                              <div>
+                                <img src="https://i.pinimg.com/290x/71/90/81/719081037b37773a4ef1e406e0e1ab7f.jpg" />
+                              </div>
+                            </ContentsWrapS>
+                            <ContentsWrapT>
+                              <div>
+                                <img src="https://i.pinimg.com/290x/90/c2/5e/90c25e21efe1227da485ed2880127565.jpg" />
+                              </div>
+                            </ContentsWrapT>
+                          </ListContent>
+                        </ListWrapper>
+                      </li>
+                      <li>
+                        <ListWrapper>
+                          <ListTitle>
+                            <div>
+                              <span>
+                                Yj 님이 좋아할 만한 앱 디자인 관련 보드 50개
+                              </span>
+                            </div>
+                          </ListTitle>
+                          <ListContent>
+                            <ContentsWrapF>
+                              <div>
+                                <img src="https://i.pinimg.com/290x/5e/d9/1a/5ed91a41f14d062cbe6594ee1c355dfe.jpg" />
+                              </div>
+                            </ContentsWrapF>
+                            <ContentsWrapS>
+                              <div>
+                                <img src="https://i.pinimg.com/290x/71/90/81/719081037b37773a4ef1e406e0e1ab7f.jpg" />
+                              </div>
+                            </ContentsWrapS>
+                            <ContentsWrapT>
+                              <div>
+                                <img src="https://i.pinimg.com/290x/90/c2/5e/90c25e21efe1227da485ed2880127565.jpg" />
+                              </div>
+                            </ContentsWrapT>
+                          </ListContent>
+                        </ListWrapper>
+                      </li>
+                      <li>
+                        <ListWrapper>
+                          <ListTitle>
+                            <div>
+                              <span>
+                                Yj 님이 좋아할 만한 앱 디자인 관련 보드 50개
+                              </span>
+                            </div>
+                          </ListTitle>
+                          <ListContent>
+                            <ContentsWrapF>
+                              <div>
+                                <img src="https://i.pinimg.com/290x/5e/d9/1a/5ed91a41f14d062cbe6594ee1c355dfe.jpg" />
+                              </div>
+                            </ContentsWrapF>
+                            <ContentsWrapS>
+                              <div>
+                                <img src="https://i.pinimg.com/290x/71/90/81/719081037b37773a4ef1e406e0e1ab7f.jpg" />
+                              </div>
+                            </ContentsWrapS>
+                            <ContentsWrapT>
+                              <div>
+                                <img src="https://i.pinimg.com/290x/90/c2/5e/90c25e21efe1227da485ed2880127565.jpg" />
+                              </div>
+                            </ContentsWrapT>
+                          </ListContent>
+                        </ListWrapper>
+                      </li>
+                      <li>
+                        <ListWrapper>
+                          <ListTitle>
+                            <div>
+                              <span>
+                                Yj 님이 좋아할 만한 앱 디자인 관련 보드 50개
+                              </span>
+                            </div>
+                          </ListTitle>
+                          <ListContent>
+                            <ContentsWrapF>
+                              <div>
+                                <img src="https://i.pinimg.com/290x/5e/d9/1a/5ed91a41f14d062cbe6594ee1c355dfe.jpg" />
+                              </div>
+                            </ContentsWrapF>
+                            <ContentsWrapS>
+                              <div>
+                                <img src="https://i.pinimg.com/290x/71/90/81/719081037b37773a4ef1e406e0e1ab7f.jpg" />
+                              </div>
+                            </ContentsWrapS>
+                            <ContentsWrapT>
+                              <div>
+                                <img src="https://i.pinimg.com/290x/90/c2/5e/90c25e21efe1227da485ed2880127565.jpg" />
+                              </div>
+                            </ContentsWrapT>
+                          </ListContent>
+                        </ListWrapper>
+                      </li>
+                    </NoticeListWrap>
+                  </div>
+                </NoticeContents>
+              </div>
+            </NoticeBox>
             <MessageWrap>
               <button>
                 <svg viewBox="0 0 24 24">
@@ -56,7 +240,11 @@ const Header = () => {
                 </svg>
               </button>
             </MessageWrap>
-            <ProfileWrap>
+            <ProfileWrap
+              onClick={() => {
+                history.push("/mypage");
+              }}
+            >
               <button>
                 <svg viewBox="0 -8 24 30">
                   <path />
@@ -77,7 +265,7 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default withRouter(Header);
 
 const Headers = styled.div`
   z-index: 671;
@@ -152,9 +340,25 @@ const Home = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #111;
+  /* background-color: ${(props) => (props.pg === 0 ? "#111" : "#fff")}; */
   border-radius: 24px;
   cursor: pointer;
+  ${(props) =>
+    props.pg === 0
+      ? css`
+          background-color: #111;
+          /* color: #fff; */
+          span {
+            color: #fff;
+          }
+        `
+      : css`
+          background-color: #fff;
+          /* color: #000; */
+          span {
+            color: #333;
+          }
+        `}
   /* &:hover {
     background-color: #efefef;
   } */
@@ -162,7 +366,7 @@ const Home = styled.div`
     font-size: 16px;
     font-weight: 700;
     text-align: center;
-    color: #fff;
+    /* color: #fff; */
     padding: 0px 16px;
   }
 `;
@@ -175,14 +379,33 @@ const Following = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  &:hover {
+  /* background-color: ${(props) => (props.pg === 1 ? "#111" : "#fff")}; */
+  ${(props) =>
+    props.pg === 1
+      ? css`
+          background-color: #111;
+          span {
+            color: #fff;
+          }
+        `
+      : css`
+          background-color: #fff;
+          /* color: #; */
+          span {
+            color: #333;
+          }
+          &:hover {
+            background-color: #efefef;
+          }
+        `}
+  /* &:hover {
     background-color: #efefef;
-  }
+  } */
   span {
     font-size: 16px;
     font-weight: 700;
     text-align: center;
-    color: #333;
+    /* color: #333; */
     padding: 0px 16px;
   }
 `;
@@ -272,7 +495,7 @@ const NoticeWrap = styled.div`
     svg {
       height: 24px;
       width: 24px;
-      color: #767676;
+      color: ${(props) => (props.view ? "#3b3b3b" : "#767676")};
       fill: currentColor;
       stroke-width: 0;
       vertical-align: middle;
@@ -281,6 +504,142 @@ const NoticeWrap = styled.div`
           "M 12 24 c -1.66 0 -3 -1.34 -3 -3 h 6 c 0 1.66 -1.34 3 -3 3 Z m 7 -10.83 c 1.58 1.52 2.67 3.55 3 5.83 H 2 c 0.33 -2.28 1.42 -4.31 3 -5.83 V 7 c 0 -3.87 3.13 -7 7 -7 s 7 3.13 7 7 v 6.17 Z"
         );
       }
+    }
+  }
+`;
+
+const NoticeBox = styled.div`
+  display: ${(props) => (props.view ? "block" : "none")};
+  height: calc((100vh - 80px) - 8px);
+  width: 360px;
+  margin-top: 80px;
+  box-shadow: rgba(0, 0, 0, 0.1) -3px 4px 14px 0px;
+  /* overscroll-behavior: none; */
+  overflow: auto;
+  margin-right: 8px;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  border-radius: 16px;
+  background-color: #fff;
+  color: #211922;
+  font-size: 12px;
+`;
+
+const NoticeTitle = styled.div`
+  padding: 23px 0;
+
+  div {
+    font-weight: 700;
+    font-size: 16px;
+    text-align: center;
+  }
+`;
+
+const NoticeContents = styled.div`
+  height: calc(100% - 64px);
+  /* overflow: auto; */
+  div {
+  }
+`;
+
+const NoticeListWrap = styled.ul`
+  li {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+`;
+
+const ListWrapper = styled.div`
+  width: 344px;
+  margin: 0 8px 16px 8px;
+  cursor: pointer;
+  border-radius: 16px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    background-color: #f0f0f0;
+  }
+`;
+
+const ListTitle = styled.div`
+  position: relative;
+  margin-bottom: 10px;
+  div {
+    color: #333;
+    font-size: 16px;
+    font-weight: 400;
+    span {
+      text-align: left;
+      line-height: 1.4;
+    }
+  }
+`;
+
+const ListContent = styled.div`
+  width: 328px;
+  height: 164px;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  cursor: pointer;
+`;
+
+const ContentsWrapF = styled.div`
+  max-height: 164px;
+  max-width: 108.7px;
+  margin-right: 1px;
+  overflow: hidden;
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+  vertical-align: middle;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  div {
+    img {
+    }
+  }
+`;
+
+const ContentsWrapS = styled.div`
+  max-height: 164px;
+  max-width: 108.7px;
+  margin-right: 1px;
+  overflow: hidden;
+  vertical-align: middle;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  div {
+    img {
+    }
+  }
+`;
+
+const ContentsWrapT = styled.div`
+  max-height: 164px;
+  max-width: 108.7px;
+  margin-right: 1px;
+  overflow: hidden;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+  vertical-align: middle;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  div {
+    img {
     }
   }
 `;

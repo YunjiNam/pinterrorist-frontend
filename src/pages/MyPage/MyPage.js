@@ -101,7 +101,7 @@ const MyPage = () => {
   );
 };
 
-export default MyPage;
+export default withRouter(MyPage);
 
 const AppContent = styled.div`
   width: 100%;
