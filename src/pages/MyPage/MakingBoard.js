@@ -2,42 +2,47 @@ import React, { useState, useEffect } from "react";
 import { withRouter, Link } from "react-router-dom";
 import styled from "styled-components";
 
-const MakingBoard = () => {
+const MakingBoard = ({ history, closeModal }) => {
   return (
     <>
-      <Overlay>
-        <Modal>
-          <Contents>
-            <div>
-              <h1>보드 만들기</h1>
-              <label>이름</label>
-              <input
-                type="text"
-                placeholder="예:'가고 싶은 곳'또는 '조리법'"
-              ></input>
-              <label>날짜/선택사항-계획을 세우는 데 도움이 됩니다!</label>
-              <input type="date" placeholder="시작일 및 종료일 선택"></input>
-            </div>
-            <Secret>
-              <h3>비밀 보드로 유지</h3>
-              <CheckBoxWrapper>
-                <CheckBox id="checkbox" type="checkbox" />
-                <CheckBoxLabel htmlFor="checkbox" />
-              </CheckBoxWrapper>
-            </Secret>
-            <Information>
-              따라서 회원님과 참여자만 볼 수 있습니다.
-              <span>자세히 알아보기</span>
-            </Information>
-          </Contents>
-          <MakingBt>만들기</MakingBt>
-        </Modal>
-      </Overlay>
+      <Overlay onClick={closeModal} />
+      <Modal>
+        <Contents>
+          <div>
+            <h1>보드 만들기</h1>
+            <label>이름</label>
+            <input
+              type="text"
+              placeholder="예:'가고 싶은 곳'또는 '조리법'"
+            ></input>
+            <label>날짜/선택사항-계획을 세우는 데 도움이 됩니다!</label>
+            <input type="date" placeholder="시작일 및 종료일 선택"></input>
+          </div>
+          <Secret>
+            <h3>비밀 보드로 유지</h3>
+            <CheckBoxWrapper>
+              <CheckBox id="checkbox" type="checkbox" />
+              <CheckBoxLabel htmlFor="checkbox" />
+            </CheckBoxWrapper>
+          </Secret>
+          <Information>
+            따라서 회원님과 참여자만 볼 수 있습니다.
+            <span>자세히 알아보기</span>
+          </Information>
+        </Contents>
+        <MakingBt
+          onClick={() => {
+            history.push("/");
+          }}
+        >
+          만들기
+        </MakingBt>
+      </Modal>
     </>
   );
 };
 
-export default MakingBoard;
+export default withRouter(MakingBoard);
 
 const Overlay = styled.div`
   position: fixed;
@@ -46,7 +51,7 @@ const Overlay = styled.div`
   bottom: 0;
   right: 0;
   background-color: rgba(0, 0, 0, 0.16);
-  z-index: 999;
+  z-index: 900;
 `;
 
 const Modal = styled.div`
@@ -59,6 +64,7 @@ const Modal = styled.div`
   border-radius: 10px;
   background-color: white;
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+  z-index: 999;
 `;
 
 const Contents = styled.div`
