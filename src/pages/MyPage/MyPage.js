@@ -25,7 +25,6 @@ const MyPage = () => {
   // }, []);
 
   const closeDropdown = () => {
-    closeModal();
     if (dropdown) {
       setDropdown(false);
     }
@@ -48,7 +47,7 @@ const MyPage = () => {
   return (
     <AppContent onClick={closeDropdown}>
       <Header />
-      {modal ? <MakingBoard /> : null}
+      {modal ? <MakingBoard closeModal={closeModal} /> : null}
       {/* <MakingBoard /> */}
       <div className="MainContainer">
         <IconBar>

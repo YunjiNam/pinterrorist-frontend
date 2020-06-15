@@ -6,12 +6,19 @@ import styled from "styled-components";
 const PinBuilder = () => {
   const [imgBase64, setImgBase64] = useState(""); // 파일 base64
   const [imgFile, setImgFile] = useState(null); //파일
-  const [uploadedfile, setUploadedfile] = useState(null);
+  const [uploadedfile, setUploadedfile] = useState(null); //업로드한 파일
+  const [imgDes, setImgDes] = useState("");
 
   const fileChangeHandler = (e) => {
     const files = e.target.files;
     console.log(files);
     setUploadedfile(files);
+  };
+
+  const desChangeHandler = (e) => {
+    const description = e.target.value;
+    console.log(description);
+    setImgDes(description);
   };
 
   // //핀만들기(사진올리기)
@@ -26,16 +33,63 @@ const PinBuilder = () => {
   //   axios.post("#APIURL", formData, config);
   // };
 
-  //핀만들기(사진올리기)-테스트용
-  const savePins = (e) => {
-    const formData = new FormData(document.getElementById("ImageUploader"));
-    formData.append("UploadImages", setUploadedfile);
-    const config = {
+  //핀만들기(사진올리기)-테스트용1
+  // const savePins = (e) => {
+  //   const formData = new FormData(document.getElementById("ImageUploader"));
+  //   formData.append("UploadImages", setUploadedfile);
+  //   const config = {
+  //     headers: {
+  //       "content-type": "multipart/form-data",
+  //     },
+  //   };
+  //   axios.post("#APIURL", formData, config);
+  // };
+
+  // 핀만들기(사진올리기)-테스트용2
+  const savePins = () => {
+    const fd = new FormData();
+    fd.append("filename", setUploadedfile);
+    //fd.append("")
+
+    fetch("http://10.58.6.219:8000/pin-builder", {
+      method: "POST",
       headers: {
         "content-type": "multipart/form-data",
+        Authorization:
+          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIifQ.kg_TKT_XrRsqMRGUSAac5Uonq3STzSLDlt9d5ZbRzFw",
       },
+      body: fd,
+    }).then(function (res) {
+      if (res.ok) {
+        alert("Perfect");
+        console.log(res);
+      } else {
+        alert("Oops");
+        console.log(res);
+      }
+    });
+    /*
+    const headers = {
+      "content-type": "multipart/form-data",
+      Authorization:
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIifQ.kg_TKT_XrRsqMRGUSAac5Uonq3STzSLDlt9d5ZbRzFw",
     };
-    axios.post("#APIURL", formData, config);
+
+    axios
+      .post("http://10.58.6.219:8000/pin-builder", fd, { headers: headers })
+      .then((res) => {
+        console.log(res);
+      });
+*/
+
+    // const formData = new FormData(document.getElementById("ImageUploader"));
+    // formData.append("UploadImages", setUploadedfile);
+    // const config = {
+    //   headers: {
+    //     "content-type": "multipart/form-data",
+    //   },
+    // };
+    // axios.post("#APIURL", formData, config);
   };
 
   //업로드한 사진 미리 보여주는 함수
@@ -110,6 +164,7 @@ const PinBuilder = () => {
                   maxlength="100"
                   rows="1"
                   onKeyDown={(e) => Resizing(e.target)}
+                  onChange={desChangeHandler}
                 />
                 <div>
                   <UserinfoWrap>
@@ -126,6 +181,7 @@ const PinBuilder = () => {
                   maxlength="500"
                   rows="1"
                   onKeyDown={(e) => Resizing(e.target)}
+                  onChange={desChangeHandler}
                 />
               </Editor>
               <AddLink
