@@ -1,0 +1,26 @@
+{
+  "pin": {
+    "id": 1,
+    "image_url": "https://i.pinimg.com/236x/1d/68/1d/1d681dacd04f6801ad6bd4258d40b06f.jpg",
+    "text1": "no text",
+    "text2": "Live Oil Protrait Painting on Canvas at Cass Art In Islignton.",
+    "users": "[]"
+  },
+  "comment": [
+    {
+      "id": 2,
+      "pin_id": 1,
+      "user_id": 2,
+      "user_name": "정엽 송",
+      "comment": "this is a comment."
+    },
+    {
+      "id": 3,
+      "pin_id": 1,
+      "user_id": 2,
+      "user_name": "Nick",
+      "comment": "this is a comment."
+    }
+  ],
+  "comment_total": 2
+}

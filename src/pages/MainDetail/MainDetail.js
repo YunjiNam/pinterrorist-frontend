@@ -1,24 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter, Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import detailMock from "../../images/detailMock.jpg";
 import iconShare from "../../images/iconShare.png";
 import profileMock from "../../images/profileMock.jpg";
+import Header from "../../components/Header";
+import Dropdown from "../../components/Dropdown/Dropdown";
+import CommentBox from "../../components/CommentBox/CommentBox";
 
 const MainDetail = () => {
-  const [like, setLike] = useState(false);
   const [clickInput, setClickInput] = useState(false);
   const [clickCancel, setClickCancel] = useState(false);
-  const [clickDone, setClickDone] = useState(false);
   const [changeColor, setChangeColor] = useState(false);
-  const [clickDropdown, setClickDropdown] = useState(false);
-  const [enterBoard, setEnterBoard] = useState(false);
+  const [commentText, setCommentText] = useState("");
+  const [commentArr, setCommentArr] = useState([]);
+  const [number, setNumber] = useState(0);
+  const [image, setImage] = useState("");
+  const [text1, setText1] = useState("");
+  const [text2, setText2] = useState("");
+
+  useEffect(() => {
+    // const token = localStorage.getItem("token")
+    console.log("Get 실행");
+    fetch("http://10.58.5.64:8000/pin/2", {
+      method: "GET",
+      headers: {
+        Authorization:
+          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjMifQ.7oLMOMBCGc46Wt_lQhjwQWoTDh6gJVsTusTAgibv1Kw",
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        setCommentArr(res.comment);
+        setNumber(res.comment_total);
+        setImage(res.pin.image_url);
+        setText1(res.pin.text1);
+        setText2(res.pin.text2);
+      });
+  }, []);
 
   const handleInput = () => {
-    if (clickInput === false) {
-      setClickInput(true);
-    }
-    console.log(clickInput);
+    setClickInput(true);
   };
 
   const handleCancel = () => {
@@ -26,28 +49,44 @@ const MainDetail = () => {
     setClickInput(false);
   };
 
-  const handleColor = (e) => {
-    if (e.target.value.length > 0) {
-      setChangeColor(true);
-    } else {
-      setChangeColor(false);
+  const handleDone = () => {
+    if (commentText.length > 0) {
+      console.log("Post 실행");
+
+      // const token = localStorage,getItem("token")
+      fetch("http://10.58.5.64:8000/pin/2/comment", {
+        method: "POST",
+        headers: {
+          // "Content-Type": "application/json",
+          Authorization:
+            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjMifQ.7oLMOMBCGc46Wt_lQhjwQWoTDh6gJVsTusTAgibv1Kw",
+        },
+        body: JSON.stringify({
+          comment: commentText,
+        }),
+      })
+        .then((res) => res.json())
+        .then((res) => setCommentArr(res.comment));
     }
   };
 
-  const handleDropdown = () => {
-    setClickDropdown(!clickDropdown);
+  const handleChange = (e) => {
+    setCommentText(e.target.value);
+    setChangeColor(e.target.value.length > 0 ? true : false);
   };
 
-  const boardEnter = () => {
-    setEnterBoard(true);
-  };
-
-  const boardLeave = () => {
-    setEnterBoard(false);
+  const handleText = () => {
+    console.log({ text1 });
+    if (text1 === "no text") {
+      setText1(true);
+    } else {
+      return text1;
+    }
   };
 
   return (
     <MainDetailPage>
+      <Header />
       <MainContainer>
         <MainWrap>
           <BackButtonWrap>
@@ -60,7 +99,7 @@ const MainDetail = () => {
           </BackButtonWrap>
           <MainFeed>
             <FeedLeft>
-              <FeedImage />
+              <FeedImage src={image} />
             </FeedLeft>
             <FeedRight>
               <RightNavContainer>
@@ -73,166 +112,31 @@ const MainDetail = () => {
                       <IconShare />
                     </IconShareWrap>
                   </IconWrap>
-                  <ButtonWrap>
-                    <DropdownNav
-                      onClick={handleDropdown}
-                      clickDropdown={clickDropdown}
-                    >
-                      <DropdownLeft>
-                        <DropdownText>포즈 참조</DropdownText>
-                        <IconArrowWrap>
-                          <IconArrow>keyboard_arrow_down</IconArrow>
-                        </IconArrowWrap>
-                      </DropdownLeft>
-                    </DropdownNav>
-                    <ButtonSave clickDropdown={clickDropdown}>
-                      <ButtonSaveText>저장</ButtonSaveText>
-                    </ButtonSave>
-                    <DropdownWrap clickDropdown={clickDropdown}>
-                      <DropdownTop>
-                        <input type="text" placeholder="검색" />
-                        <i class="fas fa-search"></i>
-                      </DropdownTop>
-                      <DropdownBody>
-                        <BoardAllTitle>모든 보드</BoardAllTitle>
-
-                        <BoardContentContainer
-                          onMouseEnter={boardEnter}
-                          onMouseLeave={boardLeave}
-                        >
-                          <BoardContentWrap>
-                            <BoardContent>
-                              <BoardImage></BoardImage>
-                              <BoardTitle>남성 캐주얼 스타일</BoardTitle>
-                            </BoardContent>
-                            <BoardSave enterBoard={enterBoard}>저장</BoardSave>
-                          </BoardContentWrap>
-                        </BoardContentContainer>
-
-                        <BoardContentContainer>
-                          <BoardContentWrap>
-                            <BoardContent>
-                              <BoardImage></BoardImage>
-                              <BoardTitle>남성 캐주얼 스타일</BoardTitle>
-                            </BoardContent>
-                            <BoardSave>저장</BoardSave>
-                          </BoardContentWrap>
-                        </BoardContentContainer>
-
-                        <BoardRecommendTitle>
-                          추천 보드 이름
-                        </BoardRecommendTitle>
-
-                        <BoardContentContainer>
-                          <BoardContentWrap>
-                            <BoardContent>
-                              <BoardImage></BoardImage>
-                              <BoardTitle>남성 캐주얼 스타일</BoardTitle>
-                            </BoardContent>
-                            <BoardSave>저장</BoardSave>
-                          </BoardContentWrap>
-                        </BoardContentContainer>
-
-                        <BoardContentContainer>
-                          <BoardContentWrap>
-                            <BoardContent>
-                              <BoardImage></BoardImage>
-                              <BoardTitle>남성 캐주얼 스타일</BoardTitle>
-                            </BoardContent>
-                            <BoardSave>저장</BoardSave>
-                          </BoardContentWrap>
-                        </BoardContentContainer>
-
-                        <BoardContentContainer>
-                          <BoardContentWrap>
-                            <BoardContent>
-                              <BoardImage></BoardImage>
-                              <BoardTitle>남성 캐주얼 스타일</BoardTitle>
-                            </BoardContent>
-                            <BoardSave>저장</BoardSave>
-                          </BoardContentWrap>
-                        </BoardContentContainer>
-
-                        <BoardContentContainer>
-                          <BoardContentWrap>
-                            <BoardContent>
-                              <BoardImage></BoardImage>
-                              <BoardTitle>남성 캐주얼 스타일</BoardTitle>
-                            </BoardContent>
-                            <BoardSave>저장</BoardSave>
-                          </BoardContentWrap>
-                        </BoardContentContainer>
-
-                        <BoardContentContainer>
-                          <BoardContentWrap>
-                            <BoardContent>
-                              <BoardImage></BoardImage>
-                              <BoardTitle>남성 캐주얼 스타일</BoardTitle>
-                            </BoardContent>
-                            <BoardSave>저장</BoardSave>
-                          </BoardContentWrap>
-                        </BoardContentContainer>
-
-                        <BoardContentContainer>
-                          <BoardContentWrap>
-                            <BoardContent>
-                              <BoardImage></BoardImage>
-                              <BoardTitle>남성 캐주얼 스타일</BoardTitle>
-                            </BoardContent>
-                            <BoardSave>저장</BoardSave>
-                          </BoardContentWrap>
-                        </BoardContentContainer>
-                      </DropdownBody>
-                      <DropdownBottom>
-                        <BottomIcon>
-                          <i class="fas fa-plus-circle"></i>
-                        </BottomIcon>
-                        <BottomTitle>보드 만들기</BottomTitle>
-                      </DropdownBottom>
-                    </DropdownWrap>
-                  </ButtonWrap>
+                  <Dropdown />
                 </RightNavWrap>
               </RightNavContainer>
               <RightTopContainer>
                 <RightTopWrap>
-                  <div>blog.naver.com</div>
-                  <h1>Blah Blah</h1>
+                  <h1>{handleText}</h1>
+                  <h3>{text2}</h3>
                 </RightTopWrap>
               </RightTopContainer>
               <RightBodyContainer>
                 <div className="rightBodyWrap">
                   <CommentTopContainer>
-                    <CommentTopText>댓글 1개</CommentTopText>
+                    <CommentTopText>댓글 {number}개</CommentTopText>
                   </CommentTopContainer>
-                  <CommentBodyContainer>
-                    <MyProfile>
-                      <MyProfileSvg>
-                        <path d="M12 12c5.523 0 10 4.477 10 10v2H2v-2c0-5.523 4.477-10 10-10zm0-1a5.5 5.5 0 1 1 0-11 5.5 5.5 0 1 1 0 11z"></path>
-                      </MyProfileSvg>
-                    </MyProfile>
-                    <CommentBodyWrap>
-                      <CommentTextWrap>
-                        <CommentInfo>
-                          <CommentId>정엽</CommentId>
-                          <CommentDate>1시간</CommentDate>
-                        </CommentInfo>
-                        <CommentContentWrap>
-                          <CommentContent>asddasdjkhasdj</CommentContent>
-                        </CommentContentWrap>
-                      </CommentTextWrap>
-                      <CommentIconWrap>
-                        <CommentIconHeart onClick={() => setLike(!like)}>
-                          <Heart like={like}></Heart>
-                        </CommentIconHeart>
-                        <CommentIconComment>
-                          <Comment></Comment>
-                        </CommentIconComment>
-                        <CommentIconMore>
-                          <More></More>
-                        </CommentIconMore>
-                      </CommentIconWrap>
-                    </CommentBodyWrap>
-                  </CommentBodyContainer>
+                  {commentArr &&
+                    commentArr.map((list, idx) => (
+                      <CommentBox
+                        user_name={list.user}
+                        content={list.comment.content}
+                        key={idx}
+                        id={list.comment.id}
+                        commentArr={commentArr}
+                        setCommentArr={setCommentArr}
+                      />
+                    ))}
                   <AddCommentContainer>
                     <AddCommentWrap>
                       <MyProfile>
@@ -244,7 +148,7 @@ const MainDetail = () => {
                         type="text"
                         placeholder="댓글 추가"
                         onClick={handleInput}
-                        onChange={handleColor}
+                        onChange={handleChange}
                         clickInput={clickInput}
                       ></AddCommentInput>
                     </AddCommentWrap>
@@ -257,7 +161,7 @@ const MainDetail = () => {
                           취소
                         </ButtonCancel>
                         <ButtonComplete
-                          onClick={() => setClickDone(!clickDone)}
+                          onClick={handleDone}
                           changeColor={changeColor}
                         >
                           완료
@@ -267,7 +171,7 @@ const MainDetail = () => {
                   </AddCommentContainer>
                 </div>
               </RightBodyContainer>
-              <RightBottomContainer>
+              {/* <RightBottomContainer>
                 <RightBottomWrap>
                   <ProfileImage></ProfileImage>
                   <BottomText>
@@ -275,7 +179,7 @@ const MainDetail = () => {
                     에 저장
                   </BottomText>
                 </RightBottomWrap>
-              </RightBottomContainer>
+              </RightBottomContainer> */}
             </FeedRight>
           </MainFeed>
         </MainWrap>
@@ -292,7 +196,7 @@ const MainDetailPage = styled.div`
   margin-bottom: 32px;
 `;
 const MainContainer = styled.div`
-  padding-top: 80px;
+  padding-top: 100px;
 `;
 
 const MainWrap = styled.div`
@@ -364,6 +268,7 @@ const BackButtonText = styled.h3`
 const FeedLeft = styled.div`
   width: 508px;
   position: relative;
+  cursor: pointer;
 `;
 
 /* display: flex;
@@ -379,7 +284,7 @@ const FeedLeft = styled.div`
    justify-content: center;
    color: red; */
 
-const FeedImage = styled.img.attrs({ src: detailMock })`
+const FeedImage = styled.img`
   box-sizing: border-box;
   width: 100%;
   border-top-left-radius: 32px;
@@ -429,104 +334,25 @@ const IconShare = styled.img.attrs({ src: iconShare })`
   width: 22px;
 `;
 
-const ButtonWrap = styled.div`
-  display: flex;
-  position: relative;
-  width: 235px;
-`;
-
-const DropdownNav = styled.button`
-  border-top-left-radius: 12px;
-  border-bottom-left-radius: 12px;
-  background-color: #efefef;
-  cursor: pointer;
-  position: relative;
-  border: none;
-  padding: 0;
-  height: 44px;
-  outline: none;
-  width: ${(props) => (props.clickDropdown ? "100%" : "180px")};
-  border-top-right-radius: ${(props) =>
-    props.clickDropdown ? "12px" : "none"};
-  border-bottom-right-radius: ${(props) =>
-    props.clickDropdown ? "12px" : "none"};
-  &:hover {
-    background-color: #dfe4ea;
-  }
-`;
-
-const DropdownLeft = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 16px;
-  width: 100%;
-`;
-
-const DropdownText = styled.div`
-  font-size: 12px;
-  font-weight: 600;
-  color: #111;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  text-align: left;
-`;
-
-const IconArrowWrap = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const IconArrow = styled.span`
-  font-family: "Material Icons";
-  font-size: 25px;
-`;
-
-const ButtonSave = styled.button`
-  width: 55px;
-  border-top-right-radius: 12px;
-  border-bottom-right-radius: 12px;
-  padding: 0 16px;
-  background-color: #e60023;
-  border: none;
-  cursor: pointer;
-  outline: none;
-  display: ${(props) => (props.clickDropdown ? "none" : "display")};
-`;
-
-const ButtonSaveText = styled.div`
-  font-size: 12px;
-  font-weight: 700;
-  color: #fff;
-  cursor: pointer;
-`;
-
 const RightTopContainer = styled.div`
   padding: 0 40px;
 `;
 
 const RightTopWrap = styled.div`
-  div {
-    font-size: 16px;
-    font-weight: 400;
-  }
   h1 {
     font-size: 36px;
-    font-weight: 500;
+    font-weight: 700;
+    padding-top: 25px;
+  }
+  h3 {
+    font-size: 14px;
+    font-weight: 400;
     padding-top: 25px;
   }
 `;
 
 const RightBodyContainer = styled.div`
   padding: 0 40px;
-`;
-
-const RightBottomContainer = styled.div`
-  padding: 0 40px;
-  position: absolute;
-  bottom: 20px;
 `;
 
 const CommentTopContainer = styled.div`
@@ -542,116 +368,9 @@ const CommentTopText = styled.span`
   color: #111111;
 `;
 
-const RightBottomWrap = styled.div`
-  box-sizing: border-box;
-  color: #211922;
-  display: flex;
-  align-items: center;
+const AddCommentContainer = styled.div`
+  margin-top: 10px;
 `;
-
-const CommentBodyContainer = styled.div`
-  padding: 16px 0;
-  display: flex;
-`;
-
-const ProfileImage = styled.img.attrs({ src: profileMock })`
-  border-radius: 50%;
-  width: 32px;
-`;
-
-const BottomText = styled.div`
-  padding: 0 10px;
-`;
-
-const MyProfile = styled.div``;
-
-const MyProfileSvg = styled.svg.attrs({ viewBox: "-3 -7 30 30" })`
-  border-radius: 50%;
-  background-color: #efefef;
-  width: 48px;
-  height: 48px;
-`;
-
-const CommentBodyWrap = styled.div`
-  margin-left: 8px;
-  flex: 1;
-`;
-
-const CommentTextWrap = styled.div`
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 16px;
-`;
-
-const CommentInfo = styled.div`
-  display: flex;
-`;
-
-const CommentId = styled.div`
-  padding-left: 2px;
-  padding-right: 4px;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-`;
-
-const CommentDate = styled.div`
-  padding: 0 4px;
-  font-size: 14px;
-  font-weight: 400;
-  color: #767676;
-`;
-
-const CommentContentWrap = styled.div`
-  white-space: pre-wrap;
-  padding: 2px;
-`;
-
-const CommentContent = styled.span`
-  font-size: 12px;
-  font-weight: 400;
-`;
-
-const CommentIconWrap = styled.div`
-  display: flex;
-  padding: 4px;
-`;
-
-const CommentIconHeart = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 32px;
-  height: 32px;
-  padding: 4px;
-  cursor: pointer;
-  border-radius: 50%;
-  &:hover {
-    background-color: #dfe4ea;
-  }
-`;
-
-const Heart = styled.i.attrs({ className: "fas fa-heart" })`
-  font-size: 16px;
-  color: ${(props) => (props.like ? "#e60023" : "black")};
-  &:focus {
-    color: #e60023;
-  }
-`;
-
-const CommentIconComment = styled(CommentIconHeart)``;
-
-const Comment = styled.i.attrs({ className: "fas fa-comment" })`
-  font-size: 16px;
-`;
-
-const CommentIconMore = styled(CommentIconHeart)``;
-
-const More = styled.i.attrs({ className: "fas fa-ellipsis-h" })`
-  font-size: 16px;
-`;
-
-const AddCommentContainer = styled.div``;
 
 const AddCommentWrap = styled.div`
   display: flex;
@@ -659,7 +378,6 @@ const AddCommentWrap = styled.div`
 
 const AddCommentInput = styled.textarea`
   width: 100%;
-  height: 45px;
   margin-left: 8px;
   flex: 1;
   resize: none;
@@ -670,7 +388,7 @@ const AddCommentInput = styled.textarea`
   font-size: 16px;
   color: #211922;
   overflow: hidden;
-  height: ${(props) => (props.clickInput ? "87px" : "45px")};
+  height: ${(props) => (props.clickInput ? "87px" : "48px")};
   &::placeholder {
     color: ${(props) => props.clickInput && "transparent"};
   }
@@ -685,6 +403,7 @@ const AddCommentInput = styled.textarea`
 
 const AddCommentButtonWrap = styled.div`
   display: ${(props) => (props.clickInput ? "block" : "none")};
+  margin-bottom: 30px;
 `;
 
 const AddCommentButton = styled.div`
@@ -715,131 +434,39 @@ const ButtonComplete = styled(ButtonCancel)`
   }
 `;
 
-const DropdownWrap = styled.div`
-  width: 320px;
-  position: absolute;
-  left: -30px;
-  top: 50px;
-  border-radius: 16px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-  background-color: white;
-  display: ${(props) => (props.clickDropdown ? "block" : "none")};
-`;
-const DropdownTop = styled.div`
-  padding: 12px;
-  width: 100%;
-  position: relative;
-  input {
-    width: 100%;
-    height: 48px;
-    border: 2px solid #ddd;
-    border-radius: 999px;
-    padding: 8px 40px;
-    font-size: 16px;
-  }
-  i {
-    position: absolute;
-    left: 29px;
-    top: 29px;
-  }
-`;
+// const RightBottomContainer = styled.div`
+//   padding: 0 40px;
+//   position: absolute;
+//   bottom: 20px;
+// `;
 
-const DropdownBody = styled.div`
-  height: 322px;
-  overflow-x: hidden;
-  overflow-y: scroll;
-`;
+// const RightBottomWrap = styled.div`
+//   box-sizing: border-box;
+//   color: #211922;
+//   display: flex;
+//   align-items: center;
+// `;
 
-const BoardAllTitle = styled.div`
-  padding: 4px 12px;
-  margin-top: 4px;
-  font-size: 14px;
-  font-weight: 400;
-`;
+// const BottomText = styled.div`
+//   padding: 0 10px;
+// `;
 
-const BoardContentContainer = styled.div`
-  width: 100%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
+// const ProfileImage = styled.img.attrs({ src: profileMock })`
+//   border-radius: 50%;
+//   width: 32px;
+// `;
 
-const BoardContentWrap = styled.div`
-  width: 100%;
-  height: 52px;
-  margin: 4px 12px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-radius: 12px;
-  &:hover {
-    background-color: #dfe4ea;
-  }
-`;
+const MyProfile = styled.div``;
 
-const BoardContent = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const BoardImage = styled.div`
-  width: 36px;
-  height: 36px;
-  margin: 4px 12px 4px 8px;
+const MyProfileSvg = styled.svg.attrs({ viewBox: "-3 -7 30 30" })`
+  border-radius: 50%;
   background-color: #efefef;
-  border-radius: 4px;
+  width: 48px;
+  height: 48px;
 `;
 
-const BoardTitle = styled.div`
-  margin-left: 4px;
-  padding: 4px 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+const Comment = styled.i.attrs({ className: "fas fa-comment" })`
   font-size: 16px;
-  font-weight: 700;
-`;
-
-const BoardSave = styled.div`
-  margin-right: 10px;
-  padding: 11px 15px;
-  border-radius: 20px;
-  color: white;
-  background-color: #e60023;
-  font-size: 16px;
-  display: ${(props) => (props.enterBoard ? "block" : "none")};
-`;
-
-const BoardRecommendTitle = styled(BoardAllTitle)``;
-
-const DropdownBottom = styled.div`
-  height: 52px;
-  border-bottom-right-radius: 8px;
-  border-bottom-left-radius: 8px;
-  cursor: pointer;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  padding: 8px;
-  border-top: 1px solid #dfe4ea;
-  &:hover {
-    background-color: #dfe4ea;
-  }
-`;
-
-const BottomIcon = styled.div`
-  margin: 0 20px 0 16px;
-  i {
-    font-size: 28px;
-    color: #e60023;
-  }
-`;
-
-const BottomTitle = styled.div`
-  font-size: 16px;
-  text-align: center;
-  font-weight: 700;
 `;
 
 /* display: flex;
