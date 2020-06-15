@@ -19,11 +19,12 @@ const MainDetail = () => {
   const [image, setImage] = useState("");
   const [text1, setText1] = useState("");
   const [text2, setText2] = useState("");
+  // const [pinId, setPinId] = useState(1);
 
   useEffect(() => {
     // const token = localStorage.getItem("token")
     console.log("Get 실행");
-    fetch(url + "/pin/2", {
+    fetch(`${url}/pin/2`, {
       method: "GET",
       headers: {
         Authorization:
@@ -38,6 +39,7 @@ const MainDetail = () => {
         setImage(res.pin.image_url);
         setText1(res.pin.text1);
         setText2(res.pin.text2);
+        // setPinId(res.pin.id);
       });
   }, []);
 
@@ -55,7 +57,7 @@ const MainDetail = () => {
       console.log("Post 실행");
 
       // const token = localStorage,getItem("token")
-      fetch(url + "/pin/2/comment", {
+      fetch(`${url}/pin/2/comment`, {
         method: "POST",
         headers: {
           // "Content-Type": "application/json",
@@ -71,6 +73,7 @@ const MainDetail = () => {
           setCommentArr(res.comment);
           setNumber(res.comment_total);
         });
+      setCommentText("");
     }
   };
   //
@@ -146,6 +149,7 @@ const MainDetail = () => {
                       <AddCommentInput
                         type="text"
                         placeholder="댓글 추가"
+                        value={commentText}
                         onClick={handleInput}
                         onChange={handleChange}
                         clickInput={clickInput}
