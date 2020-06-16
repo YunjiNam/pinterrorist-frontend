@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { withRouter, Link } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
 import Header from "./../../components/Header";
-import Boards from "./Boards";
+import Boards from "./Board/Boards";
 import Pins from "./Pins";
 import Topics from "./Topics";
-import MakingBoard from "./MakingBoard";
+import MakingBoard from "./MakingBoardDropdown/MakingBoard";
 
 const Select = {
   0: <Boards />,
@@ -17,12 +17,6 @@ const MyPage = () => {
   const [tab, setTab] = useState(0);
   const [dropdown, setDropdown] = useState(false);
   const [modal, setModal] = useState(false);
-  //const [subjectTab, setSubjectTab] = useState(false);
-
-  //최초에 렌더링이 되고 받아온 response 객체 안의 data배열을 참조하여 setData 에 넣어주는데,  이때 useEffect 내부에서 state 값을 변경시킨 결과로 컴포넌트의 재렌더링이 일어날 수 있으므로 이를 막기 위해 두번째 인자로 빈 배열을 전달한다.(배열 내에서 변화가 감지될때만 useEffect를실행한다)
-  // useEffect(() => {
-  //   axios.get("URL").then(({ data }) => setData(data));
-  // }, []);
 
   const closeDropdown = () => {
     if (dropdown) {
@@ -39,10 +33,6 @@ const MyPage = () => {
   const openModal = () => {
     setModal(true);
   };
-
-  // useEffect(() => {
-  //   axios.get("/data/data.json").then(({ data }) => setData(data.data));
-  // }, []);
 
   return (
     <AppContent onClick={closeDropdown}>
@@ -138,7 +128,7 @@ const IconBar = styled.div`
   background: hsla(0, 0%, 100%, 0.97);
   position: fixed;
   z-index: 9;
-  top: 80px;
+  top: 75px;
 `;
 
 const IconBarInside = styled.div`

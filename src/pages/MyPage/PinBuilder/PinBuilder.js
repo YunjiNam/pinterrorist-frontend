@@ -1,18 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { withRouter, Link } from "react-router-dom";
-import axios from "axios";
+// import axios from "axios";
+import Dropdown from "./Dropdown";
 import styled from "styled-components";
+import url from "../../../config";
 
 const PinBuilder = () => {
   const [imgBase64, setImgBase64] = useState(""); // 파일 base64
   const [imgFile, setImgFile] = useState(null); //파일
-  const [uploadedfile, setUploadedfile] = useState(null); //업로드한 파일
-  const [imgDes, setImgDes] = useState("");
+  const [uploadedfile, setUploadedfile] = useState([]); //업로드한 파일
+  const [title, setTitle] = useState("");
+  const [imgDes, setImgDes] = useState(""); // 업로드한 파일 설명
+  const [boardNo, setBoardNo] = useState(1);
 
   const fileChangeHandler = (e) => {
     const files = e.target.files;
     console.log(files);
-    setUploadedfile(files);
+    setUploadedfile(files[0]);
+  };
+
+  const titleChangeHandler = (e) => {
+    const newTitle = e.target.value;
+    console.log(newTitle);
+    setTitle(newTitle);
   };
 
   const desChangeHandler = (e) => {
@@ -21,42 +31,25 @@ const PinBuilder = () => {
     setImgDes(description);
   };
 
-  // //핀만들기(사진올리기)
-  // const savePins = (e) => {
-  //   const formData = new FormData();
-  //   formData.append("UploadImages", setUploadedfile);
-  //   const config = {
-  //     headers: {
-  //       "content-type": "multipart/form-data",
-  //     },
-  //   };
-  //   axios.post("#APIURL", formData, config);
-  // };
-
-  //핀만들기(사진올리기)-테스트용1
-  // const savePins = (e) => {
-  //   const formData = new FormData(document.getElementById("ImageUploader"));
-  //   formData.append("UploadImages", setUploadedfile);
-  //   const config = {
-  //     headers: {
-  //       "content-type": "multipart/form-data",
-  //     },
-  //   };
-  //   axios.post("#APIURL", formData, config);
-  // };
-
-  // 핀만들기(사진올리기)-테스트용2
+  // 핀만들기(사진올리기)
   const savePins = () => {
     const fd = new FormData();
-    fd.append("filename", setUploadedfile);
-    //fd.append("")
+    fd.append("filename", uploadedfile);
+    fd.append("title", title);
+    fd.append("text", imgDes);
 
-    fetch("http://10.58.6.219:8000/pin-builder", {
+    const accessToken = localStorage.getItem("Authorization");
+
+    fetch(`${url}/pin-builder`, {
       method: "POST",
       headers: {
-        "content-type": "multipart/form-data",
-        Authorization:
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIifQ.kg_TKT_XrRsqMRGUSAac5Uonq3STzSLDlt9d5ZbRzFw",
+        // "content-type": "multipart/form-data",
+        // "Content-Type":
+        //   "multipart/form-data; boundary=----WebKitFormBoundaryIn312MOjBWdkffIM",
+        Authorization: accessToken,
+
+        // Authorization:
+        //   "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIifQ.kg_TKT_XrRsqMRGUSAac5Uonq3STzSLDlt9d5ZbRzFw",
       },
       body: fd,
     }).then(function (res) {
@@ -68,28 +61,6 @@ const PinBuilder = () => {
         console.log(res);
       }
     });
-    /*
-    const headers = {
-      "content-type": "multipart/form-data",
-      Authorization:
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIifQ.kg_TKT_XrRsqMRGUSAac5Uonq3STzSLDlt9d5ZbRzFw",
-    };
-
-    axios
-      .post("http://10.58.6.219:8000/pin-builder", fd, { headers: headers })
-      .then((res) => {
-        console.log(res);
-      });
-*/
-
-    // const formData = new FormData(document.getElementById("ImageUploader"));
-    // formData.append("UploadImages", setUploadedfile);
-    // const config = {
-    //   headers: {
-    //     "content-type": "multipart/form-data",
-    //   },
-    // };
-    // axios.post("#APIURL", formData, config);
   };
 
   //업로드한 사진 미리 보여주는 함수
@@ -114,11 +85,18 @@ const PinBuilder = () => {
     e.style.height = e.scrollHeight + "px";
   };
 
+  const clickSaveBt = (boardNo) => {
+    setBoardNo(boardNo);
+  };
+
   return (
     <>
       <Background>
         <MainWrapper>
-          {/* 정엽님 컴포넌트 자리 */}
+          <DropdownWrapper>
+            {/* 자식 컴포넌트에서 보드 넘버 정보만 받아온다. */}
+            <Dropdown clickSaveBt={clickSaveBt} />
+          </DropdownWrapper>
           <Bottom>
             <LeftSide>
               <UploaderWrapper
@@ -164,7 +142,7 @@ const PinBuilder = () => {
                   maxlength="100"
                   rows="1"
                   onKeyDown={(e) => Resizing(e.target)}
-                  onChange={desChangeHandler}
+                  onChange={titleChangeHandler}
                 />
                 <div>
                   <UserinfoWrap>
@@ -215,6 +193,13 @@ const MainWrapper = styled.div`
   height: auto;
   transform: translate(-50%, 10%);
   border-radius: 16px;
+`;
+
+const DropdownWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin: 10px -30px;
 `;
 
 const Bottom = styled.div`

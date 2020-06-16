@@ -6,7 +6,7 @@ import MainDetail from "./pages/MainDetail/MainDetail";
 import Signup from "./pages/Signup/Signup";
 import MyPage from "./pages/MyPage/MyPage";
 import Header from "./components/Header";
-import PinBuilder from "./pages/MyPage/PinBuilder";
+import PinBuilder from "./pages/MyPage/PinBuilder/PinBuilder";
 
 const Routes = () => {
   return (

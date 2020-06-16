@@ -1,8 +1,37 @@
 import React, { useState, useEffect } from "react";
 import { withRouter, Link } from "react-router-dom";
 import styled from "styled-components";
+import url from "../../../config";
 
 const MakingBoard = ({ history, closeModal }) => {
+  const [newBoard, setNewBoard] = useState("");
+
+  const titleHandler = (e) => {
+    setNewBoard(e.target.value);
+  };
+  const confirmMakingBoard = () => {
+    const accessToken = localStorage.getItem("Authorization");
+
+    fetch(`${url}/boards`, {
+      method: "POST",
+      headers: {
+        Authorization: accessToken,
+      },
+      body: JSON.stringify({
+        new_board: newBoard,
+      }),
+    }).then(function (res) {
+      if (res.ok) {
+        alert("새로운 보드가 생성되었습니다.");
+        window.location.reload();
+        console.log(res);
+      } else {
+        alert("Oops");
+        console.log(res);
+      }
+    });
+  };
+
   return (
     <>
       <Overlay onClick={closeModal} />
@@ -14,6 +43,7 @@ const MakingBoard = ({ history, closeModal }) => {
             <input
               type="text"
               placeholder="예:'가고 싶은 곳'또는 '조리법'"
+              onChange={titleHandler}
             ></input>
             <label>날짜/선택사항-계획을 세우는 데 도움이 됩니다!</label>
             <input type="date" placeholder="시작일 및 종료일 선택"></input>
@@ -30,13 +60,7 @@ const MakingBoard = ({ history, closeModal }) => {
             <span>자세히 알아보기</span>
           </Information>
         </Contents>
-        <MakingBt
-          onClick={() => {
-            history.push("/");
-          }}
-        >
-          만들기
-        </MakingBt>
+        <MakingBt onClick={confirmMakingBoard}>만들기</MakingBt>
       </Modal>
     </>
   );

@@ -1,25 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { withRouter, Link } from "react-router-dom";
 import styled from "styled-components";
+import url from "../../config";
 
 const Topics = () => {
   const [datas, setDatas] = useState([]);
-  // const [followStatus, setFollowStatus] = useState("팔로잉");
   const [followingList, setFollowingList] = useState([]);
   const [key, setKey] = useState("");
-  //const [follow, setFollow] = useState(false);
 
   useEffect(() => {
-    fetch("http://10.58.6.219:8000/introtopic")
+    fetch(`${url}/introtopic`)
       .then((res) => res.json())
       .then((res) => setDatas(res.topics));
   });
-
-  // useEffect(() => {
-  //   const getData = axios.get("http://10.58.0.207:8000/introtopic");
-  //   console.log(getData);
-  //   //setDatas(getData.topic_list);
-  // }, []);
 
   const handleClick = (id) => {
     if (followingList.some((el) => el === id)) {
@@ -54,8 +47,6 @@ const Topics = () => {
                   color={followingList.includes(data.id) ? true : false}
                 >
                   <div>
-                    {/* style={{followingList.includes(data.id)?  (backgroundColor:black color:white) :(backgroundColor:white color:black)}}> */}
-                    {/* {followingList.includes(data.id)? style={{...backgroundColor:'black" color:"white"}} : style={{...backgroundColor:"white" color:"black"}}}> */}
                     {followingList.includes(data.id) ? "팔로우" : "팔로잉"}
                   </div>
                 </Follow>
@@ -132,7 +123,7 @@ const Follow = styled.button`
   min-height: 40px;
   width: 100%;
   color: ${(props) => (props.color ? "#efefef" : "#000")};
-  background-color: ${(props) => (props.color ? "white" : "#efefef")};
+  background-color: ${(props) => (props.color ? "#000" : "#efefef")};
 
   padding: 10px 12px;
   border: none;
@@ -145,7 +136,3 @@ const Follow = styled.button`
     font-weight: 600;
   }
 `;
-
-// const Div = styled.div`
-//   color: ${(props) => (props.color ? "red" : "white")};
-// `;
