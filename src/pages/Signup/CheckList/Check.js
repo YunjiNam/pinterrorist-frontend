@@ -1,21 +1,19 @@
 import React from "react";
 import styled, { css } from "styled-components";
 import GoogleLogin from "react-google-login";
+import url from "./../../../config";
 
 const Check = ({ onClick, goNext }) => {
   // 구글 로그인 성공했을 때 백으로 access token 보내고 authorization token 받아오고 다음 단계로 이동
   const onLogin = (result) => {
-    fetch("http://10.58.6.219:8000/account/google", {
+    fetch(`${url}/account/google`, {
       method: "POST",
       headers: {
-        Authorization: result.accessToken,
+        Authorization: result.wc.access_token,
       },
     })
       .then((res) => res.json())
-      //.then((res) => console.log(res));
-      //   .then((res) => localStorage.setItem("Authorization", res.access_token))
-      //   // localStorage.setItem("token", res.accessToken);
-      //   .then((res) => localStorage.setItem("M", res.message))
+
       .then((res) => {
         // console.log("res", res);
         localStorage.setItem("Authorization", res.access_token);
@@ -25,9 +23,6 @@ const Check = ({ onClick, goNext }) => {
           goNext();
         }
       });
-    // goNext();
-    // localStorage.setItem("accessToken", result.accessToken);
-    // checkToken();
   };
 
   return (
@@ -69,10 +64,6 @@ const Check = ({ onClick, goNext }) => {
             것으로 간주됩니다.
           </span>
         </PolicyWrap>
-        {/* <LoginWrap>
-        <SectionLine />
-        <LoginBtn>이미 회원이신가요? 로그인하기</LoginBtn>
-      </LoginWrap> */}
       </ButtonWrap>
     </SignupWrap>
   );
@@ -173,21 +164,3 @@ const PolicyWrap = styled.div`
     width: 224px;
   }
 `;
-
-// const LoginWrap = styled.div`
-//   margin: 0px auto;
-//   text-align: center;
-// `;
-
-// const SectionLine = styled.div`
-//   border-bottom: 1px solid rgb(239, 239, 239);
-//   margin: 20px 0px 15px -68px;
-//   width: 404px;
-// `;
-
-// const LoginBtn = styled.a`
-//   color: rgb(51, 51, 51);
-//   cursor: pointer;
-//   font-size: 12px;
-//   font-weight: 700;
-// `;

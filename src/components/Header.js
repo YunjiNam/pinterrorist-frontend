@@ -3,12 +3,13 @@ import { withRouter, Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { GoogleLogout } from "react-google-login";
 
-const Header = ({ history }) => {
+const Header = ({ history, search }) => {
   const [active, setActive] = useState(false);
   const [page, setPage] = useState(0);
   const [noti, setNoti] = useState(false);
   const [noticeList, setNoticeList] = useState([]);
   const [drop, setDrop] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
 
   const searchActive = () => {
     setActive(!active);
@@ -27,6 +28,15 @@ const Header = ({ history }) => {
 
   const clickReload = () => {
     window.location.reload();
+  };
+
+  const onChange = (e) => {
+    setSearchValue(e.target.value);
+    // console.log(e.target);
+    if (e.key === "Enter") {
+      search(searchValue);
+      e.target.value = "";
+    }
   };
 
   return (
@@ -61,7 +71,7 @@ const Header = ({ history }) => {
                   </svg>
                 </IconWrap>
                 <InputWrap>
-                  <input type="text" placeholder="검색" />
+                  <input type="text" placeholder="검색" onKeyPress={onChange} />
                 </InputWrap>
               </SearchWrap>
             </Search>
@@ -71,12 +81,59 @@ const Header = ({ history }) => {
               </SuggestTitle>
               <SuggestList>
                 <div>
-                  {noticeList &&
-                    noticeList.map((list, idx) => (
-                      <ImgWrap>
-                        <img src={list.url[0]} />
-                      </ImgWrap>
-                    ))}
+                  <ImgWrap>
+                    <div>
+                      <img
+                        alt="suggest"
+                        src="https://i.pinimg.com/originals/da/9c/4d/da9c4da8c65210f624ee91db7623cac6.png"
+                      />
+                    </div>
+                    <span>포스터</span>
+                  </ImgWrap>
+                </div>
+                <div>
+                  <ImgWrap>
+                    <div>
+                      <img
+                        alt="suggest"
+                        src="https://i.pinimg.com/originals/da/9c/4d/da9c4da8c65210f624ee91db7623cac6.png"
+                      />
+                    </div>
+                    <span>포스터</span>
+                  </ImgWrap>
+                </div>
+                <div>
+                  <ImgWrap>
+                    <div>
+                      <img
+                        alt="suggest"
+                        src="https://i.pinimg.com/originals/da/9c/4d/da9c4da8c65210f624ee91db7623cac6.png"
+                      />
+                    </div>
+                    <span>포스터</span>
+                  </ImgWrap>
+                </div>
+                <div>
+                  <ImgWrap>
+                    <div>
+                      <img
+                        alt="suggest"
+                        src="https://i.pinimg.com/originals/da/9c/4d/da9c4da8c65210f624ee91db7623cac6.png"
+                      />
+                    </div>
+                    <span>포스터</span>
+                  </ImgWrap>
+                </div>
+                <div>
+                  <ImgWrap>
+                    <div>
+                      <img
+                        alt="suggest"
+                        src="https://i.pinimg.com/originals/da/9c/4d/da9c4da8c65210f624ee91db7623cac6.png"
+                      />
+                    </div>
+                    <span>포스터</span>
+                  </ImgWrap>
                 </div>
               </SuggestList>
             </SuggestionMenu>
@@ -199,6 +256,8 @@ const SearchOverlay = styled.div`
   background-color: rgba(0, 0, 0, 0.3);
   overscroll-behavior: none;
   display: ${(props) => (props.active ? "block" : "none")};
+  opacity: ${(props) => (props.active ? "1" : "0")};
+  transition: all 0.4s ease-in-out;
 `;
 
 const Headers = styled.div`
@@ -274,7 +333,6 @@ const Home = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background-color: ${(props) => (props.pg === 0 ? "#111" : "#fff")}; */
   border-radius: 24px;
   cursor: pointer;
   ${(props) =>
@@ -291,6 +349,9 @@ const Home = styled.div`
           /* color: #000; */
           span {
             color: #333;
+          }
+          &:hover {
+            background-color: #efefef;
           }
         `}
   /* &:hover {
@@ -313,7 +374,6 @@ const Following = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  /* background-color: ${(props) => (props.pg === 1 ? "#111" : "#fff")}; */
   ${(props) =>
     props.pg === 1
       ? css`
@@ -327,6 +387,9 @@ const Following = styled.div`
           /* color: #; */
           span {
             color: #333;
+          }
+          &:hover {
+            background-color: #efefef;
           }
           &:hover {
             background-color: #efefef;
@@ -404,6 +467,8 @@ const InputWrap = styled.div`
 
 const SuggestionMenu = styled.div`
   display: ${(props) => (props.active ? "block" : "none")};
+  opacity: ${(props) => (props.active ? "1" : "0")};
+  transition: all 0.4s ease-in-out;
   position: fixed;
   top: 75px;
   width: 75%;
@@ -411,7 +476,8 @@ const SuggestionMenu = styled.div`
   height: 500px;
   background-color: #fff;
   border-radius: 16px;
-  flex: 1 1 auto;
+  overflow: hidden;
+  /* flex: 1 1 auto; */
   min-height: 0;
 `;
 
@@ -428,24 +494,46 @@ const SuggestTitle = styled.div`
 
 const SuggestList = styled.div`
   margin: 30px;
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  margin-left: 20px;
+  margin-right: 20px;
+  /* justify-content: space-between;
+  align-items: center;
+  flex-direction: row; */
+  margin: 0 auto;
   div {
-    display: flex;
-    justify-content: left;
-    flex-direction: row;
-    border-radius: 24px;
-    background-color: gray;
-    width: 220px;
-    height: 100px;
   }
 `;
 
 const ImgWrap = styled.div`
   border-radius: 24px;
-  background-color: gray;
-  width: 100%;
+  width: 220px;
   height: 100px;
-  img {
-    width: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  border-radius: 24px;
+  position: relative;
+  cursor: pointer;
+  div {
+    background-color: #000;
+    position: relative;
+    img {
+      border-radius: 24px;
+      width: 100%;
+      opacity: 0.7;
+      background-color: #000;
+    }
+  }
+  span {
+    position: absolute;
+    font-weight: 700;
+    font-size: 16px;
+    color: #fff;
   }
 `;
 

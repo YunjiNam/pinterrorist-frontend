@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import Check from "./CheckList/Check";
 import CheckTheme from "./CheckList/CheckTheme";
+import url from "./../../config";
 
 const Signup = () => {
   const [listNum, setListNum] = useState(0);
@@ -10,15 +11,6 @@ const Signup = () => {
   const [themeList, setThemeList] = useState([]);
   const [isOpen, setIsOpen] = useState(true);
   const token = localStorage.getItem("Authorization");
-
-  // topic list 받아오기
-  // useEffect(() => {
-  //   // console.log("OK");
-  //   fetch("http://10.58.0.207:8000/introtopic")
-  //     .then((res) => res.json())
-  //     // .then((res) => console.log(res.topic_list));
-  //     .then((res) => setThemeList(res.topic_list));
-  // }, []);
 
   // 뒷부분 스크롤 막음
   useEffect(() => {
@@ -32,7 +24,7 @@ const Signup = () => {
 
   // topic list 받아오기
   const onClickGo = () => {
-    fetch("http://10.58.6.219:8000/introtopic", {
+    fetch(`${url}/introtopic`, {
       method: "GET",
       headers: {
         Authorization: token,
@@ -49,7 +41,7 @@ const Signup = () => {
   const isOpenHandler = (checked) => {
     // console.log("checked", checked);
     const token = localStorage.getItem("Authorization");
-    fetch("http://10.58.6.219:8000/introtopic", {
+    fetch(`${url}/introtopic`, {
       method: "POST",
       headers: {
         Authorization: token,

@@ -2,302 +2,152 @@
     "data": [{
             "id": 1,
             "title": "예술",
-            "image_url": "https://i.pinimg.com/originals/67/45/35/674535edbab097b086e949541218aa97.png"
+            "image": "https://i.pinimg.com/originals/67/45/35/674535edbab097b086e949541218aa97.png"
         },
         {
             "id": 2,
             "title": "포스터",
-            "image_url": "https://i.pinimg.com/originals/d5/c9/ef/d5c9ef8928c210b5cf00620d666d8012.jpg"
+            "image": "https://i.pinimg.com/originals/d5/c9/ef/d5c9ef8928c210b5cf00620d666d8012.jpg"
         },
         {
             "id": 3,
             "title": "예술",
-            "image_url": "https://i.pinimg.com/originals/1c/ca/31/1cca3141bd917685da4bf0f220b22cdd.jpg"
+            "image": "https://i.pinimg.com/originals/1c/ca/31/1cca3141bd917685da4bf0f220b22cdd.jpg"
         },
         {
             "id": 4,
             "title": "예술",
-            "image_url": "https://i.pinimg.com/originals/2c/04/d3/2c04d322de083cc393745363799aaa62.jpg"
+            "image": "https://i.pinimg.com/originals/2c/04/d3/2c04d322de083cc393745363799aaa62.jpg"
         },
         {
             "id": 5,
             "title": "예술",
-            "image_url": "https://i.pinimg.com/originals/cd/e5/dc/cde5dccc99ee55856eabe15191ea7a32.png"
+            "image": "https://i.pinimg.com/originals/cd/e5/dc/cde5dccc99ee55856eabe15191ea7a32.png"
         },
         {
             "id": 6,
             "title": "그래픽디자인",
-            "image_url": "https://i.pinimg.com/originals/42/97/38/42973895e2a38cac0052472f2c144892.png"
+            "image": "https://i.pinimg.com/originals/42/97/38/42973895e2a38cac0052472f2c144892.png"
         },
         {
             "id": 7,
             "title": "예술",
-            "image_url": "https://i.pinimg.com/originals/3d/c5/06/3dc5068ae2f9d99e6376b550389e43e4.jpg"
+            "image": "https://i.pinimg.com/originals/91/7f/3e/917f3ef123f4be719d81e53933fa4282.gif"
         },
         {
             "id": 8,
             "title": "포스터",
-            "image_url": "https://i.pinimg.com/originals/f6/c0/2f/f6c02fec79bf9d7640dc61d4ad689557.jpg"
+            "image": "https://i.pinimg.com/originals/f6/c0/2f/f6c02fec79bf9d7640dc61d4ad689557.jpg"
         },
         {
             "id": 9,
             "title": "사진",
-            "image_url": "https://i.pinimg.com/originals/19/81/78/198178e030fff9f33d73a30194ea0447.jpg"
+            "image": "https://i.pinimg.com/originals/19/81/78/198178e030fff9f33d73a30194ea0447.jpg"
         },
         {
             "id": 10,
             "title": "포스터",
-            "image_url": "https://i.pinimg.com/originals/8a/8d/7e/8a8d7e42be66d056db632b43da071973.png"
+            "image": "https://i.pinimg.com/originals/19/2f/05/192f052bbc1912b5177270a655a0ad59.png"
         },
         {
             "id": 11,
             "title": "네일",
-            "image_url": "https://i.pinimg.com/originals/5a/32/d6/5a32d6d251c45f14371bac390051daa5.png"
+            "image": "https://i.pinimg.com/originals/5a/32/d6/5a32d6d251c45f14371bac390051daa5.png"
         },
         {
             "id": 12,
             "title": "포스터",
-            "image_url": "https://i.pinimg.com/originals/c3/6c/b9/c36cb9b6b881f2f579d0fe9fed5714c2.png"
+            "image": "https://i.pinimg.com/originals/c3/6c/b9/c36cb9b6b881f2f579d0fe9fed5714c2.png"
         },
         {
             "id": 13,
             "title": "포스터",
-            "image_url": "https://i.pinimg.com/originals/ba/bb/36/babb3609d613498856488a3250bfc5c6.jpg"
+            "image": "https://i.pinimg.com/originals/ba/bb/36/babb3609d613498856488a3250bfc5c6.jpg"
         },
         {
             "id": 14,
             "title": "포스터",
-            "image_url": "https://i.pinimg.com/originals/dc/32/90/dc3290bd0379976856b4074463603851.jpg"
+            "image": "https://i.pinimg.com/originals/dc/32/90/dc3290bd0379976856b4074463603851.jpg"
         },
         {
             "id": 15,
             "title": "포스터",
-            "image_url": "https://i.pinimg.com/originals/98/6e/3d/986e3d80585e428720426330531d6d43.jpg"
+            "image": "https://i.pinimg.com/originals/98/6e/3d/986e3d80585e428720426330531d6d43.jpg"
         },
         {
             "id": 16,
             "title": "포스터",
-            "image_url": "https://i.pinimg.com/originals/02/74/91/0274913bdba12958bcdb8d878cde1771.jpg"
+            "image": "https://i.pinimg.com/originals/02/74/91/0274913bdba12958bcdb8d878cde1771.jpg"
         },
         {
             "id": 17,
             "title": "사진",
-            "image_url": "https://i.pinimg.com/originals/19/81/78/198178e030fff9f33d73a30194ea0447.jpg"
+            "image": "https://i.pinimg.com/originals/19/81/78/198178e030fff9f33d73a30194ea0447.jpg"
         },
         {
             "id": 18,
             "title": "포스터",
-            "image_url": "https://i.pinimg.com/originals/8a/8d/7e/8a8d7e42be66d056db632b43da071973.png"
+            "image": "https://i.pinimg.com/originals/8a/8d/7e/8a8d7e42be66d056db632b43da071973.png"
         },
         {
             "id": 19,
             "title": "네일",
-            "image_url": "https://i.pinimg.com/originals/5a/32/d6/5a32d6d251c45f14371bac390051daa5.png"
+            "image": "https://i.pinimg.com/originals/54/d5/a2/54d5a2208abc88074f10d2c6ea2fbf18.jpg"
         },
         {
             "id": 20,
             "title": "네일",
-            "image_url": "https://i.pinimg.com/originals/5e/16/7a/5e167ad2a81b9df49ee316e2c0a3c75c.jpg"
+            "image": "https://i.pinimg.com/originals/5e/16/7a/5e167ad2a81b9df49ee316e2c0a3c75c.jpg"
         },
         {
             "id": 21,
-            "title": "예술",
-            "image_url": "https://i.pinimg.com/originals/67/45/35/674535edbab097b086e949541218aa97.png"
+            "title": "네일",
+            "image": "https://i.pinimg.com/originals/2b/3b/81/2b3b81c4ac166669362933a4c94eaaf1.jpg"
         },
         {
             "id": 22,
-            "title": "포스터",
-            "image_url": "https://i.pinimg.com/originals/d5/c9/ef/d5c9ef8928c210b5cf00620d666d8012.jpg"
+            "title": "네일",
+            "image": "https://i.pinimg.com/originals/43/53/e2/4353e2412e19230d4a9d2d5735af7e2f.png"
         },
         {
             "id": 23,
-            "title": "예술",
-            "image_url": "https://i.pinimg.com/originals/1c/ca/31/1cca3141bd917685da4bf0f220b22cdd.jpg"
+            "title": "네일",
+            "image": "https://i.pinimg.com/originals/fa/7e/38/fa7e3872ea86957334090207acb8668f.png"
         },
         {
             "id": 24,
-            "title": "예술",
-            "image_url": "https://i.pinimg.com/originals/2c/04/d3/2c04d322de083cc393745363799aaa62.jpg"
+            "title": "네일",
+            "image": "https://i.pinimg.com/originals/dd/ec/1b/ddec1ba64ae523a20dd2ffde4adaab85.png"
         },
         {
             "id": 25,
-            "title": "예술",
-            "image_url": "https://i.pinimg.com/originals/cd/e5/dc/cde5dccc99ee55856eabe15191ea7a32.png"
+            "title": "네일",
+            "image": "https://scontent-gmp1-1.cdninstagram.com/v/t51.2885-15/e35/s1080x1080/101405417_175275433945857_188069387586768931_n.jpg?_nc_ht=scontent-gmp1-1.cdninstagram.com&_nc_cat=109&_nc_ohc=amweFoTK3i8AX8byJjG&oh=9b4d04b67b8e1f4530938d9a73b93550&oe=5F124C8D"
         },
         {
             "id": 26,
-            "title": "그래픽디자인",
-            "image_url": "https://i.pinimg.com/originals/42/97/38/42973895e2a38cac0052472f2c144892.png"
+            "title": "네일",
+            "image": "https://i.pinimg.com/originals/b3/fe/0b/b3fe0b4d0fa9d231e3bf56637efc618b.jpg"
         },
         {
             "id": 27,
-            "title": "예술",
-            "image_url": "https://i.pinimg.com/originals/3d/c5/06/3dc5068ae2f9d99e6376b550389e43e4.jpg"
+            "title": "네일",
+            "image": "https://i.pinimg.com/originals/3d/c5/06/3dc5068ae2f9d99e6376b550389e43e4.jpg"
         },
         {
             "id": 28,
-            "title": "포스터",
-            "image_url": "https://i.pinimg.com/originals/f6/c0/2f/f6c02fec79bf9d7640dc61d4ad689557.jpg"
+            "title": "네일",
+            "image": "https://i.pinimg.com/originals/ec/dc/2c/ecdc2cb4c28fa6c46649dbed4f9f6c00.jpg"
         },
         {
             "id": 29,
-            "title": "사진",
-            "image_url": "https://i.pinimg.com/originals/19/81/78/198178e030fff9f33d73a30194ea0447.jpg"
+            "title": "네일",
+            "image": "https://i.pinimg.com/originals/a3/8c/40/a38c40def329b80d6bc6bbbcfe6322a7.png"
         },
         {
             "id": 30,
-            "title": "포스터",
-            "image_url": "https://i.pinimg.com/originals/8a/8d/7e/8a8d7e42be66d056db632b43da071973.png"
-        },
-        {
-            "id": 31,
             "title": "네일",
-            "image_url": "https://i.pinimg.com/originals/5a/32/d6/5a32d6d251c45f14371bac390051daa5.png"
-        },
-        {
-            "id": 32,
-            "title": "포스터",
-            "image_url": "https://i.pinimg.com/originals/c3/6c/b9/c36cb9b6b881f2f579d0fe9fed5714c2.png"
-        },
-        {
-            "id": 33,
-            "title": "포스터",
-            "image_url": "https://i.pinimg.com/originals/ba/bb/36/babb3609d613498856488a3250bfc5c6.jpg"
-        },
-        {
-            "id": 34,
-            "title": "포스터",
-            "image_url": "https://i.pinimg.com/originals/dc/32/90/dc3290bd0379976856b4074463603851.jpg"
-        },
-        {
-            "id": 35,
-            "title": "포스터",
-            "image_url": "https://i.pinimg.com/originals/98/6e/3d/986e3d80585e428720426330531d6d43.jpg"
-        },
-        {
-            "id": 36,
-            "title": "포스터",
-            "image_url": "https://i.pinimg.com/originals/02/74/91/0274913bdba12958bcdb8d878cde1771.jpg"
-        },
-        {
-            "id": 37,
-            "title": "사진",
-            "image_url": "https://i.pinimg.com/originals/19/81/78/198178e030fff9f33d73a30194ea0447.jpg"
-        },
-        {
-            "id": 38,
-            "title": "포스터",
-            "image_url": "https://i.pinimg.com/originals/8a/8d/7e/8a8d7e42be66d056db632b43da071973.png"
-        },
-        {
-            "id": 39,
-            "title": "네일",
-            "image_url": "https://i.pinimg.com/originals/5a/32/d6/5a32d6d251c45f14371bac390051daa5.png"
-        },
-        {
-            "id": 40,
-            "title": "네일",
-            "image_url": "https://i.pinimg.com/originals/5e/16/7a/5e167ad2a81b9df49ee316e2c0a3c75c.jpg"
-        },
-        {
-            "id": 41,
-            "title": "예술",
-            "image_url": "https://i.pinimg.com/originals/67/45/35/674535edbab097b086e949541218aa97.png"
-        },
-        {
-            "id": 42,
-            "title": "포스터",
-            "image_url": "https://i.pinimg.com/originals/d5/c9/ef/d5c9ef8928c210b5cf00620d666d8012.jpg"
-        },
-        {
-            "id": 43,
-            "title": "예술",
-            "image_url": "https://i.pinimg.com/originals/1c/ca/31/1cca3141bd917685da4bf0f220b22cdd.jpg"
-        },
-        {
-            "id": 44,
-            "title": "예술",
-            "image_url": "https://i.pinimg.com/originals/2c/04/d3/2c04d322de083cc393745363799aaa62.jpg"
-        },
-        {
-            "id": 45,
-            "title": "예술",
-            "image_url": "https://i.pinimg.com/originals/cd/e5/dc/cde5dccc99ee55856eabe15191ea7a32.png"
-        },
-        {
-            "id": 46,
-            "title": "그래픽디자인",
-            "image_url": "https://i.pinimg.com/originals/42/97/38/42973895e2a38cac0052472f2c144892.png"
-        },
-        {
-            "id": 47,
-            "title": "예술",
-            "image_url": "https://i.pinimg.com/originals/3d/c5/06/3dc5068ae2f9d99e6376b550389e43e4.jpg"
-        },
-        {
-            "id": 48,
-            "title": "포스터",
-            "image_url": "https://i.pinimg.com/originals/f6/c0/2f/f6c02fec79bf9d7640dc61d4ad689557.jpg"
-        },
-        {
-            "id": 49,
-            "title": "사진",
-            "image_url": "https://i.pinimg.com/originals/19/81/78/198178e030fff9f33d73a30194ea0447.jpg"
-        },
-        {
-            "id": 50,
-            "title": "포스터",
-            "image_url": "https://i.pinimg.com/originals/8a/8d/7e/8a8d7e42be66d056db632b43da071973.png"
-        },
-        {
-            "id": 51,
-            "title": "네일",
-            "image_url": "https://i.pinimg.com/originals/5a/32/d6/5a32d6d251c45f14371bac390051daa5.png"
-        },
-        {
-            "id": 52,
-            "title": "포스터",
-            "image_url": "https://i.pinimg.com/originals/c3/6c/b9/c36cb9b6b881f2f579d0fe9fed5714c2.png"
-        },
-        {
-            "id": 53,
-            "title": "포스터",
-            "image_url": "https://i.pinimg.com/originals/ba/bb/36/babb3609d613498856488a3250bfc5c6.jpg"
-        },
-        {
-            "id": 54,
-            "title": "포스터",
-            "image_url": "https://i.pinimg.com/originals/dc/32/90/dc3290bd0379976856b4074463603851.jpg"
-        },
-        {
-            "id": 55,
-            "title": "포스터",
-            "image_url": "https://i.pinimg.com/originals/98/6e/3d/986e3d80585e428720426330531d6d43.jpg"
-        },
-        {
-            "id": 56,
-            "title": "포스터",
-            "image_url": "https://i.pinimg.com/originals/02/74/91/0274913bdba12958bcdb8d878cde1771.jpg"
-        },
-        {
-            "id": 57,
-            "title": "사진",
-            "image_url": "https://i.pinimg.com/originals/19/81/78/198178e030fff9f33d73a30194ea0447.jpg"
-        },
-        {
-            "id": 58,
-            "title": "포스터",
-            "image_url": "https://i.pinimg.com/originals/8a/8d/7e/8a8d7e42be66d056db632b43da071973.png"
-        },
-        {
-            "id": 59,
-            "title": "네일",
-            "image_url": "https://i.pinimg.com/originals/5a/32/d6/5a32d6d251c45f14371bac390051daa5.png"
-        },
-        {
-            "id": 60,
-            "title": "네일",
-            "image_url": "https://i.pinimg.com/originals/5e/16/7a/5e167ad2a81b9df49ee316e2c0a3c75c.jpg"
+            "image": "https://i.pinimg.com/originals/da/9c/4d/da9c4da8c65210f624ee91db7623cac6.png"
         }
     ]
 }
