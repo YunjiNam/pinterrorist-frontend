@@ -3,6 +3,7 @@ import { withRouter, Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import Header from "../../components/Header";
 import Signup from "../Signup/Signup";
+import url from "./../../config";
 import {
   LazyLoadImage,
   trackWindowScroll,
@@ -14,7 +15,13 @@ const Main = ({ scrollPosition, history }) => {
   const [ContentsList, setContentsList] = useState([]);
 
   useEffect(() => {
-    fetch("http://10.58.6.219:8000", {
+    fetch("http://localhost:3000/data/main.json")
+      .then((res) => res.json())
+      .then((res) => setContentsList(res.data));
+  }, []);
+
+  useEffect(() => {
+    fetch(`${url}`, {
       headers: {
         Authorization: localStorage.getItem("Authorization"),
       },
@@ -23,21 +30,20 @@ const Main = ({ scrollPosition, history }) => {
       .then((res) => setContentsList(res.pins));
   }, []);
 
-  // const load = () => {
-  //   fetch("http://10.58.6.219:8000", {
-  //     headers: {
-  //       Authorization: localStorage.getItem("Authorization"),
-  //     },
-  //   })
-  //     // fetch("http://localhost:3000/data/main.json")
-  //     //   .then((res) => res.json())
-  //     //   .then((res) => console.log(res.data))
-  //     //   .then((res) => setContentsList(res.pins));
-  //     .then((res) => setContentsList(res.pins));
-  // };
+  const searchHandler = (text) => {
+    fetch(`${url}/search/?search=${text}`, {
+      headers: {
+        Authorization: localStorage.getItem("Authorization"),
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => setContentsList(res.search_term));
+    // console.log(text);
+  };
+
   return (
     <>
-      <Header />
+      <Header search={(text) => searchHandler(text)} />
       {localStorage.getItem("Authorization") ? (
         window.location.reload
       ) : (
@@ -84,8 +90,8 @@ const MainContainer = styled.div`
 `;
 
 const ContentsWrap = styled.div`
-  width: 90%;
-  column-width: 252px;
+  width: 95%;
+  column-width: 250px;
   column-gap: 0px;
 `;
 
