@@ -3,34 +3,39 @@ import { withRouter, Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import Header from "../../components/Header";
 import Signup from "../Signup/Signup";
+import ArticleTemplate from "./ArticleTemplate/ArticleTemplate";
+import Dropdown from "../../components/Dropdown/Dropdown";
 import url from "./../../config";
-import {
-  LazyLoadImage,
-  trackWindowScroll,
-} from "react-lazy-load-image-component";
-// import Signup from "../Signup/Signup";
 
 const Main = ({ scrollPosition, history }) => {
   const [page, setPage] = useState(0);
   const [ContentsList, setContentsList] = useState([]);
+  const [search, setSearch] = useState(false);
+  const [pin, setPin] = useState([]);
+  const [pinCheck, setPinCheck] = useState(false);
+  const [boards, setBoards] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/data/main.json")
-      .then((res) => res.json())
-      .then((res) => setContentsList(res.data));
-  }, []);
-
-  useEffect(() => {
-    fetch(`${url}`, {
-      headers: {
-        Authorization: localStorage.getItem("Authorization"),
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => setContentsList(res.pins));
+    if (localStorage.getItem("Authorization")) {
+      fetch(`${url}`, {
+        headers: {
+          Authorization: localStorage.getItem("Authorization"),
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          setContentsList(res.pins);
+          setBoards(res.boards[0]["name"]);
+        });
+    } else {
+      fetch("http://localhost:3000/data/main.json")
+        .then((res) => res.json())
+        .then((res) => setContentsList(res.data));
+    }
   }, []);
 
   const searchHandler = (text) => {
+    setSearch(true);
     fetch(`${url}/search/?search=${text}`, {
       headers: {
         Authorization: localStorage.getItem("Authorization"),
@@ -38,7 +43,21 @@ const Main = ({ scrollPosition, history }) => {
     })
       .then((res) => res.json())
       .then((res) => setContentsList(res.search_term));
-    // console.log(text);
+  };
+
+  const pinSave = (id) => {
+    if (pin.includes(id)) {
+      const filter = pin.filter((i) => i !== id);
+      setPin(filter);
+      setPinCheck(!pinCheck);
+    } else {
+      setPinCheck(!pinCheck);
+      setPin(pin.concat(id));
+    }
+  };
+
+  const goDetail = (id) => {
+    history.push(`/detail/${id}`);
   };
 
   return (
@@ -53,24 +72,18 @@ const Main = ({ scrollPosition, history }) => {
         <ContentsWrap>
           {ContentsList &&
             ContentsList.map((list, idx) => (
-              // <LazyLoadImage
-              //   key={list.id}
-              //   alt={list.id}
-              //   scrollPosition={scrollPosition}
-              //   src={list.image_url}
-              //   effect="opacity"
-              // />
-              <Contents
-                key={list.id}
-                onClick={() => {
-                  history.push("/detail");
-                }}
-              >
-                <ImgWrap>
-                  <img src={list.image} alt={list.id} />
-                </ImgWrap>
-                <TextWrap></TextWrap>
-              </Contents>
+              <>
+                <ArticleTemplate
+                  boardList={boards}
+                  onClick={() => goDetail(list.id)}
+                  pinClickHandler={pinSave}
+                  pinCheck={pin}
+                  id={list.id}
+                  image={list.image}
+                  image_url={list.image_url}
+                  search={search}
+                />
+              </>
             ))}
         </ContentsWrap>
       </MainContainer>
@@ -93,27 +106,7 @@ const ContentsWrap = styled.div`
   width: 95%;
   column-width: 250px;
   column-gap: 0px;
-`;
-
-const Contents = styled.figure`
-  display: inline-block;
-  width: 230px;
-  margin: 0;
-  margin-bottom: 16px;
-  /* margin-left: 8px;
-  margin-right: 8px; */
-  border-radius: 16px;
+  position: relative;
   overflow: hidden;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  clear: both;
 `;
-
-const ImgWrap = styled.div`
-  border-radius: 16px;
-  width: 100%;
-  cursor: zoom-in;
-  img {
-    width: 100%;
-  }
-`;
-
-const TextWrap = styled.div``;
