@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router";
 import { withRouter, Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import detailMock from "../../images/detailMock.jpg";
@@ -19,28 +20,26 @@ const MainDetail = () => {
   const [image, setImage] = useState("");
   const [text1, setText1] = useState("");
   const [text2, setText2] = useState("");
-  // const [pinId, setPinId] = useState(1);
+
+  const { id } = useParams();
 
   useEffect(() => {
-    // const token = localStorage.getItem("token")
-    console.log("Get 실행");
-    fetch(`${url}/pin/2`, {
-      method: "GET",
+    const token = localStorage.getItem("Authorization");
+    console.log("Get 실행", id);
+    fetch(`${url}/pin/${id}`, {
       headers: {
-        Authorization:
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjMifQ.7oLMOMBCGc46Wt_lQhjwQWoTDh6gJVsTusTAgibv1Kw",
+        Authorization: token,
       },
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
         setCommentArr(res.comment);
         setNumber(res.comment_total);
         setImage(res.pin.image_url);
         setText1(res.pin.text1);
         setText2(res.pin.text2);
-        // setPinId(res.pin.id);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleInput = () => {
@@ -56,13 +55,12 @@ const MainDetail = () => {
     if (commentText.length > 0) {
       console.log("Post 실행");
 
-      // const token = localStorage,getItem("token")
-      fetch(`${url}/pin/2/comment`, {
+      const token = localStorage.getItem("Authorization");
+      fetch(`${url}/pin/${id}/comment`, {
         method: "POST",
         headers: {
           // "Content-Type": "application/json",
-          Authorization:
-            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjMifQ.7oLMOMBCGc46Wt_lQhjwQWoTDh6gJVsTusTAgibv1Kw",
+          Authorization: token,
         },
         body: JSON.stringify({
           comment: commentText,
@@ -73,6 +71,7 @@ const MainDetail = () => {
           setCommentArr(res.comment);
           setNumber(res.comment_total);
         });
+      setClickInput(false);
       setCommentText("");
     }
   };
@@ -90,7 +89,9 @@ const MainDetail = () => {
         <MainWrap>
           <BackButtonWrap>
             <BackButtonIconWrap>
-              <BackButtonIcon></BackButtonIcon>
+              <Link to="/">
+                <BackButtonIcon></BackButtonIcon>
+              </Link>
             </BackButtonIconWrap>
             <BackButtonTextWrap>
               <BackButtonText>추천</BackButtonText>
@@ -98,7 +99,7 @@ const MainDetail = () => {
           </BackButtonWrap>
           <MainFeed>
             <FeedLeft>
-              <FeedImage src={image} />
+              <img src={image} />
             </FeedLeft>
             <FeedRight>
               <RightNavContainer>
@@ -111,12 +112,16 @@ const MainDetail = () => {
                       <IconShare />
                     </IconShareWrap>
                   </IconWrap>
-                  <Dropdown />
+                  <Dropdown image={image} />
                 </RightNavWrap>
               </RightNavContainer>
               <RightTopContainer>
                 <RightTopWrap>
-                  <h1>{text1 === "no text" ? "" : text1}</h1>
+                  <h1>
+                    {text1 === "no text" || text1 === "'no text'"
+                      ? null
+                      : text1}
+                  </h1>
                   <h3>{text2 === "no text" ? "" : text2}</h3>
                 </RightTopWrap>
               </RightTopContainer>
@@ -137,6 +142,7 @@ const MainDetail = () => {
                         number={number}
                         setNumber={setNumber}
                         comment_total={list.comment_total}
+                        paramsId={id}
                       />
                     ))}
                   <AddCommentContainer>
@@ -191,7 +197,7 @@ const MainDetail = () => {
   );
 };
 
-export default MainDetail;
+export default withRouter(MainDetail);
 
 const MainDetailPage = styled.div`
   font-family: Roboto;
@@ -199,7 +205,7 @@ const MainDetailPage = styled.div`
   margin-bottom: 32px;
 `;
 const MainContainer = styled.div`
-  padding-top: 100px;
+  padding-top: 120px;
 `;
 
 const MainWrap = styled.div`
@@ -249,6 +255,7 @@ const BackButtonIconWrap = styled.button`
   width: 44px;
   height: 44px;
   outline: none;
+  background-color: white;
   &:hover {
     background-color: #dfe4ea;
   }
@@ -272,6 +279,11 @@ const FeedLeft = styled.div`
   width: 508px;
   position: relative;
   cursor: pointer;
+  img {
+    width: 100%;
+    border-top-left-radius: 32px;
+    border-bottom-left-radius: 32px;
+  }
 `;
 
 /* display: flex;
@@ -287,13 +299,7 @@ const FeedLeft = styled.div`
    justify-content: center;
    color: red; */
 
-const FeedImage = styled.img`
-  box-sizing: border-box;
-  width: 100%;
-  border-top-left-radius: 32px;
-  border-bottom-left-radius: 32px;
-  color: transparent;
-`;
+// const FeedImage = styled.img``;
 
 const FeedRight = styled.div`
   width: 508px;

@@ -3,10 +3,6 @@ import { withRouter, Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import Header from "../../components/Header";
 import Signup from "../Signup/Signup";
-import {
-  LazyLoadImage,
-  trackWindowScroll,
-} from "react-lazy-load-image-component";
 
 const Following = ({ scrollPosition, history, pg }) => {
   const [page, setPage] = useState(0);

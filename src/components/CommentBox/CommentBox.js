@@ -11,17 +11,17 @@ const CommentBox = ({
   number,
   setNumber,
   comment_total,
+  paramsId,
 }) => {
   const [like, setLike] = useState(false);
 
   const handleComment = () => {
     console.log("Delete 실행");
-    // const token = localStorage.getItem("token");
-    fetch(`${url}/pin/2/comment`, {
+    const token = localStorage.getItem("Authorization");
+    fetch(`${url}/pin/${paramsId}/comment`, {
       method: "DELETE",
       headers: {
-        Authorization:
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjMifQ.7oLMOMBCGc46Wt_lQhjwQWoTDh6gJVsTusTAgibv1Kw",
+        Authorization: token,
       },
       body: JSON.stringify({
         comment_id: id,
