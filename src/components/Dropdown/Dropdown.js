@@ -2,16 +2,27 @@ import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 import Card from "./Card/Card";
+import CreateBoard from "../../components/CreateBoard/CreateBoard";
 
-const Dropdown = () => {
+const Dropdown = ({ image }) => {
   const [clickDropdown, setClickDropdown] = useState(false);
+  const [modal, setModal] = useState(false);
 
   const handleDropdown = () => {
     setClickDropdown(!clickDropdown);
   };
 
+  const handleModal = () => {
+    setModal(true);
+    setClickDropdown(false);
+    console.log("Modal 실행", modal);
+  };
+
   return (
     <ButtonWrap>
+      {modal ? (
+        <CreateBoard modal={modal} setModal={setModal} image={image} />
+      ) : null}
       <DropdownNav onClick={handleDropdown} clickDropdown={clickDropdown}>
         <DropdownLeft>
           <DropdownText>포즈 참조</DropdownText>
@@ -49,7 +60,7 @@ const Dropdown = () => {
 
           <Card />
         </DropdownBody>
-        <DropdownBottom>
+        <DropdownBottom onClick={handleModal}>
           <BottomIcon>
             <i class="fas fa-plus-circle"></i>
           </BottomIcon>
