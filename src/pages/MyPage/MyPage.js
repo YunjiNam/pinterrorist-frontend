@@ -80,15 +80,15 @@ const MyPage = () => {
         <ProfileWrapper>
           <ProfileInfo>
             <TextInfo>
-              <h1>Jia K</h1>
-              <span>팔로워 0명</span>
-              <span>팔로잉 23명</span>
+              <h1>Boksil Nam</h1>
+              <span>팔로워 13K명</span>
+              <span>팔로잉 0명</span>
             </TextInfo>
             <PictureInfo>
-              <MyImage
-                src="https://s.pinimg.com/images/user/default_280.png"
+              <img
+                src="https://scontent-gmp1-1.cdninstagram.com/v/t51.2885-15/e35/102641475_286312019085118_4472201422226881902_n.jpg?_nc_ht=scontent-gmp1-1.cdninstagram.com&_nc_cat=110&_nc_ohc=QGlmuy4R8QQAX8tSXHe&oh=14ca5bea3514f34ed8dd9b74fa06a4cb&oe=5F14B3A8"
                 alt="bio-photo"
-              ></MyImage>
+              />
             </PictureInfo>
           </ProfileInfo>
         </ProfileWrapper>
@@ -110,7 +110,7 @@ export default withRouter(MyPage);
 const AppContent = styled.div`
   width: 100%;
   box-sizing: border-box;
-  margin-top: 80px;
+  margin-top: 200px;
 `;
 
 const ProfileWrapper = styled.div`
@@ -277,6 +277,12 @@ const MiddleNav = styled.div`
 const PictureInfo = styled.div`
   display: flex;
   justify-content: space-between;
+  border-radius: 50%;
+  img {
+    height: 106px;
+    width: 106px;
+    border-radius: 50%;
+  }
 `;
 
 const TextInfo = styled.div`
@@ -293,11 +299,6 @@ const TextInfo = styled.div`
     margin-right: 10px;
     font-weight: 600;
   }
-`;
-
-const MyImage = styled.img`
-  height: 106px;
-  width: 106px;
 `;
 
 // const SelectedContent = styled.div``;

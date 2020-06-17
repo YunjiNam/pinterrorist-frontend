@@ -198,8 +198,7 @@ const MainWrapper = styled.div`
 const DropdownWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
-  width: 100%;
-  margin: 10px -30px;
+  margin: 10px 30px;
 `;
 
 const Bottom = styled.div`
