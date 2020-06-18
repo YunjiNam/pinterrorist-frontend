@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { useParams } from "react-router";
 import { withRouter, Link } from "react-router-dom";
 import styled from "styled-components";
 import url from "../../../config";
@@ -8,6 +8,7 @@ const Boards = ({ history }) => {
   const [boards, setBoards] = useState([]);
   const [onMouse, setOnMouse] = useState(false);
   const [hoveredBoard, setHoveredBoard] = useState("");
+  const [clickedBoardName, setClickedBoardName] = useState("");
 
   useEffect(() => {
     const accessToken = localStorage.getItem("Authorization");
@@ -25,7 +26,7 @@ const Boards = ({ history }) => {
   const onMouseHandler = (boardId) => {
     setHoveredBoard(boardId);
   };
-
+  //보드 삭제하는 기능
   const deleteBoard = (boardName) => {
     console.log(boardName);
     const accessToken = localStorage.getItem("Authorization");
@@ -50,6 +51,10 @@ const Boards = ({ history }) => {
     });
   };
 
+  const stateBoardName = (name) => {
+    setClickedBoardName(name);
+  };
+
   return (
     <>
       <BoardMainBody>
@@ -62,31 +67,34 @@ const Boards = ({ history }) => {
               // }}
               onMouseEnter={() => onMouseHandler(data.board.id)}
               onMouseLeave={() => onMouseHandler("")}
+              onClick={() => stateBoardName(data.board.name)}
             >
               <ImageBoardWrap key={data.board.id}>
-                <ImageWrapper>
-                  <EachImage>
-                    {data.pins[0] ? (
-                      <img alt="myPins" src={data.pins[0]} />
-                    ) : (
-                      <div />
-                    )}
-                  </EachImage>
-                  <EachImage>
-                    {data.pins[1] ? (
-                      <img alt="myPins" src={data.pins[1]} />
-                    ) : (
-                      <div />
-                    )}
-                  </EachImage>
-                  <EachImage>
-                    {data.pins[2] ? (
-                      <img alt="myPins" src={data.pins[2]} />
-                    ) : (
-                      <div />
-                    )}
-                  </EachImage>
-                </ImageWrapper>
+                <Link to={`/boards/${data.board.name}`}>
+                  <ImageWrapper>
+                    <EachImage>
+                      {data.pins[0] ? (
+                        <img alt="myPins" src={data.pins[0]} />
+                      ) : (
+                        <div />
+                      )}
+                    </EachImage>
+                    <EachImage>
+                      {data.pins[1] ? (
+                        <img alt="myPins" src={data.pins[1]} />
+                      ) : (
+                        <div />
+                      )}
+                    </EachImage>
+                    <EachImage>
+                      {data.pins[2] ? (
+                        <img alt="myPins" src={data.pins[2]} />
+                      ) : (
+                        <div />
+                      )}
+                    </EachImage>
+                  </ImageWrapper>
+                </Link>
                 <Description>
                   <BoardTitle>
                     {data.board.name}
@@ -110,7 +118,7 @@ const Boards = ({ history }) => {
   );
 };
 
-export default Boards;
+export default withRouter(Boards);
 
 const BoardMainBody = styled.div`
   margin: 0 auto;
@@ -137,6 +145,7 @@ const ImageBoardWrap = styled.div`
   width: 100%;
   height: 100%;
   margin: 10px;
+  cursor: pointer;
 `;
 
 const ImageWrapper = styled.div`

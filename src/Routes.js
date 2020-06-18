@@ -20,7 +20,7 @@ const Routes = () => {
         <Route exact path="/signup" component={Signup} />
         <Route exact path="/mypage" component={MyPage} />
         <Route exact path="/pin-builder" component={PinBuilder} />
-        <Route exact path="/boards" component={PinsFromBoard} />
+        <Route exact path="/boards/:id" component={PinsFromBoard} />
       </Switch>
     </Router>
   );
