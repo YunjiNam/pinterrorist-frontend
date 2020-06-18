@@ -1,0 +1,28 @@
+{
+    "data": [{
+            "id": 1,
+            "title": "예술",
+            "image": "https://i.pinimg.com/originals/67/45/35/674535edbab097b086e949541218aa97.png"
+        },
+        {
+            "id": 2,
+            "title": "포스터",
+            "image": "https://i.pinimg.com/originals/d5/c9/ef/d5c9ef8928c210b5cf00620d666d8012.jpg"
+        },
+        {
+            "id": 3,
+            "title": "디자인",
+            "image": "https://i.pinimg.com/originals/1c/ca/31/1cca3141bd917685da4bf0f220b22cdd.jpg"
+        },
+        {
+            "id": 4,
+            "title": "사진",
+            "image": "https://i.pinimg.com/originals/2c/04/d3/2c04d322de083cc393745363799aaa62.jpg"
+        },
+        {
+            "id": 5,
+            "title": "인테리어",
+            "image": "https://i.pinimg.com/originals/cd/e5/dc/cde5dccc99ee55856eabe15191ea7a32.png"
+        }
+    ]
+}

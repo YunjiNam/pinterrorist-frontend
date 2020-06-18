@@ -9,7 +9,10 @@ const Header = ({ history, search }) => {
   const [noti, setNoti] = useState(false);
   const [noticeList, setNoticeList] = useState([]);
   const [drop, setDrop] = useState(false);
+  const [searchRec, setSearchRec] = useState([]);
   const [searchValue, setSearchValue] = useState("");
+  const [inputValue, setInputValue] = useState("");
+  const [keywordClick, setKeywordClick] = useState(false);
 
   const searchActive = () => {
     setActive(!active);
@@ -19,6 +22,9 @@ const Header = ({ history, search }) => {
     fetch("http://localhost:3000/data/mainList.json")
       .then((res) => res.json())
       .then((res) => setNoticeList(res.data));
+    fetch("http://localhost:3000/data/searchRec.json")
+      .then((res) => res.json())
+      .then((res) => setSearchRec(res.data));
   }, []);
 
   const logout = () => {
@@ -32,16 +38,40 @@ const Header = ({ history, search }) => {
 
   const onChange = (e) => {
     setSearchValue(e.target.value);
-    // console.log(e.target);
-    if (e.key === "Enter") {
-      search(searchValue);
-      e.target.value = "";
+    setInputValue(e.target.value);
+    if (e.keyCode === 13) {
+      search(e.target.value);
+      //   e.target.value = "";
+      e.target.blur();
+      setActive(false);
     }
+  };
+  const close = () => {
+    setActive(false);
+  };
+
+  const goFollows = () => {
+    setPage(1);
+    history.push("/follows");
+  };
+
+  const keywordHandler = (keyword) => {
+    setSearchValue(keyword);
+    setInputValue(keyword);
+    search(keyword);
+    setActive(false);
+    setKeywordClick(true);
+  };
+
+  const clearValue = () => {
+    setInputValue("");
+    setSearchValue("");
+    setKeywordClick(false);
   };
 
   return (
     <>
-      <SearchOverlay active={active} />
+      <SearchOverlay active={active} onClick={close} />
       <Headers>
         <HeaderContent>
           <HeaderWrap>
@@ -58,10 +88,10 @@ const Header = ({ history, search }) => {
                 <span>홈</span>
               </Link>
             </Home>
-            <Following pg={page} onClick={() => setPage(1)}>
-              <Link to="/following" style={{ textDecoration: "none" }}>
-                <span>팔로잉</span>
-              </Link>
+            <Following pg={page} onClick={goFollows}>
+              {/* <Link to="/follows" style={{ textDecoration: "none" }}> */}
+              <span>팔로잉</span>
+              {/* </Link> */}
             </Following>
             <Search onClick={searchActive}>
               <SearchWrap>
@@ -71,84 +101,63 @@ const Header = ({ history, search }) => {
                   </svg>
                 </IconWrap>
                 <InputWrap>
-                  <input type="text" placeholder="검색" onKeyPress={onChange} />
+                  <input
+                    type="text"
+                    placeholder={keywordClick ? inputValue : "검색"}
+                    onKeyUp={onChange}
+                    // value={inputValue}
+                    onFocus={clearValue}
+                  />
                 </InputWrap>
               </SearchWrap>
             </Search>
             <SuggestionMenu active={active}>
+              <CurrentSearch show={searchValue}>
+                <div>{searchValue}</div>
+              </CurrentSearch>
               <SuggestTitle>
                 <div>추천 아이디어</div>
               </SuggestTitle>
               <SuggestList>
-                <div>
-                  <ImgWrap>
-                    <div>
-                      <img
-                        alt="suggest"
-                        src="https://i.pinimg.com/originals/da/9c/4d/da9c4da8c65210f624ee91db7623cac6.png"
-                      />
+                {searchRec &&
+                  searchRec.map((list) => (
+                    <div key={list.id}>
+                      <ImgWrap onClick={() => keywordHandler(list.title)}>
+                        <div>
+                          <img alt={list.id} src={list.image} />
+                        </div>
+                        <span>{list.title}</span>
+                      </ImgWrap>
                     </div>
-                    <span>포스터</span>
-                  </ImgWrap>
-                </div>
-                <div>
-                  <ImgWrap>
-                    <div>
-                      <img
-                        alt="suggest"
-                        src="https://i.pinimg.com/originals/da/9c/4d/da9c4da8c65210f624ee91db7623cac6.png"
-                      />
+                  ))}
+              </SuggestList>
+              <SuggestTitle>
+                <div>Pinterest 에서 인기있는 아이디어</div>
+              </SuggestTitle>
+              <SuggestList>
+                {searchRec &&
+                  searchRec.map((list) => (
+                    <div key={list.id}>
+                      <ImgWrap onClick={() => keywordHandler(list.title)}>
+                        <div>
+                          <img alt={list.id} src={list.image} />
+                        </div>
+                        <span>{list.title}</span>
+                      </ImgWrap>
                     </div>
-                    <span>포스터</span>
-                  </ImgWrap>
-                </div>
-                <div>
-                  <ImgWrap>
-                    <div>
-                      <img
-                        alt="suggest"
-                        src="https://i.pinimg.com/originals/da/9c/4d/da9c4da8c65210f624ee91db7623cac6.png"
-                      />
-                    </div>
-                    <span>포스터</span>
-                  </ImgWrap>
-                </div>
-                <div>
-                  <ImgWrap>
-                    <div>
-                      <img
-                        alt="suggest"
-                        src="https://i.pinimg.com/originals/da/9c/4d/da9c4da8c65210f624ee91db7623cac6.png"
-                      />
-                    </div>
-                    <span>포스터</span>
-                  </ImgWrap>
-                </div>
-                <div>
-                  <ImgWrap>
-                    <div>
-                      <img
-                        alt="suggest"
-                        src="https://i.pinimg.com/originals/da/9c/4d/da9c4da8c65210f624ee91db7623cac6.png"
-                      />
-                    </div>
-                    <span>포스터</span>
-                  </ImgWrap>
-                </div>
+                  ))}
               </SuggestList>
             </SuggestionMenu>
             <Tab>
               <NoticeWrap view={noti} onClick={() => setNoti(!noti)}>
                 <button>
-                  <svg viewBox="0 0 24 24">
-                    <path />
-                  </svg>
+                  <span class="material-icons">push_pin</span>
                 </button>
               </NoticeWrap>
               <NoticeBox view={noti}>
                 <div>
                   <NoticeTitle>
-                    <div>업데이트</div>
+                    <div>추가한 핀</div>
                   </NoticeTitle>
                   <NoticeContents>
                     <div>
@@ -157,13 +166,6 @@ const Header = ({ history, search }) => {
                           noticeList.map((list, idx) => (
                             <li key={idx}>
                               <ListWrapper>
-                                <ListTitle>
-                                  <div>
-                                    <span>
-                                      Yj 님이 좋아할 만한 앱 디자인 관련 보드
-                                    </span>
-                                  </div>
-                                </ListTitle>
                                 <ListContent>
                                   <ContentsWrapF>
                                     <div>
@@ -391,9 +393,6 @@ const Following = styled.div`
           &:hover {
             background-color: #efefef;
           }
-          &:hover {
-            background-color: #efefef;
-          }
         `}
   /* &:hover {
     background-color: #efefef;
@@ -473,12 +472,37 @@ const SuggestionMenu = styled.div`
   top: 75px;
   width: 75%;
   min-width: 300px;
-  height: 500px;
+  padding-bottom: 40px;
   background-color: #fff;
   border-radius: 16px;
   overflow: hidden;
   /* flex: 1 1 auto; */
   min-height: 0;
+`;
+
+const CurrentSearch = styled.div`
+  display: ${(props) => (props.show ? "block" : "none")};
+  min-width: 300px;
+  height: 48px;
+  margin: 0 20px;
+  margin-top: 15px;
+  background-color: #efefef;
+  border-radius: 24px;
+  flex: 1 1 auto;
+  min-height: 0;
+  text-align: left;
+  font-size: 16px;
+  font-weight: 600;
+  color: #2d2d2d;
+  font-family: "roboto";
+  position: relative;
+
+  div {
+    position: absolute;
+    top: 15px;
+    bottom: 20px;
+    left: 20px;
+  }
 `;
 
 const SuggestTitle = styled.div`
@@ -548,8 +572,10 @@ const NoticeWrap = styled.div`
   cursor: pointer;
   border-radius: 50%;
   &:hover {
-    background-color: #efefef;
+    background-color: ${(props) => (props.view ? null : "#efefef")};
   }
+  background-color: ${(props) => (props.view ? "#efefef" : null)};
+
   button {
     display: flex;
     justify-content: center;
@@ -561,19 +587,10 @@ const NoticeWrap = styled.div`
     cursor: pointer;
     background: transparent;
     outline: none;
-
-    svg {
+    span {
       height: 24px;
       width: 24px;
-      color: ${(props) => (props.view ? "#2b2b2b" : "#767676")};
-      fill: currentColor;
-      stroke-width: 0;
-      vertical-align: middle;
-      path {
-        d: path(
-          "M 12 24 c -1.66 0 -3 -1.34 -3 -3 h 6 c 0 1.66 -1.34 3 -3 3 Z m 7 -10.83 c 1.58 1.52 2.67 3.55 3 5.83 H 2 c 0.33 -2.28 1.42 -4.31 3 -5.83 V 7 c 0 -3.87 3.13 -7 7 -7 s 7 3.13 7 7 v 6.17 Z"
-        );
-      }
+      color: ${(props) => (props.view ? "#ff1717" : "#ff9191")};
     }
   }
 `;
@@ -584,7 +601,7 @@ const NoticeBox = styled.div`
   height: calc((100vh - 80px) - 8px);
   width: 360px;
   margin-top: 80px;
-  box-shadow: rgba(0, 0, 0, 0.1) -3px 4px 14px 0px;
+  box-shadow: rgba(0, 0, 0, 0.3) -3px 4px 14px 0px;
   overscroll-behavior: none;
   overflow: auto;
   margin-right: 8px;
@@ -661,6 +678,7 @@ const ListContent = styled.div`
   display: flex;
   justify-content: space-between;
   flex-direction: row;
+  border-radius: 16px;
   cursor: pointer;
 `;
 
@@ -669,8 +687,6 @@ const ContentsWrapF = styled.div`
   max-width: 108.7px;
   margin-right: 1px;
   overflow: hidden;
-  border-top-left-radius: 16px;
-  border-bottom-left-radius: 16px;
   vertical-align: middle;
   display: flex;
   justify-content: center;
@@ -702,8 +718,6 @@ const ContentsWrapT = styled.div`
   max-width: 108.7px;
   margin-right: 1px;
   overflow: hidden;
-  border-top-right-radius: 16px;
-  border-bottom-right-radius: 16px;
   vertical-align: middle;
   display: flex;
   justify-content: center;
