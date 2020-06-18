@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import { withRouter, Link } from "react-router-dom";
 import styled, { css } from "styled-components";
-import detailMock from "../../images/detailMock.jpg";
 import iconShare from "../../images/iconShare.png";
 import profileMock from "../../images/profileMock.jpg";
 import Header from "../../components/Header";
@@ -20,12 +19,13 @@ const MainDetail = () => {
   const [image, setImage] = useState("");
   const [text1, setText1] = useState("");
   const [text2, setText2] = useState("");
+  const [firstBoard, setFirstBoard] = useState("");
 
   const { id } = useParams();
 
   useEffect(() => {
     const token = localStorage.getItem("Authorization");
-    console.log("Get 실행", id);
+    console.log("Get 실행, id: ", id);
     fetch(`${url}/pin/${id}`, {
       headers: {
         Authorization: token,
@@ -38,6 +38,7 @@ const MainDetail = () => {
         setImage(res.pin.image_url);
         setText1(res.pin.text1);
         setText2(res.pin.text2);
+        setFirstBoard(res.boards[0]["name"]);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -84,6 +85,9 @@ const MainDetail = () => {
 
   return (
     <MainDetailPage>
+      <Link to="/">
+        <Background></Background>
+      </Link>
       <Header />
       <MainContainer>
         <MainWrap>
@@ -112,7 +116,11 @@ const MainDetail = () => {
                       <IconShare />
                     </IconShareWrap>
                   </IconWrap>
-                  <Dropdown image={image} />
+                  <Dropdown
+                    image={image}
+                    paramsId={id}
+                    firstBoard={firstBoard}
+                  />
                 </RightNavWrap>
               </RightNavContainer>
               <RightTopContainer>
@@ -204,6 +212,17 @@ const MainDetailPage = styled.div`
   color: #211922;
   margin-bottom: 32px;
 `;
+
+const Background = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: white;
+  cursor: zoom-out;
+`;
+
 const MainContainer = styled.div`
   padding-top: 120px;
 `;

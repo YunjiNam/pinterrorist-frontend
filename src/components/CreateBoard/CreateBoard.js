@@ -4,7 +4,22 @@ import styled from "styled-components";
 import detailMock from "../../images/detailMock.jpg";
 import url from "../../config";
 
-const CreateBoard = ({ modal, setModal, image }) => {
+const CreateBoard = ({
+  modal,
+  setModal,
+  image,
+  paramsId,
+  setFoldDropdown,
+  foldDropdown,
+  setSelected,
+  selected,
+  clickDropdown,
+  setClickDropdown,
+  selectedTitle,
+  setSelectedTitle,
+  disabled,
+  setDisabled,
+}) => {
   const [privacy, setPrivacy] = useState(false);
   const [cancel, setCancel] = useState(false);
   const [boardTitle, setBoardTitle] = useState("");
@@ -19,13 +34,14 @@ const CreateBoard = ({ modal, setModal, image }) => {
     setCancel(!cancel);
     setModal(false);
     console.log(cancel);
+    console.log(paramsId);
   };
 
   const handleCreate = () => {
     if (boardTitle.length > 0) {
       console.log("Post 실행");
       const token = localStorage.getItem("Authorization");
-      fetch(`${url}/pin/333`, {
+      fetch(`${url}/pin/${paramsId}`, {
         method: "POST",
         headers: {
           // "Content-Type": "application/json",
@@ -34,9 +50,18 @@ const CreateBoard = ({ modal, setModal, image }) => {
         body: JSON.stringify({
           chosen_board: boardTitle,
         }),
-      })
-        .then((res) => res.json())
-        .then((res) => console.log(res));
+      }).then((res) => {
+        if (res.status === 200) {
+          setModal(false);
+          setFoldDropdown(false);
+          setSelected(true);
+          setClickDropdown(true);
+          setSelectedTitle(boardTitle);
+          setDisabled(true);
+        } else {
+          alert("Failed to save");
+        }
+      });
     }
   };
 
@@ -47,7 +72,7 @@ const CreateBoard = ({ modal, setModal, image }) => {
 
   return (
     <BoardModal cancel={cancel}>
-      <Overlay></Overlay>
+      <Overlay onClick={handleCancel}></Overlay>
       <Modal>
         <TitleWrap>
           <div>
