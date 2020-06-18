@@ -43,7 +43,7 @@ const ArticleTemplate = ({
       </ImgWrap>
       <ContentsOverlay view={active === id} onClick={onClick} />
       <DropdownWrap view={active === id}>
-        <Dropdown paramsId={id} firstBoard={boardList} />
+        <Dropdown image={image} paramsId={id} firstBoard={boardList} />
       </DropdownWrap>
       <Pin
         show={active === id}

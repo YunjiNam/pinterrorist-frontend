@@ -4,7 +4,6 @@ import styled, { css } from "styled-components";
 import Header from "../../components/Header";
 import Signup from "../Signup/Signup";
 import ArticleTemplate from "./ArticleTemplate/ArticleTemplate";
-import Dropdown from "../../components/Dropdown/Dropdown";
 import url from "./../../config";
 
 const Main = ({ scrollPosition, history }) => {

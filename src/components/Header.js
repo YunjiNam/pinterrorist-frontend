@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { withRouter, Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { GoogleLogout } from "react-google-login";
+import DropdownBackward from "./Dropdown/DropdownBackward";
+import url from "../config";
 
 const Header = ({ history, search }) => {
   const [active, setActive] = useState(false);
@@ -13,6 +15,7 @@ const Header = ({ history, search }) => {
   const [searchValue, setSearchValue] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [keywordClick, setKeywordClick] = useState(false);
+  const [boardArr, setBoardArr] = useState([]);
 
   const searchActive = () => {
     setActive(!active);
@@ -67,6 +70,20 @@ const Header = ({ history, search }) => {
     setInputValue("");
     setSearchValue("");
     setKeywordClick(false);
+  };
+
+  const showCart = () => {
+    setNoti(!noti);
+    const token = localStorage.getItem("Authorization");
+    fetch(`${url}/boards`, {
+      headers: {
+        Authorization: token,
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setBoardArr(res.boards[0]["board"]["name"]);
+      });
   };
 
   return (
@@ -149,7 +166,7 @@ const Header = ({ history, search }) => {
               </SuggestList>
             </SuggestionMenu>
             <Tab>
-              <NoticeWrap view={noti} onClick={() => setNoti(!noti)}>
+              <NoticeWrap view={noti} onClick={showCart}>
                 <button>
                   <span class="material-icons">push_pin</span>
                 </button>
@@ -159,35 +176,46 @@ const Header = ({ history, search }) => {
                   <NoticeTitle>
                     <div>추가한 핀</div>
                   </NoticeTitle>
+                  <NoticeEnd>
+                    <BtnWrap>
+                      <DropdownBackward firstBoard={boardArr} />
+                    </BtnWrap>
+                  </NoticeEnd>
                   <NoticeContents>
-                    <div>
-                      <NoticeListWrap>
-                        {noticeList &&
-                          noticeList.map((list, idx) => (
-                            <li key={idx}>
-                              <ListWrapper>
-                                <ListContent>
-                                  <ContentsWrapF>
-                                    <div>
-                                      <img src={list.url[0]} alt={list.id} />
-                                    </div>
-                                  </ContentsWrapF>
-                                  <ContentsWrapS>
-                                    <div>
-                                      <img src={list.url[1]} alt={list.id} />
-                                    </div>
-                                  </ContentsWrapS>
-                                  <ContentsWrapT>
-                                    <div>
-                                      <img src={list.url[2]} alt={list.id} />
-                                    </div>
-                                  </ContentsWrapT>
-                                </ListContent>
-                              </ListWrapper>
-                            </li>
-                          ))}
-                      </NoticeListWrap>
-                    </div>
+                    <NoticeListWrap>
+                      <ListWrapper>
+                        <ListContent>
+                          <img
+                            src="https://i.pinimg.com/originals/d5/c9/ef/d5c9ef8928c210b5cf00620d666d8012.jpg"
+                            alt="image"
+                          />
+                        </ListContent>
+                      </ListWrapper>
+                      <ListWrapper>
+                        <ListContent>
+                          <img
+                            src="https://i.pinimg.com/originals/32/f8/af/32f8afba3b732c37f99d1892dee602f1.jpg"
+                            alt="image"
+                          />
+                        </ListContent>
+                      </ListWrapper>
+                      <ListWrapper>
+                        <ListContent>
+                          <img
+                            src="https://i.pinimg.com/originals/d5/c9/ef/d5c9ef8928c210b5cf00620d666d8012.jpg"
+                            alt="image"
+                          />
+                        </ListContent>
+                      </ListWrapper>
+                      <ListWrapper>
+                        <ListContent>
+                          <img
+                            src="https://i.pinimg.com/originals/d5/c9/ef/d5c9ef8928c210b5cf00620d666d8012.jpg"
+                            alt="image"
+                          />
+                        </ListContent>
+                      </ListWrapper>
+                    </NoticeListWrap>
                   </NoticeContents>
                 </div>
               </NoticeBox>
@@ -523,9 +551,6 @@ const SuggestList = styled.div`
   justify-content: space-between;
   margin-left: 20px;
   margin-right: 20px;
-  /* justify-content: space-between;
-  align-items: center;
-  flex-direction: row; */
   margin: 0 auto;
   div {
   }
@@ -603,7 +628,7 @@ const NoticeBox = styled.div`
   margin-top: 80px;
   box-shadow: rgba(0, 0, 0, 0.3) -3px 4px 14px 0px;
   overscroll-behavior: none;
-  overflow: auto;
+  /* overflow: auto; */
   margin-right: 8px;
   position: fixed;
   bottom: 0;
@@ -614,8 +639,27 @@ const NoticeBox = styled.div`
   font-size: 12px;
 `;
 
+// const BottomSection = styled.div`
+//   position: absolute;
+//   bottom: 0;
+//   left: 0;
+//   right: 0;
+//   background-color: #fff;
+//   width: 100px;
+//   box-shadow: rgba(0, 0, 0, 0.1) 8px -8px 0px 8px;
+// `;
+
 const NoticeTitle = styled.div`
   padding: 23px 0;
+  z-index: 700;
+  position: absolute;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  width: 100%;
+  border-radius: 16px;
 
   div {
     font-weight: 700;
@@ -624,108 +668,64 @@ const NoticeTitle = styled.div`
   }
 `;
 
-const NoticeContents = styled.div`
-  height: calc(100% - 64px);
-  /* overflow: auto; */
-  div {
-  }
-`;
-
-const NoticeListWrap = styled.ul`
-  li {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 16px;
-  }
-`;
-
-const ListWrapper = styled.div`
-  width: 344px;
-  margin: 0 8px 16px 8px;
-  cursor: pointer;
+const NoticeEnd = styled.div`
+  padding: 23px 0;
   border-radius: 16px;
-  padding: 8px;
+  z-index: 700;
+  position: absolute;
+  left: 65px;
+  bottom: 0;
+  width: 100%;
+`;
+
+const BtnWrap = styled.div`
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 235px;
+  background-color: #fff;
+`;
+const NoticeContents = styled.div`
+  margin: 65px 0;
+  padding: 10px 0;
+  width: 360px;
+  height: calc(100vh - 230px);
+  overflow: scroll;
+`;
+
+const NoticeListWrap = styled.div`
+  width: 95%;
+  column-width: 250px;
+  column-gap: 0px;
+  margin-left: 12px;
+  position: relative;
+  overflow: hidden;
+  clear: both;
+`;
+
+const ListWrapper = styled.figure`
+  display: inline-block;
+  width: 145px;
+  float: left;
+  margin: 0;
+  margin-left: 15px;
+  margin-bottom: 16px;
+  border-radius: 16px;
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  /* break-inside: avoid-page; */
   &:hover {
     background-color: #f0f0f0;
   }
 `;
 
-const ListTitle = styled.div`
-  position: relative;
-  margin-bottom: 10px;
-  div {
-    color: #333;
-    font-size: 16px;
-    font-weight: 400;
-    span {
-      text-align: left;
-      line-height: 1.4;
-    }
-  }
-`;
-
 const ListContent = styled.div`
-  width: 328px;
-  height: 164px;
   border-radius: 16px;
-  overflow: hidden;
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  border-radius: 16px;
-  cursor: pointer;
-`;
-
-const ContentsWrapF = styled.div`
-  max-height: 164px;
-  max-width: 108.7px;
-  margin-right: 1px;
-  overflow: hidden;
-  vertical-align: middle;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  div {
-    img {
-    }
-  }
-`;
-
-const ContentsWrapS = styled.div`
-  max-height: 164px;
-  max-width: 108.7px;
-  margin-right: 1px;
-  overflow: hidden;
-  vertical-align: middle;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  div {
-    img {
-    }
-  }
-`;
-
-const ContentsWrapT = styled.div`
-  max-height: 164px;
-  max-width: 108.7px;
-  margin-right: 1px;
-  overflow: hidden;
-  vertical-align: middle;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  div {
-    img {
-    }
+  width: 100%;
+  cursor: zoom-in;
+  img {
+    width: 100%;
+    border-radius: 16px;
   }
 `;
 
