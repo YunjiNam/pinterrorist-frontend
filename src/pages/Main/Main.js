@@ -25,7 +25,10 @@ const Main = ({ scrollPosition, history }) => {
         .then((res) => res.json())
         .then((res) => {
           setContentsList(res.pins);
-          setBoards(res.boards[0]["name"]);
+          console.log(res);
+          if (res.boards.length !== 0) {
+            setBoards(res.boards[0]["name"]);
+          }
         });
     } else {
       fetch("http://localhost:3000/data/main.json")
