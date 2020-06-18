@@ -33,6 +33,7 @@ const CreateBoard = ({
   const handleCancel = () => {
     setCancel(!cancel);
     setModal(false);
+    setFoldDropdown(false);
     console.log(cancel);
     console.log(paramsId);
   };
@@ -82,7 +83,7 @@ const CreateBoard = ({
         <MainWrap>
           <MainLeft>
             <div>
-              <img src={image} />
+              <img src={image} alt="img" />
             </div>
           </MainLeft>
           <MainRight>
@@ -169,7 +170,6 @@ const TitleWrap = styled.div`
 `;
 
 const MainWrap = styled.div`
-  height: 650px;
   width: 100%;
   display: flex;
 `;
@@ -177,6 +177,7 @@ const MainWrap = styled.div`
 const MainLeft = styled.div`
   width: 40%;
   margin-top: 12px;
+  margin-bottom: 12px;
   display: flex;
   justify-content: center;
   div {

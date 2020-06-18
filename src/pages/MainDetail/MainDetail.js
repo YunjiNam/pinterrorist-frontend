@@ -7,9 +7,11 @@ import profileMock from "../../images/profileMock.jpg";
 import Header from "../../components/Header";
 import Dropdown from "../../components/Dropdown/Dropdown";
 import CommentBox from "../../components/CommentBox/CommentBox";
+import ArticleTemplate from "../Main/ArticleTemplate/ArticleTemplate";
 import url from "../../config";
+import DropdownBackward from "../../components/Dropdown/DropdownBackward";
 
-const MainDetail = () => {
+const MainDetail = ({ history }) => {
   const [clickInput, setClickInput] = useState(false);
   const [clickCancel, setClickCancel] = useState(false);
   const [changeColor, setChangeColor] = useState(false);
@@ -20,6 +22,11 @@ const MainDetail = () => {
   const [text1, setText1] = useState("");
   const [text2, setText2] = useState("");
   const [firstBoard, setFirstBoard] = useState("");
+  const [ContentsList, setContentsList] = useState([]);
+  const [search, setSearch] = useState(false);
+  const [pin, setPin] = useState([]);
+  const [pinCheck, setPinCheck] = useState(false);
+  const [boards, setBoards] = useState([]);
 
   const { id } = useParams();
 
@@ -33,12 +40,16 @@ const MainDetail = () => {
     })
       .then((res) => res.json())
       .then((res) => {
+        console.log(res.similar_pins);
         setCommentArr(res.comment);
         setNumber(res.comment_total);
         setImage(res.pin.image_url);
         setText1(res.pin.text1);
         setText2(res.pin.text2);
-        setFirstBoard(res.boards[0]["name"]);
+        setContentsList(res.similar_pins);
+        if (res.boards.length !== 0) {
+          setFirstBoard(res.boards[0]["name"]);
+        }
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -83,115 +94,140 @@ const MainDetail = () => {
     setChangeColor(e.target.value.length > 0 ? true : false);
   };
 
-  return (
-    <MainDetailPage>
-      <Link to="/">
-        <Background></Background>
-      </Link>
-      <Header />
-      <MainContainer>
-        <MainWrap>
-          <BackButtonWrap>
-            <Link to="/">
-              <BackButtonIconWrap>
-                <BackButtonIcon></BackButtonIcon>
-              </BackButtonIconWrap>
-            </Link>
-            {/* <BackButtonTextWrap>
-              <BackButtonText>추천</BackButtonText>
-            </BackButtonTextWrap> */}
-          </BackButtonWrap>
-          <MainFeed>
-            <FeedLeft>
-              <img src={image} />
-            </FeedLeft>
-            <FeedRight>
-              <RightNavContainer>
-                <RightNavWrap>
-                  <IconWrap>
-                    <IconMoreWrap>
-                      <IconMore>more_horiz</IconMore>
-                    </IconMoreWrap>
-                    <IconShareWrap>
-                      <IconShare />
-                    </IconShareWrap>
-                  </IconWrap>
-                  <DropdownBox>
-                    <Dropdown
-                      image={image}
-                      paramsId={id}
-                      firstBoard={firstBoard}
-                    />
-                  </DropdownBox>
-                </RightNavWrap>
-              </RightNavContainer>
-              <RightTopContainer>
-                <RightTopWrap>
-                  <h1>
-                    {text1 === "no text" || text1 === "'no text'"
-                      ? null
-                      : text1}
-                  </h1>
-                  <h3>{text2 === "no text" ? "" : text2}</h3>
-                </RightTopWrap>
-              </RightTopContainer>
-              <RightBodyContainer>
-                <div className="rightBodyWrap">
-                  <CommentTopContainer>
-                    <CommentTopText>댓글 {number}개</CommentTopText>
-                  </CommentTopContainer>
-                  {commentArr &&
-                    commentArr.map((list, idx) => (
-                      <CommentBox
-                        user_name={list.user}
-                        content={list.comment.content}
-                        key={idx}
-                        id={list.comment.id}
-                        commentArr={commentArr}
-                        setCommentArr={setCommentArr}
-                        number={number}
-                        setNumber={setNumber}
-                        comment_total={list.comment_total}
-                        paramsId={id}
-                      />
-                    ))}
-                  <AddCommentContainer>
-                    <AddCommentWrap>
-                      <MyProfile>
-                        <MyProfileSvg>
-                          <path d="M12 12c5.523 0 10 4.477 10 10v2H2v-2c0-5.523 4.477-10 10-10zm0-1a5.5 5.5 0 1 1 0-11 5.5 5.5 0 1 1 0 11z"></path>
-                        </MyProfileSvg>
-                      </MyProfile>
-                      <AddCommentInput
-                        type="text"
-                        placeholder="댓글 추가"
-                        value={commentText}
-                        onClick={handleInput}
-                        onChange={handleChange}
-                        clickInput={clickInput}
-                      ></AddCommentInput>
-                    </AddCommentWrap>
-                    <AddCommentButtonWrap clickInput={clickInput}>
-                      <AddCommentButton>
-                        <ButtonCancel
-                          onClick={handleCancel}
-                          clickCancel={clickCancel}
-                        >
-                          취소
-                        </ButtonCancel>
-                        <ButtonComplete
-                          onClick={handleDone}
-                          changeColor={changeColor}
-                        >
-                          완료
-                        </ButtonComplete>
-                      </AddCommentButton>
-                    </AddCommentButtonWrap>
-                  </AddCommentContainer>
-                </div>
-              </RightBodyContainer>
+  const searchHandler = (text) => {
+    setSearch(true);
+    fetch(`${url}/search/?search=${text}`, {
+      headers: {
+        Authorization: localStorage.getItem("Authorization"),
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => setContentsList(res.search_term));
+  };
 
-              {/* <RightBottomContainer>
+  const pinSave = (id) => {
+    if (pin.includes(id)) {
+      const filter = pin.filter((i) => i !== id);
+      setPin(filter);
+      setPinCheck(!pinCheck);
+    } else {
+      setPinCheck(!pinCheck);
+      setPin(pin.concat(id));
+    }
+  };
+
+  const goDetail = (id) => {
+    history.push(`/detail/${id}`);
+    window.location.reload();
+  };
+
+  return (
+    <>
+      <MainDetailPage>
+        <Link to="/">
+          <Background></Background>
+        </Link>
+        <Header search={(text) => searchHandler(text)} />
+        <MainDetailContainer>
+          <MainWrap>
+            <BackButtonWrap>
+              <Link to="/">
+                <BackButtonIconWrap>
+                  <BackButtonIcon></BackButtonIcon>
+                </BackButtonIconWrap>
+              </Link>
+            </BackButtonWrap>
+            <MainFeed>
+              <FeedLeft>
+                <img src={image} />
+              </FeedLeft>
+              <FeedRight>
+                <RightNavContainer>
+                  <RightNavWrap>
+                    <IconWrap>
+                      <IconMoreWrap>
+                        <IconMore>more_horiz</IconMore>
+                      </IconMoreWrap>
+                      <IconShareWrap>
+                        <IconShare />
+                      </IconShareWrap>
+                    </IconWrap>
+                    <DropdownBox>
+                      <Dropdown
+                        image={image}
+                        paramsId={id}
+                        firstBoard={firstBoard}
+                      />
+                    </DropdownBox>
+                  </RightNavWrap>
+                </RightNavContainer>
+                <RightTopContainer>
+                  <RightTopWrap>
+                    <h1>
+                      {text1 === "no text" || text1 === "'no text'"
+                        ? null
+                        : text1}
+                    </h1>
+                    <h3>{text2 === "no text" ? "" : text2}</h3>
+                  </RightTopWrap>
+                </RightTopContainer>
+                <RightBodyContainer>
+                  <div className="rightBodyWrap">
+                    <CommentTopContainer>
+                      <CommentTopText>댓글 {number}개</CommentTopText>
+                    </CommentTopContainer>
+                    {commentArr &&
+                      commentArr.map((list, idx) => (
+                        <CommentBox
+                          user_name={list.user}
+                          content={list.comment.content}
+                          key={idx}
+                          id={list.comment.id}
+                          commentArr={commentArr}
+                          setCommentArr={setCommentArr}
+                          number={number}
+                          setNumber={setNumber}
+                          comment_total={list.comment_total}
+                          paramsId={id}
+                        />
+                      ))}
+                    <AddCommentContainer>
+                      <AddCommentWrap>
+                        <MyProfile>
+                          <MyProfileSvg>
+                            <path d="M12 12c5.523 0 10 4.477 10 10v2H2v-2c0-5.523 4.477-10 10-10zm0-1a5.5 5.5 0 1 1 0-11 5.5 5.5 0 1 1 0 11z"></path>
+                          </MyProfileSvg>
+                        </MyProfile>
+                        <AddCommentInput
+                          type="text"
+                          placeholder="댓글 추가"
+                          value={commentText}
+                          onClick={handleInput}
+                          onChange={handleChange}
+                          clickInput={clickInput}
+                        ></AddCommentInput>
+                      </AddCommentWrap>
+                      <AddCommentButtonWrap clickInput={clickInput}>
+                        <AddCommentButton>
+                          <ButtonCancel
+                            onClick={handleCancel}
+                            clickCancel={clickCancel}
+                          >
+                            취소
+                          </ButtonCancel>
+                          <ButtonComplete
+                            onClick={handleDone}
+                            changeColor={changeColor}
+                          >
+                            완료
+                          </ButtonComplete>
+                        </AddCommentButton>
+                      </AddCommentButtonWrap>
+                    </AddCommentContainer>
+                  </div>
+                </RightBodyContainer>
+
+                {/* <RightBottomContainer>
                 <RightBottomWrap>
                   <ProfileImage></ProfileImage>
                   <BottomText>
@@ -200,11 +236,32 @@ const MainDetail = () => {
                   </BottomText>
                 </RightBottomWrap>
               </RightBottomContainer> */}
-            </FeedRight>
-          </MainFeed>
-        </MainWrap>
+              </FeedRight>
+            </MainFeed>
+          </MainWrap>
+        </MainDetailContainer>
+      </MainDetailPage>
+      <SimilarPins>유사한 핀 더 보기</SimilarPins>
+      <MainContainer>
+        <ContentsWrap>
+          {ContentsList &&
+            ContentsList.map((list, idx) => (
+              <>
+                <ArticleTemplate
+                  boardList={firstBoard}
+                  onClick={() => goDetail(list.id)}
+                  pinClickHandler={pinSave}
+                  pinCheck={pin}
+                  id={list.id}
+                  image={list.image}
+                  image_url={list.image_url}
+                  search={search}
+                />
+              </>
+            ))}
+        </ContentsWrap>
       </MainContainer>
-    </MainDetailPage>
+    </>
   );
 };
 
@@ -226,7 +283,7 @@ const Background = styled.div`
   cursor: zoom-out;
 `;
 
-const MainContainer = styled.div`
+const MainDetailContainer = styled.div`
   padding-top: 120px;
 `;
 
@@ -243,6 +300,9 @@ const BackButtonWrap = styled.div`
   align-items: center;
   left: 0;
   position: fixed;
+  @media all and (max-width: 1170px) {
+    display: none;
+  }
 `;
 
 const MainFeed = styled.div`
@@ -523,3 +583,33 @@ const MyProfileSvg = styled.svg.attrs({ viewBox: "-3 -7 30 30" })`
    z-index: 1;
    justify-content: center;
    color: red; */
+
+const SimilarPins = styled.div`
+  padding: 32px 32px 0 32px;
+  margin-bottom: -50px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  font-size: 21px;
+  font-weight: 700;
+`;
+
+const MainContainer = styled.div`
+  margin-top: 20px;
+  padding-top: 80px;
+  width: 100%;
+  display: block;
+  display: flex;
+  justify-content: center;
+`;
+
+const ContentsWrap = styled.div`
+  width: 95%;
+  column-width: 250px;
+  column-gap: 0px;
+  position: relative;
+  overflow: hidden;
+  clear: both;
+`;
