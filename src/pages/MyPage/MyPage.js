@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { withRouter, Link } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
 import Header from "./../../components/Header";
-import Boards from "./Boards";
+import Boards from "./Board/Boards";
 import Pins from "./Pins";
 import Topics from "./Topics";
-import MakingBoard from "./MakingBoard";
+import MakingBoard from "./MakingBoardDropdown/MakingBoard";
 
 const Select = {
   0: <Boards />,
@@ -17,12 +17,6 @@ const MyPage = () => {
   const [tab, setTab] = useState(0);
   const [dropdown, setDropdown] = useState(false);
   const [modal, setModal] = useState(false);
-  //const [subjectTab, setSubjectTab] = useState(false);
-
-  //최초에 렌더링이 되고 받아온 response 객체 안의 data배열을 참조하여 setData 에 넣어주는데,  이때 useEffect 내부에서 state 값을 변경시킨 결과로 컴포넌트의 재렌더링이 일어날 수 있으므로 이를 막기 위해 두번째 인자로 빈 배열을 전달한다.(배열 내에서 변화가 감지될때만 useEffect를실행한다)
-  // useEffect(() => {
-  //   axios.get("URL").then(({ data }) => setData(data));
-  // }, []);
 
   const closeDropdown = () => {
     if (dropdown) {
@@ -39,10 +33,6 @@ const MyPage = () => {
   const openModal = () => {
     setModal(true);
   };
-
-  // useEffect(() => {
-  //   axios.get("/data/data.json").then(({ data }) => setData(data.data));
-  // }, []);
 
   return (
     <AppContent onClick={closeDropdown}>
@@ -90,23 +80,38 @@ const MyPage = () => {
         <ProfileWrapper>
           <ProfileInfo>
             <TextInfo>
-              <h1>Jia K</h1>
-              <span>팔로워 0명</span>
-              <span>팔로잉 23명</span>
+              <h1>Boksil Nam</h1>
+              <span>팔로워 13K명</span>
+              <span>팔로잉 0명</span>
             </TextInfo>
             <PictureInfo>
-              <MyImage
-                src="https://s.pinimg.com/images/user/default_280.png"
+              <img
+                src="https://scontent-gmp1-1.cdninstagram.com/v/t51.2885-15/e35/102641475_286312019085118_4472201422226881902_n.jpg?_nc_ht=scontent-gmp1-1.cdninstagram.com&_nc_cat=110&_nc_ohc=QGlmuy4R8QQAX8tSXHe&oh=14ca5bea3514f34ed8dd9b74fa06a4cb&oe=5F14B3A8"
                 alt="bio-photo"
-              ></MyImage>
+              />
             </PictureInfo>
           </ProfileInfo>
         </ProfileWrapper>
         <MiddleNav>
           <Subject>
-            <SubjectTab onClick={() => setTab(0)}>보드</SubjectTab>
-            <SubjectTab onClick={() => setTab(1)}>핀</SubjectTab>
-            <SubjectTab onClick={() => setTab(2)}>주제</SubjectTab>
+            <SubjectTab
+              onClick={() => setTab(0)}
+              color={tab === 0 ? true : false}
+            >
+              보드
+            </SubjectTab>
+            <SubjectTab
+              onClick={() => setTab(1)}
+              color={tab === 1 ? true : false}
+            >
+              핀
+            </SubjectTab>
+            <SubjectTab
+              onClick={() => setTab(2)}
+              color={tab === 2 ? true : false}
+            >
+              주제
+            </SubjectTab>
           </Subject>
         </MiddleNav>
         {Select[tab]}
@@ -120,7 +125,7 @@ export default withRouter(MyPage);
 const AppContent = styled.div`
   width: 100%;
   box-sizing: border-box;
-  margin-top: 80px;
+  margin-top: 200px;
 `;
 
 const ProfileWrapper = styled.div`
@@ -138,14 +143,14 @@ const IconBar = styled.div`
   background: hsla(0, 0%, 100%, 0.97);
   position: fixed;
   z-index: 9;
-  top: 80px;
+  top: 75px;
 `;
 
 const IconBarInside = styled.div`
   max-width: 800px;
   width: 100%;
   align-items: center;
-  margin: 0 auto;
+  margin: 30px auto 10px;
 `;
 
 const IconsWrapper = styled.div`
@@ -261,20 +266,20 @@ const SubjectTab = styled.button`
   min-width: 60px;
   font-size: 16px;
   font-weight: 700;
-  color : ${(subjectTab) => (SubjectTab ? "white" : "black")}
   cursor: pointer;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   border: none;
-  background: transparent;
+  color: ${(props) => (props.color ? "white" : "black")};
+  background: ${(props) => (props.color ? "black" : "transparent")};
+  border-radius: 27px;
   outline-style: none;
   :active {
     border: 3px solid skyblue;
   }
   &:hover {
     background: rgb(220, 218, 218);
-    text-decoration: underline;
     border-radius: 20px;
   }
 `;
@@ -287,12 +292,19 @@ const MiddleNav = styled.div`
 const PictureInfo = styled.div`
   display: flex;
   justify-content: space-between;
+  border-radius: 50%;
+  img {
+    height: 106px;
+    width: 106px;
+    border-radius: 50%;
+  }
 `;
 
 const TextInfo = styled.div`
   width: 75%;
   padding-left: 8px;
   padding-right: 8px;
+  line-height: 1.2;
   h1 {
     margin-bottom: 5px;
     text-align: left;
@@ -303,11 +315,6 @@ const TextInfo = styled.div`
     margin-right: 10px;
     font-weight: 600;
   }
-`;
-
-const MyImage = styled.img`
-  height: 106px;
-  width: 106px;
 `;
 
 // const SelectedContent = styled.div``;
