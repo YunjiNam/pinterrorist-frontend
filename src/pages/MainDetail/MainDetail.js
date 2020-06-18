@@ -116,11 +116,13 @@ const MainDetail = () => {
                       <IconShare />
                     </IconShareWrap>
                   </IconWrap>
-                  <Dropdown
-                    image={image}
-                    paramsId={id}
-                    firstBoard={firstBoard}
-                  />
+                  <DropdownBox>
+                    <Dropdown
+                      image={image}
+                      paramsId={id}
+                      firstBoard={firstBoard}
+                    />
+                  </DropdownBox>
                 </RightNavWrap>
               </RightNavContainer>
               <RightTopContainer>
@@ -250,6 +252,10 @@ const MainFeed = styled.div`
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 20px;
   position: relative;
   background-color: #fff;
+  @media all and (max-width: 1060px) {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const RightNavContainer = styled.div`
@@ -299,10 +305,15 @@ const FeedLeft = styled.div`
   width: 508px;
   position: relative;
   cursor: pointer;
+
   img {
     width: 100%;
     border-top-left-radius: 32px;
     border-bottom-left-radius: 32px;
+    @media all and (max-width: 1060px) {
+      border-top-right-radius: 32px;
+      border-bottom-left-radius: 0;
+    }
   }
 `;
 
@@ -378,6 +389,12 @@ const RightTopWrap = styled.div`
     font-weight: 400;
     padding-top: 25px;
   }
+`;
+
+const DropdownBox = styled.div`
+  width: 235px;
+  display: flex;
+  justify-content: flex-end;
 `;
 
 const RightBodyContainer = styled.div`

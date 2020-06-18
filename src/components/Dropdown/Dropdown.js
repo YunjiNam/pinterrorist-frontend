@@ -59,84 +59,76 @@ const Dropdown = ({ image, paramsId, firstBoard }) => {
   };
 
   return (
-    <DropdownBox>
-      <ButtonWrap>
-        {modal ? (
-          <CreateBoard
-            modal={modal}
-            setModal={setModal}
-            image={image}
-            paramsId={paramsId}
-            foldDropdown={foldDropdown}
-            setFoldDropdown={setFoldDropdown}
-            selected={setSelected}
-            setSelected={setSelected}
-            clickDropdown={clickDropdown}
-            setClickDropdown={setClickDropdown}
-            selectedTitle={selectedTitle}
-            setSelectedTitle={setSelectedTitle}
-            disabled={disabled}
-            setDisabled={setDisabled}
-          />
-        ) : null}
-        <DropdownNav
-          disabled={disabled ? "disabled" : "enabled"}
-          onClick={handleDropdown}
+    <ButtonWrap>
+      {modal ? (
+        <CreateBoard
+          modal={modal}
+          setModal={setModal}
+          image={image}
+          paramsId={paramsId}
+          foldDropdown={foldDropdown}
+          setFoldDropdown={setFoldDropdown}
+          selected={setSelected}
+          setSelected={setSelected}
           clickDropdown={clickDropdown}
+          setClickDropdown={setClickDropdown}
+          selectedTitle={selectedTitle}
+          setSelectedTitle={setSelectedTitle}
           disabled={disabled}
-        >
-          <DropdownLeft>
-            <DropdownText>
-              {selected ? `${selectedTitle}에 저장됨` : firstBoard}
-            </DropdownText>
-            <IconArrowWrap>
-              <IconArrow>{selected ? "done" : "keyboard_arrow_down"}</IconArrow>
-            </IconArrowWrap>
-          </DropdownLeft>
-        </DropdownNav>
-        <ButtonSave clickDropdown={clickDropdown}>
-          <ButtonSaveText onClick={savePinToFirstBoard}>저장</ButtonSaveText>
-        </ButtonSave>
-        <DropdownWrap clickDropdown={clickDropdown} foldDropdown={foldDropdown}>
-          <DropdownTop>
-            <input type="text" placeholder="검색" />
-            <i class="fas fa-search"></i>
-          </DropdownTop>
-          <DropdownBody>
-            <BoardAllTitle>모든 보드</BoardAllTitle>
-            {boardArr &&
-              boardArr.map((list, idx) => (
-                <Card
-                  boardName={list.board.name}
-                  pinImage={list.pins}
-                  paramsId={paramsId}
-                  setClickDropdown={setClickDropdown}
-                  clickDropdown={clickDropdown}
-                  selectBoard={selectBoard}
-                  setFoldDropdown={setFoldDropdown}
-                  foldDropdown={foldDropdown}
-                />
-              ))}
-          </DropdownBody>
-          <DropdownBottom onClick={handleModal}>
-            <BottomIcon>
-              <i class="fas fa-plus-circle"></i>
-            </BottomIcon>
-            <BottomTitle>보드 만들기</BottomTitle>
-          </DropdownBottom>
-        </DropdownWrap>
-      </ButtonWrap>
-    </DropdownBox>
+          setDisabled={setDisabled}
+        />
+      ) : null}
+      <DropdownNav
+        disabled={disabled ? "disabled" : "enabled"}
+        onClick={handleDropdown}
+        clickDropdown={clickDropdown}
+        disabled={disabled}
+      >
+        <DropdownLeft>
+          <DropdownText>
+            {selected ? `${selectedTitle}에 저장됨` : firstBoard}
+          </DropdownText>
+          <IconArrowWrap>
+            <IconArrow>{selected ? "done" : "keyboard_arrow_down"}</IconArrow>
+          </IconArrowWrap>
+        </DropdownLeft>
+      </DropdownNav>
+      <ButtonSave clickDropdown={clickDropdown}>
+        <ButtonSaveText onClick={savePinToFirstBoard}>저장</ButtonSaveText>
+      </ButtonSave>
+      <DropdownWrap clickDropdown={clickDropdown} foldDropdown={foldDropdown}>
+        <DropdownTop>
+          <input type="text" placeholder="검색" />
+          <i class="fas fa-search"></i>
+        </DropdownTop>
+        <DropdownBody>
+          <BoardAllTitle>모든 보드</BoardAllTitle>
+          {boardArr &&
+            boardArr.map((list, idx) => (
+              <Card
+                boardName={list.board.name}
+                pinImage={list.pins}
+                paramsId={paramsId}
+                setClickDropdown={setClickDropdown}
+                clickDropdown={clickDropdown}
+                selectBoard={selectBoard}
+                setFoldDropdown={setFoldDropdown}
+                foldDropdown={foldDropdown}
+              />
+            ))}
+        </DropdownBody>
+        <DropdownBottom onClick={handleModal}>
+          <BottomIcon>
+            <i class="fas fa-plus-circle"></i>
+          </BottomIcon>
+          <BottomTitle>보드 만들기</BottomTitle>
+        </DropdownBottom>
+      </DropdownWrap>
+    </ButtonWrap>
   );
 };
 
 export default Dropdown;
-
-const DropdownBox = styled.div`
-  width: 235px;
-  display: flex;
-  justify-content: flex-end;
-`;
 
 const ButtonWrap = styled.div`
   display: flex;
