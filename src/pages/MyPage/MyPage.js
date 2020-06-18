@@ -94,9 +94,24 @@ const MyPage = () => {
         </ProfileWrapper>
         <MiddleNav>
           <Subject>
-            <SubjectTab onClick={() => setTab(0)}>보드</SubjectTab>
-            <SubjectTab onClick={() => setTab(1)}>핀</SubjectTab>
-            <SubjectTab onClick={() => setTab(2)}>주제</SubjectTab>
+            <SubjectTab
+              onClick={() => setTab(0)}
+              color={tab === 0 ? true : false}
+            >
+              보드
+            </SubjectTab>
+            <SubjectTab
+              onClick={() => setTab(1)}
+              color={tab === 1 ? true : false}
+            >
+              핀
+            </SubjectTab>
+            <SubjectTab
+              onClick={() => setTab(2)}
+              color={tab === 2 ? true : false}
+            >
+              주제
+            </SubjectTab>
           </Subject>
         </MiddleNav>
         {Select[tab]}
@@ -135,7 +150,7 @@ const IconBarInside = styled.div`
   max-width: 800px;
   width: 100%;
   align-items: center;
-  margin: 0 auto;
+  margin: 30px auto 10px;
 `;
 
 const IconsWrapper = styled.div`
@@ -251,20 +266,20 @@ const SubjectTab = styled.button`
   min-width: 60px;
   font-size: 16px;
   font-weight: 700;
-  color : ${(subjectTab) => (SubjectTab ? "white" : "black")}
   cursor: pointer;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   border: none;
-  background: transparent;
+  color: ${(props) => (props.color ? "white" : "black")};
+  background: ${(props) => (props.color ? "black" : "transparent")};
+  border-radius: 27px;
   outline-style: none;
   :active {
     border: 3px solid skyblue;
   }
   &:hover {
     background: rgb(220, 218, 218);
-    text-decoration: underline;
     border-radius: 20px;
   }
 `;
@@ -289,6 +304,7 @@ const TextInfo = styled.div`
   width: 75%;
   padding-left: 8px;
   padding-right: 8px;
+  line-height: 1.2;
   h1 {
     margin-bottom: 5px;
     text-align: left;

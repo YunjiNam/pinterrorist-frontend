@@ -5,7 +5,7 @@ import Dropdown from "./Dropdown";
 import styled from "styled-components";
 import url from "../../../config";
 
-const PinBuilder = () => {
+const PinBuilder = ({ history }) => {
   const [imgBase64, setImgBase64] = useState(""); // 파일 base64
   const [imgFile, setImgFile] = useState(null); //파일
   const [uploadedfile, setUploadedfile] = useState([]); //업로드한 파일
@@ -54,7 +54,9 @@ const PinBuilder = () => {
       body: fd,
     }).then(function (res) {
       if (res.ok) {
-        alert("Perfect");
+        alert("핀이 등록되었습니다.");
+        //디테일페이지로 가야함
+        history.push("/mypage");
         console.log(res);
       } else {
         alert("Oops");
@@ -175,7 +177,7 @@ const PinBuilder = () => {
   );
 };
 
-export default PinBuilder;
+export default withRouter(PinBuilder);
 
 const Background = styled.div`
   position: relative;
