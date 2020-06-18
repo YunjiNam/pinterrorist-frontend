@@ -92,14 +92,14 @@ const MainDetail = () => {
       <MainContainer>
         <MainWrap>
           <BackButtonWrap>
-            <BackButtonIconWrap>
-              <Link to="/">
+            <Link to="/">
+              <BackButtonIconWrap>
                 <BackButtonIcon></BackButtonIcon>
-              </Link>
-            </BackButtonIconWrap>
-            <BackButtonTextWrap>
+              </BackButtonIconWrap>
+            </Link>
+            {/* <BackButtonTextWrap>
               <BackButtonText>추천</BackButtonText>
-            </BackButtonTextWrap>
+            </BackButtonTextWrap> */}
           </BackButtonWrap>
           <MainFeed>
             <FeedLeft>
@@ -188,6 +188,7 @@ const MainDetail = () => {
                   </AddCommentContainer>
                 </div>
               </RightBodyContainer>
+
               {/* <RightBottomContainer>
                 <RightBottomWrap>
                   <ProfileImage></ProfileImage>
@@ -267,7 +268,7 @@ const IconWrap = styled.div`
 `;
 
 const BackButtonIconWrap = styled.button`
-  padding: 10px;
+  margin-left: 10px;
   cursor: pointer;
   border-radius: 50%;
   border: 0;
@@ -281,18 +282,18 @@ const BackButtonIconWrap = styled.button`
 `;
 
 const BackButtonIcon = styled.i.attrs({ className: "fas fa-arrow-left" })`
-  font-size: 20px;
+  font-size: 22px;
 `;
 
-const BackButtonTextWrap = styled.div`
-  cursor: pointer;
-`;
+// const BackButtonTextWrap = styled.div`
+//   cursor: pointer;
+// `;
 
-const BackButtonText = styled.h3`
-  font-size: 20px;
-  font-weight: 700;
-  padding: 8px;
-`;
+// const BackButtonText = styled.h3`
+//   font-size: 20px;
+//   font-weight: 700;
+//   padding: 8px;
+// `;
 
 const FeedLeft = styled.div`
   width: 508px;
