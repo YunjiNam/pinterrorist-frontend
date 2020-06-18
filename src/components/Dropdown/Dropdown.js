@@ -3,13 +3,31 @@ import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 import Card from "./Card/Card";
 import CreateBoard from "../../components/CreateBoard/CreateBoard";
+import url from "../../config";
 
-const Dropdown = ({ image }) => {
+const Dropdown = ({ image, paramsId, firstBoard }) => {
   const [clickDropdown, setClickDropdown] = useState(false);
+  const [foldDropdown, setFoldDropdown] = useState(false);
   const [modal, setModal] = useState(false);
+  const [boardArr, setBoardArr] = useState([]);
+  const [selectedTitle, setSelectedTitle] = useState("");
+  const [selected, setSelected] = useState(false);
+  const [disabled, setDisabled] = useState(false);
 
   const handleDropdown = () => {
-    setClickDropdown(!clickDropdown);
+    const token = localStorage.getItem("Authorization");
+    console.log("Get 실행");
+    fetch(`${url}/boards`, {
+      headers: {
+        Authorization: token,
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setBoardArr(res.boards);
+        setClickDropdown(!clickDropdown);
+        setFoldDropdown(!foldDropdown);
+      });
   };
 
   const handleModal = () => {
@@ -18,47 +36,86 @@ const Dropdown = ({ image }) => {
     console.log("Modal 실행", modal);
   };
 
+  const savePinToFirstBoard = () => {
+    const token = localStorage.getItem("Authorization");
+    console.log("Post 실행");
+    fetch(`${url}/pin/${paramsId}`, {
+      method: "POST",
+      headers: {
+        Authorization: token,
+      },
+      body: JSON.stringify({
+        chosen_board: firstBoard,
+      }),
+    });
+  };
+
+  const selectBoard = (title) => {
+    setSelectedTitle(title);
+    setSelected(true);
+    setClickDropdown(true);
+    setDisabled(true);
+    console.log("셀렉티드 : ", selected);
+  };
+
   return (
     <ButtonWrap>
       {modal ? (
-        <CreateBoard modal={modal} setModal={setModal} image={image} />
+        <CreateBoard
+          modal={modal}
+          setModal={setModal}
+          image={image}
+          paramsId={paramsId}
+          foldDropdown={foldDropdown}
+          setFoldDropdown={setFoldDropdown}
+          selected={setSelected}
+          setSelected={setSelected}
+          clickDropdown={clickDropdown}
+          setClickDropdown={setClickDropdown}
+          selectedTitle={selectedTitle}
+          setSelectedTitle={setSelectedTitle}
+          disabled={disabled}
+          setDisabled={setDisabled}
+        />
       ) : null}
-      <DropdownNav onClick={handleDropdown} clickDropdown={clickDropdown}>
+      <DropdownNav
+        disabled={disabled ? "disabled" : "enabled"}
+        onClick={handleDropdown}
+        clickDropdown={clickDropdown}
+        disabled={disabled}
+      >
         <DropdownLeft>
-          <DropdownText>포즈 참조</DropdownText>
+          <DropdownText>
+            {selected ? `${selectedTitle}에 저장됨` : firstBoard}
+          </DropdownText>
           <IconArrowWrap>
             <IconArrow>keyboard_arrow_down</IconArrow>
           </IconArrowWrap>
         </DropdownLeft>
       </DropdownNav>
       <ButtonSave clickDropdown={clickDropdown}>
-        <ButtonSaveText>저장</ButtonSaveText>
+        <ButtonSaveText onClick={savePinToFirstBoard}>저장</ButtonSaveText>
       </ButtonSave>
-      <DropdownWrap clickDropdown={clickDropdown}>
+      <DropdownWrap clickDropdown={clickDropdown} foldDropdown={foldDropdown}>
         <DropdownTop>
           <input type="text" placeholder="검색" />
           <i class="fas fa-search"></i>
         </DropdownTop>
         <DropdownBody>
           <BoardAllTitle>모든 보드</BoardAllTitle>
-
-          <Card />
-
-          <Card />
-
-          <BoardRecommendTitle>추천 보드 이름</BoardRecommendTitle>
-
-          <Card />
-
-          <Card />
-
-          <Card />
-
-          <Card />
-
-          <Card />
-
-          <Card />
+          {boardArr &&
+            boardArr.map((list, idx) => (
+              <Card
+                boardName={list.board.name}
+                pinImage={list.pins}
+                paramsId={paramsId}
+                setClickDropdown={setClickDropdown}
+                clickDropdown={clickDropdown}
+                selectBoard={selectBoard}
+                setFoldDropdown={setFoldDropdown}
+                foldDropdown={foldDropdown}
+              />
+            ))}
         </DropdownBody>
         <DropdownBottom onClick={handleModal}>
           <BottomIcon>
@@ -155,7 +212,7 @@ const DropdownWrap = styled.div`
   border-radius: 16px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
   background-color: white;
-  display: ${(props) => (props.clickDropdown ? "block" : "none")};
+  display: ${(props) => (props.foldDropdown ? "block" : "none")};
 `;
 const DropdownTop = styled.div`
   padding: 12px;
@@ -190,8 +247,6 @@ const BoardAllTitle = styled.div`
   font-size: 14px;
   font-weight: 400;
 `;
-
-const BoardRecommendTitle = styled(BoardAllTitle)``;
 
 const DropdownBottom = styled.div`
   height: 52px;

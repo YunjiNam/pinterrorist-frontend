@@ -1,8 +1,18 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
+import url from "../../../config";
 
-const Card = () => {
+const Card = ({
+  boardName,
+  pinImage,
+  paramsId,
+  setClickDropdown,
+  clickDropdown,
+  selectBoard,
+  setFoldDropdown,
+  foldDropdown,
+}) => {
   const [enterBoard, setEnterBoard] = useState(false);
 
   const boardEnter = () => {
@@ -12,12 +22,38 @@ const Card = () => {
   const boardLeave = () => {
     setEnterBoard(false);
   };
+
+  const savePin = () => {
+    const token = localStorage.getItem("Authorization");
+    console.log("Post 실행");
+    fetch(`${url}/pin/${paramsId}`, {
+      method: "POST",
+      headers: {
+        Authorization: token,
+      },
+      body: JSON.stringify({
+        chosen_board: boardName,
+      }),
+    });
+    setClickDropdown(true);
+    setFoldDropdown(false);
+    selectBoard(boardName);
+  };
+
   return (
-    <BoardContentContainer onMouseEnter={boardEnter} onMouseLeave={boardLeave}>
+    <BoardContentContainer
+      onMouseEnter={boardEnter}
+      onMouseLeave={boardLeave}
+      onClick={savePin}
+    >
       <BoardContentWrap>
         <BoardContent>
-          <BoardImage></BoardImage>
-          <BoardTitle>남성 캐주얼 스타일</BoardTitle>
+          {pinImage.length === 0 ? (
+            <NullImage></NullImage>
+          ) : (
+            <BoardImage src={pinImage[0]} />
+          )}
+          <BoardTitle>{boardName}</BoardTitle>
         </BoardContent>
         <BoardSave enterBoard={enterBoard}>저장</BoardSave>
       </BoardContentWrap>
@@ -53,12 +89,22 @@ const BoardContent = styled.div`
   align-items: center;
 `;
 
-const BoardImage = styled.div`
+const BoardImage = styled.img`
   width: 36px;
   height: 36px;
   margin: 4px 12px 4px 8px;
   background-color: #efefef;
   border-radius: 4px;
+`;
+
+const NullImage = styled.div`
+  width: 36px;
+  height: 36px;
+  margin: 4px 12px 4px 8px;
+  background-color: #efefef;
+  border-radius: 4px;
+  outline: none;
+  border: 0;
 `;
 
 const BoardTitle = styled.div`
