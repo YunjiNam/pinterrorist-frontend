@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { withRouter, Link } from "react-router-dom";
-// import axios from "axios";
-import Dropdown from "./Dropdown";
+import NewModal from "./NewModal";
 import styled from "styled-components";
 import url from "../../../config";
 
@@ -43,13 +42,7 @@ const PinBuilder = ({ history }) => {
     fetch(`${url}/pin-builder`, {
       method: "POST",
       headers: {
-        // "content-type": "multipart/form-data",
-        // "Content-Type":
-        //   "multipart/form-data; boundary=----WebKitFormBoundaryIn312MOjBWdkffIM",
         Authorization: accessToken,
-
-        // Authorization:
-        //   "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIifQ.kg_TKT_XrRsqMRGUSAac5Uonq3STzSLDlt9d5ZbRzFw",
       },
       body: fd,
     }).then(function (res) {
@@ -97,7 +90,11 @@ const PinBuilder = ({ history }) => {
         <MainWrapper>
           <DropdownWrapper>
             {/* 자식 컴포넌트에서 보드 넘버 정보만 받아온다. */}
-            <Dropdown clickSaveBt={clickSaveBt} />
+            <NewModal
+              uploadedfile={uploadedfile}
+              title={title}
+              imgDes={imgDes}
+            />
           </DropdownWrapper>
           <Bottom>
             <LeftSide>
@@ -136,7 +133,6 @@ const PinBuilder = ({ history }) => {
               <ByOtherSite>사이트에서 저장</ByOtherSite>
             </LeftSide>
             <RightSide>
-              <TempBt onClick={savePins}>저장</TempBt>
               <Editor>
                 <MakeTitle
                   type="text"
@@ -150,10 +146,10 @@ const PinBuilder = ({ history }) => {
                   <UserinfoWrap>
                     <img
                       alt="profile"
-                      src="https://i.pinimg.com/75x75_RS/60/73/cc/6073cc1fe89cde1dfe95702611fc48ae.jpg"
+                      src="https://scontent-gmp1-1.cdninstagram.com/v/t51.2885-15/e35/102641475_286312019085118_4472201422226881902_n.jpg?_nc_ht=scontent-gmp1-1.cdninstagram.com&_nc_cat=110&_nc_ohc=QGlmuy4R8QQAX8tSXHe&oh=14ca5bea3514f34ed8dd9b74fa06a4cb&oe=5F14B3A8"
                     ></img>
                   </UserinfoWrap>
-                  <strong>Jia K</strong>
+                  <strong>Boksil Nam</strong>
                 </div>
                 <Description
                   type="text"
@@ -335,6 +331,7 @@ const Editor = styled.div`
     padding: auto;
     height: 100%;
     margin: auto 0;
+    margin-left: 10px;
   }
 `;
 
@@ -345,7 +342,7 @@ const MakeTitle = styled.textarea`
   margin-top: 40px;
   font-size: 36px;
   font-weight: 700;
-  color: #dadada;
+  color: #333;
   caret-color: #333;
   width: 100%;
   overflow: auto;
@@ -364,12 +361,14 @@ const UserinfoWrap = styled.div`
   height: 32px;
   color: transparent;
   background-color: #969696;
+  margin-left: 10px;
   img {
     position: absolute;
     top: 0;
     left: 0;
     width: 32px;
     height: 32px;
+    border-radius: 50%;
   }
 `;
 
@@ -379,7 +378,7 @@ const Description = styled.textarea`
   border-bottom: 1px solid rgba(142, 142, 142, 0.5);
   white-space: pre-wrap;
   font-size: 18px;
-  color: #dadada;
+  color: #333;
   outline: 0px none transparent;
   overflow: auto;
   resize: none;

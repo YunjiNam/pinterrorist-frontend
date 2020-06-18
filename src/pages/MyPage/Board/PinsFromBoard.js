@@ -1,25 +1,39 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router";
 import { withRouter, Link } from "react-router-dom";
 import styled from "styled-components";
 import Header from "./../../../components/Header";
 import url from "./../../../config";
 
 const PinsFromBoard = ({ history }) => {
+  const [boardName, setBoardName] = useState([]);
   const [myPins, setMyPins] = useState([]);
+
+  const { id } = useParams();
+
   useEffect(() => {
-    fetch(`${url}/user-pins`, {
+    console.log("실행");
+    fetch(`${url}/boards/${id}`, {
       headers: {
         Authorization: localStorage.getItem("Authorization"),
       },
     })
       .then((res) => res.json())
-      .then((res) => setMyPins(res.pins));
-  }, []);
+      .then((res) => {
+        setBoardName(res.board.name);
+        setMyPins(res.pins);
+      });
+  }, [id, setBoardName]);
+
+  const goDetail = (id) => {
+    history.push(`/detail/${id}`);
+  };
+
   return (
     <>
       <Header />
       <BoardInfo>
-        <BoardTitle>가고싶다</BoardTitle>
+        <BoardTitle>{boardName}</BoardTitle>
         <PictureInfo>
           <img
             src="https://scontent-gmp1-1.cdninstagram.com/v/t51.2885-15/e35/102641475_286312019085118_4472201422226881902_n.jpg?_nc_ht=scontent-gmp1-1.cdninstagram.com&_nc_cat=110&_nc_ohc=QGlmuy4R8QQAX8tSXHe&oh=14ca5bea3514f34ed8dd9b74fa06a4cb&oe=5F14B3A8"
@@ -31,15 +45,15 @@ const PinsFromBoard = ({ history }) => {
       <MainContainer>
         <ContentsWrap>
           {myPins &&
-            myPins.map((list, idx) => (
+            myPins.map((list) => (
               <Contents
                 key={list.id}
                 onClick={() => {
-                  history.push("/detail");
+                  goDetail(list.id);
                 }}
               >
                 <ImgWrap>
-                  <img src={list.image} alt={list.id} />
+                  <img src={list.image_url} alt={list.id} />
                 </ImgWrap>
                 <TextWrap></TextWrap>
               </Contents>
