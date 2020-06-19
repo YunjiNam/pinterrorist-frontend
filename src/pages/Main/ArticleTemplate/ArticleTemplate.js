@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { withRouter, Link } from "react-router-dom";
 import Dropdown from "../../../components/Dropdown/Dropdown";
+import { connect } from "react-redux";
+import { addPin } from "./../../../store/actions/index";
 import styled, { css } from "styled-components";
 
 const ArticleTemplate = ({
@@ -13,6 +15,9 @@ const ArticleTemplate = ({
   pinCheck,
   onClick,
   boardList,
+  addPin,
+  cartList,
+  key,
 }) => {
   const [mouse, setMouse] = useState(false);
   const [active, setActive] = useState(null);
@@ -27,10 +32,15 @@ const ArticleTemplate = ({
     setActive(null);
   };
 
-  const clickHandle = (id) => {
+  const clickHandle = (id, image) => {
     console.log("check");
     pinClickHandler(id);
+    addPin({ id: [id, image] });
   };
+
+  // const cartCheck = () => {
+  //   if (cartList) {}
+  // }
 
   return (
     <Contents
@@ -43,13 +53,18 @@ const ArticleTemplate = ({
       </ImgWrap>
       <ContentsOverlay view={active === id} onClick={onClick} />
       <DropdownWrap view={active === id}>
-        <Dropdown image={image} paramsId={id} firstBoard={boardList} />
+        <Dropdown
+          image={image ? image : image_url}
+          paramsId={id}
+          firstBoard={boardList}
+        />
       </DropdownWrap>
       <Pin
         show={active === id}
         view={pinCheck.includes(id)}
         check={pinCheck.includes(id)}
-        onClick={() => clickHandle(id)}
+        onClick={() => clickHandle(id, image ? image : image_url)}
+        // cart={cartList[0] && cartList[key].id === id}
       >
         <button onClick={() => pinClickHandler(id)}>
           <span class="material-icons">push_pin</span>
@@ -59,7 +74,13 @@ const ArticleTemplate = ({
   );
 };
 
-export default ArticleTemplate;
+const mapStateToProps = (state) => {
+  return {
+    cartList: state.cartList,
+  };
+};
+
+export default connect(mapStateToProps, { addPin })(ArticleTemplate);
 
 const Contents = styled.figure`
   display: inline-block;
@@ -138,7 +159,7 @@ const Pin = styled.div`
   z-index: 500;
   transition: all 0.2s ease-in-out;
   ${(props) =>
-    props.show || props.check
+    props.show || props.cart
       ? css`
           opacity: 1;
           cursor: pointer;

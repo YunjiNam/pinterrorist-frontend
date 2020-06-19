@@ -1,5 +1,3 @@
-// action creator 하나
-
 export const addPin = (pin) => {
   return {
     type: "ADD_PIN",
