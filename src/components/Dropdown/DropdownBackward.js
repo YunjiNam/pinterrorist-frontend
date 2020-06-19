@@ -3,8 +3,9 @@ import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 import Card from "./Card/Card";
 import url from "../../config";
+import { connect } from "react-redux";
 
-const DropdownBackward = ({ image, paramsId, firstBoard }) => {
+const DropdownBackward = ({ image, paramsId, firstBoard, cartList }) => {
   const [clickDropdown, setClickDropdown] = useState(false);
   const [foldDropdown, setFoldDropdown] = useState(false);
   const [modal, setModal] = useState(false);
@@ -38,14 +39,12 @@ const DropdownBackward = ({ image, paramsId, firstBoard }) => {
   const savePinToFirstBoard = () => {
     const token = localStorage.getItem("Authorization");
     console.log("Post 실행");
-    fetch(`${url}/pin/${paramsId}`, {
+    fetch(`${url}/group-pin`, {
       method: "POST",
       headers: {
         Authorization: token,
       },
-      body: JSON.stringify({
-        chosen_board: firstBoard,
-      }),
+      body: JSON.stringify({ pins: cartList, board_name: selectedTitle }),
     });
   };
 
@@ -109,7 +108,13 @@ const DropdownBackward = ({ image, paramsId, firstBoard }) => {
   );
 };
 
-export default DropdownBackward;
+const mapStateToProps = (state) => {
+  return {
+    cartList: state.cartList,
+  };
+};
+
+export default connect(mapStateToProps)(DropdownBackward);
 
 const ButtonWrap = styled.div`
   display: flex;

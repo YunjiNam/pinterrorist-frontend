@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { withRouter, Link } from "react-router-dom";
+import { withRouter, Link, useHistory } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { GoogleLogout } from "react-google-login";
 import DropdownBackward from "./Dropdown/DropdownBackward";
+import { connect } from "react-redux";
 import url from "../config";
 
-const Header = ({ history, search }) => {
+const Header = ({ search, cartList }) => {
   const [active, setActive] = useState(false);
   const [page, setPage] = useState(0);
   const [noti, setNoti] = useState(false);
@@ -16,6 +17,8 @@ const Header = ({ history, search }) => {
   const [inputValue, setInputValue] = useState("");
   const [keywordClick, setKeywordClick] = useState(false);
   const [boardArr, setBoardArr] = useState([]);
+
+  let history = useHistory();
 
   const searchActive = () => {
     setActive(!active);
@@ -106,9 +109,9 @@ const Header = ({ history, search }) => {
               </Link>
             </Home>
             <Following pg={page} onClick={goFollows}>
-              {/* <Link to="/follows" style={{ textDecoration: "none" }}> */}
-              <span>팔로잉</span>
-              {/* </Link> */}
+              <Link to="/follows" style={{ textDecoration: "none" }}>
+                <span>팔로잉</span>
+              </Link>
             </Following>
             <Search onClick={searchActive}>
               <SearchWrap>
@@ -165,6 +168,9 @@ const Header = ({ history, search }) => {
                   ))}
               </SuggestList>
             </SuggestionMenu>
+            <SearchIcon act={active} onClick={searchActive}>
+              <span class="material-icons">search</span>
+            </SearchIcon>
             <Tab>
               <NoticeWrap view={noti} onClick={showCart}>
                 <button>
@@ -183,38 +189,14 @@ const Header = ({ history, search }) => {
                   </NoticeEnd>
                   <NoticeContents>
                     <NoticeListWrap>
-                      <ListWrapper>
-                        <ListContent>
-                          <img
-                            src="https://i.pinimg.com/originals/d5/c9/ef/d5c9ef8928c210b5cf00620d666d8012.jpg"
-                            alt="image"
-                          />
-                        </ListContent>
-                      </ListWrapper>
-                      <ListWrapper>
-                        <ListContent>
-                          <img
-                            src="https://i.pinimg.com/originals/32/f8/af/32f8afba3b732c37f99d1892dee602f1.jpg"
-                            alt="image"
-                          />
-                        </ListContent>
-                      </ListWrapper>
-                      <ListWrapper>
-                        <ListContent>
-                          <img
-                            src="https://i.pinimg.com/originals/d5/c9/ef/d5c9ef8928c210b5cf00620d666d8012.jpg"
-                            alt="image"
-                          />
-                        </ListContent>
-                      </ListWrapper>
-                      <ListWrapper>
-                        <ListContent>
-                          <img
-                            src="https://i.pinimg.com/originals/d5/c9/ef/d5c9ef8928c210b5cf00620d666d8012.jpg"
-                            alt="image"
-                          />
-                        </ListContent>
-                      </ListWrapper>
+                      {cartList &&
+                        cartList.map((cart) => (
+                          <ListWrapper key={cart.id}>
+                            <ListContent>
+                              <img src={cart.id[1]} alt="image" />
+                            </ListContent>
+                          </ListWrapper>
+                        ))}
                     </NoticeListWrap>
                   </NoticeContents>
                 </div>
@@ -274,7 +256,13 @@ const Header = ({ history, search }) => {
   );
 };
 
-export default withRouter(Header);
+const mapStateToProps = (state) => {
+  return {
+    cartList: state.cartList,
+  };
+};
+
+export default connect(mapStateToProps)(Header);
 
 const SearchOverlay = styled.div`
   position: fixed;
@@ -422,9 +410,6 @@ const Following = styled.div`
             background-color: #efefef;
           }
         `}
-  /* &:hover {
-    background-color: #efefef;
-  } */
   span {
     font-size: 16px;
     font-weight: 700;
@@ -444,6 +429,10 @@ const Search = styled.div`
   min-height: 0;
   &:hover {
     background-color: #e3e3e3;
+  }
+
+  @media all and (max-width: 800px) {
+    display: none;
   }
 `;
 
@@ -506,6 +495,38 @@ const SuggestionMenu = styled.div`
   overflow: hidden;
   /* flex: 1 1 auto; */
   min-height: 0;
+`;
+
+const SearchIcon = styled.div`
+  @media all and (max-width: 800px) {
+    display: inline-block;
+  }
+  font-size: 16px;
+  flex: 0 0 auto;
+  display: none;
+  color: #767676;
+  font-weight: 900;
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
+  ${(props) =>
+    props.act
+      ? css`
+          background-color: #efefef;
+          span {
+            color: #000;
+          }
+        `
+      : css`
+          background-color: #fff;
+          /* color: #; */
+          span {
+            color: #333;
+          }
+          &:hover {
+            background-color: #efefef;
+          }
+        `}
 `;
 
 const CurrentSearch = styled.div`
