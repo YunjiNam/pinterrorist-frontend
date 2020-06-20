@@ -1,4 +1,4 @@
-## 2차 Project - Pinterest.com 웹사이트 클론
+# 2차 Project - Pinterest.com 웹사이트 클론
 
 ### Intro
 - WECODE 8기 수강생들의 2차 팀 프로젝트.
@@ -6,7 +6,7 @@
 - 프로젝트 기간은 2주( 2020.06.08- 06.19 )
 
 ### Demo
-<iframe width="640" height="360" src="https://www.youtube.com/watch?v=axZ_IJpYmWQ&feature=youtu.be" frameborder="0" gesture="media" allowfullscreen=""></iframe>
+https://www.youtube.com/watch?v=axZ_IJpYmWQ&feature=youtu.be
 
 ***
 ### Stack and Tools
