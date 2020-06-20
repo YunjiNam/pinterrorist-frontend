@@ -1,68 +1,41 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 2차 Project - Pinterest.com 웹사이트 클론
 
-## Available Scripts
+### Intro
+- WECODE 8기 수강생들의 2차 팀 프로젝트.
+- Back-end 1명, Front-end 3명 총 4명의 팀원으로 구성
+- 프로젝트 기간은 2주( 2020.06.08- 06.19 )
 
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+### Demo
+https://www.youtube.com/watch?v=axZ_IJpYmWQ&feature=youtu.be
+***
+### Stack and Tools
+- React.js
+- Git / Github
+- Slack
+- Trello
+***
+### Goal
+- 최대한 기존 웹사이트와 동일한 UI/기능 구현
+- Back-end API 통신(Get, Post(FormData), Delete)
+- 기존 웹사이트에는 없지만 Redux를 활용할 수 있는 다중 핀 카트에 담기 기능 추가
+- Deily StandUp Meeting and 1 Week Sprint
+- React 컴포넌트 재사용 and Style Component 사용
+***
+### Description
+**Login & SignUp**
+- Google Social Login
+**Main Page**
+ - 회원가입 시 관심사를 선택하게 되고 메인 화면에서 관심사에 맞는 pin들만 보여주게 됩니다.
+- 메인/메인 디테일에서 각각 보드선택/보드만들기/핀 저장 가능
+- 관심사 검색 기능
+- 팔로잉 하는 사람들의 pin 만 보는 기능
+**Main Detail**
+- 메인 디테일 페이지에서 댓글올리기/삭제/좋아요 기능
+- 메인 디테일 페이지 하단에서 유사 Pin 들을 함께 보여주는 기능
+**My Page**
+- 보드 만들기/삭제 기능
+- Pin 업로드(이미지 미리보기) 기능
+- 저장한 pin을 전체/보드별로 보기 기능
+- 주제 팔로우/팔로우 취소 기능
+** Pin 다중 선택**
+- 메인/유사핀/팔로우 페이지에서 핀 다중선택 기능
