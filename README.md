@@ -6,7 +6,8 @@
 - 프로젝트 기간은 2주( 2020.06.08- 06.19 )
 
 ### Demo
-https://www.youtube.com/watch?v=axZ_IJpYmWQ&feature=youtu.be
+<iframe width="640" height="360" src="https://www.youtube.com/watch?v=axZ_IJpYmWQ&feature=youtu.be" frameborder="0" gesture="media" allowfullscreen=""></iframe>
+
 ***
 ### Stack and Tools
 - React.js
