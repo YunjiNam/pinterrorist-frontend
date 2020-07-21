@@ -4,7 +4,7 @@
 - Back-end 1명, Front-end 3명 총 4명의 팀원으로 구성
 - 프로젝트 기간은 2주( 2020.06.08- 06.19 )
 ## Demo
-<a href="https://youtu.be/3i2QFbZcVYE"><img src="https://media.vlpt.us/images/vllyj2260/post/bacb4edc-6043-43cb-807e-6e6aa80f554f/1.png" width="200px"></img></a>
+<a href="https://youtu.be/3i2QFbZcVYE"><img src="https://media.vlpt.us/images/vllyj2260/post/bacb4edc-6043-43cb-807e-6e6aa80f554f/1.png" width="400px"></img></a>
 ## Stack and Tools
 - React.js
 - Styled-components
