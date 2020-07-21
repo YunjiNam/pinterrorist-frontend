@@ -25,7 +25,7 @@
 - React 컴포넌트 재사용 and Style Component 사용
 ## Description
 ### Login&SignUp
-- 모달로 구현 스텝별로 안의 콘텐츠가 바뀜 (로그인 -> 관심사 선택)
+- 모달로 구현, 스텝별로 모달 안의 콘텐츠가 바뀜 (구글로그인 -> 관심사 선택)
 - Google Social Login API 사용
 - 회원가입 관심사 선택 기능 (관심사를 선택해서 서버에 저장 메인 피드에 반영됨)
 ### MainPage
