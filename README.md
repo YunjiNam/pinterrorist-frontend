@@ -5,6 +5,7 @@
 - 프로젝트 기간은 2주( 2020.06.08- 06.19 )
 ## Demo
 <a href="https://youtu.be/3i2QFbZcVYE"><img src="https://media.vlpt.us/images/vllyj2260/post/bacb4edc-6043-43cb-807e-6e6aa80f554f/1.png" width="400px"></img></a>
+- 이미지 클릭시 이동
 ## Stack and Tools
 - React.js
 - Styled-components
